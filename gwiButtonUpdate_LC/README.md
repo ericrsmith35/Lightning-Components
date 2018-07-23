@@ -38,19 +38,44 @@ You can use this Lightning Component on a Page, in a Tab or as a Quick Action.  
 
 ### Parameters
 
-#### _Required_
+#### _(Required)_
 
-**Button Label** - Text to appear on the button
+  **Button Label** - Text to appear on the button
 
-**Name of Field to Update** - API name of the field to be updated
+  **Name of Field to Update** - API name of the field to be updated
 
-#### _Optional_
+#### _(Optional)_
 
-**New Field Value** - Value to update the field with (Default = true)
+  **New Field Value** - Value to update the field with (Default = true)
 
-**Field Type** - 
+  **Field Type** - Data type of the field to be updated (Default = Boolean)
 
-**Success Message**
+  **Success Message** - When provided, a pop-up toast message will display after the record is updated.
+
+#### Valid **Field Type** Values and Formats
+
+Boolean - true or false
+
+String - any characters
+
+Date - yyyy-mm-dd
+
+Datetime - yyyy-mm-dd hh:mm:ss
+
+Time - hh:mm:ss
+
+Integer - digits without any decimal places (32 bits)
+
+Long - digits without any decimal places (64 bits)
+
+Decimal - digits with decimal places (use for currency)
+
+Double - digits with decimal places
+
+## Sample Usage
+
+
+
 
 
 
