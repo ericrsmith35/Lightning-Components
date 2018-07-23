@@ -10,7 +10,7 @@
 
     <!-- Parameters -->
     <aura:attribute name="buttonLabel" type="String" />
-	<aura:attribute name="fieldName" type="String" />
+    <aura:attribute name="fieldName" type="String" />
     <aura:attribute name="fieldValue" type="String" default="True" />
     <aura:attribute name="fieldType" type="String" default="Boolean" />
     <aura:attribute name="successMessage" type="String" default="" />
@@ -45,7 +45,7 @@
     <!-- targetRecord -> Stores the result
 		 targetFields -> A simplified view of the fields on targetRecord. We refer to this object in the user interface markup.
          targetError  -> Stores the error message, if any.
-	-->
+    -->
     
 	<!-- User Interface -->    
 
