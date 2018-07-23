@@ -74,9 +74,11 @@ Double - digits with decimal places
 
 ## Sample Usage
 
-![Setup Page](Page Setup.PNG)
+![Setup Page](Page%20Setup.PNG?raw=true)
 
+![Button](Button.PNG?raw=true)
 
+![Selected](Selected.PNG?raw=true)
 
 
 
