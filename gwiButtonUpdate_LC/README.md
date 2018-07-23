@@ -74,6 +74,8 @@ Double - digits with decimal places
 
 ## Sample Usage
 
+![Setup Page](Setup Page.png)
+
 
 
 
