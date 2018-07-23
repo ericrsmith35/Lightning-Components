@@ -1,0 +1,9 @@
+<design:component >
+
+	<design:attribute name="buttonLabel"  label="Button Label" />
+	<design:attribute name="fieldName" label="Name of Field to Update" />
+	<design:attribute name="fieldValue" label="New Field Value" />
+	<design:attribute name="fieldType" label="Field Type" />
+	<design:attribute name="successMessage" label="Success Message" />
+
+</design:component>
