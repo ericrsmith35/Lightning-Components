@@ -40,17 +40,17 @@ You can use this Lightning Component on a Page, in a Tab or as a Quick Action.  
 
 #### _(Required)_
 
-  **Button Label** - Text to appear on the button
+- **Button Label** - Text to appear on the button
 
-  **Name of Field to Update** - API name of the field to be updated
+- **Name of Field to Update** - API name of the field to be updated
 
 #### _(Optional)_
 
-  **New Field Value** - Value to update the field with (Default = true)
+- **New Field Value** - Value to update the field with (Default = true)
 
-  **Field Type** - Data type of the field to be updated (Default = Boolean)
+- **Field Type** - Data type of the field to be updated (Default = Boolean)
 
-  **Success Message** - When provided, a pop-up toast message will display after the record is updated.
+- **Success Message** - When provided, a pop-up toast message will display after the record is updated.
 
 #### Valid **Field Type** Values and Formats
 
@@ -74,9 +74,15 @@ Double - digits with decimal places
 
 ## Sample Usage
 
+This example is inserting the component in a tab on a record page.
+
 ![Setup Page](Page%20Setup.PNG?raw=true)
 
+This is what the button looks like when the tab is selected.
+
 ![Button](Button.PNG?raw=true)
+
+When the button is pressed, the record is updated, the button changes from 'brand' to 'neutral' style, and if a success message is provided a toast message will pop-up.
 
 ![Selected](Selected.PNG?raw=true)
 
