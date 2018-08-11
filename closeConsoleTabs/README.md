@@ -7,9 +7,18 @@ I wrote this component to solve the issue raised in this idea:
 
 [Lightning Console: Close all tabs option](https://success.salesforce.com/ideaView?id=0873A000000lIMlQAM)
 
+## Installation
+
+In your Developer Console, select File > New > Lightning Component > Name: closeConsoleTabs > Submit
+- For Component, replace everything shown with the contents of **closeConsoleTabs.cmp**
+- For Controller, replace everything shown with the contents of **closeConsoleTabsController.js**
+- For Design, replace everything shown with the contents of **closeConsoleTabs.design**
+
+Then select File > Save All
+
 ## Parameters
 
-It takes a single parameter: Close Pinned Tabs?
+The component takes a single parameter: Close Pinned Tabs?
 
 The default is false, which will leave any pinned tabs open.  If set to true, then all tabs will be closed.
 
