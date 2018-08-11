@@ -3,6 +3,10 @@ This is a generic Lightning Component that can be used in a Page Layout or on a 
 
 It will close any open tabs and sub-tabs in a console application.
 
+I wrote this component to solve the issue raised in this idea:
+
+[Lightning Console: Close all tabs option](https://success.salesforce.com/ideaView?id=0873A000000lIMlQAM)
+
 ## Parameters
 
 It takes a single parameter: Close Pinned Tabs?
