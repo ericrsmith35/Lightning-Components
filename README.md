@@ -1,2 +1,2 @@
 # Lightning-Components
-Lightning Components I've developed for GWI
+Lightning Components I've developed.
