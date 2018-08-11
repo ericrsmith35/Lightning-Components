@@ -18,7 +18,10 @@ When adding this component to a Utility Bar, I set:
 - **Height** to 75
 - **Close Pinned Tabs?** to your choice of checked or unchecked
 
-## Useage
+![Utility Bar Setup](UtilityBarSetup.jpg?raw=true)
+
+## Usage
 
 Select Close Tabs from the Utility Bar and press the Close Tabs button
 
+![Utility Bar](UtilityBar.JPG?raw=true)
