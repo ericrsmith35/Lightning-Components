@@ -1,8 +1,3 @@
-<a href="https://githubsfdeploy.herokuapp.com">
-  <img alt="Deploy to Salesforce"
-       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
-</a>
-
 # closeConsoleTabs
 This is a generic Lightning Component that can be used in a Page Layout or on a Utility Bar.
 
