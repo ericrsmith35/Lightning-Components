@@ -20,9 +20,9 @@ You can use this Lightning Component on a Page, in a Tab or as a Quick Action.  
 
 Here a Button is being added to a Tab on a Record Page
 
-![Setup Page](PageSetup.PNG?raw=true)
+![Setup Page](PageSetup.JPG?raw=true)
 
 This is what the button looks like when the tab is selected.
 
-![Button](PageLayout.PNG?raw=true)
+![Button](PageLayout.JPG?raw=true)
 
