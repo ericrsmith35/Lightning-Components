@@ -4,7 +4,7 @@ This is a generic Lightning Component that allows a Button to execute a Quick Ac
 
 ## Using the Component
 
-You can use this Lightning Component on a Page, in a Tab or as a Quick Action.  Some of the parameters are required and some are optional.
+You can use this Lightning Component on a Record Page.
 
 ### Parameters
 
