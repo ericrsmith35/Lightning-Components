@@ -1,4 +1,4 @@
-# gwiButtonUpdate_LC
+# ersButtonUpdate_LC
 
 This is a generic Lightning Component to use a button to set a single field value in a record.
 
