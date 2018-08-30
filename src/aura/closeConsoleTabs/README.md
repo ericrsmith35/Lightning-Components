@@ -1,4 +1,4 @@
-# closeConsoleTabs
+# ersCloseConsoleTabs
 This is a generic Lightning Component that can be used in a Page Layout or on a Utility Bar.
 
 It will close any open tabs and sub-tabs in a console application.
