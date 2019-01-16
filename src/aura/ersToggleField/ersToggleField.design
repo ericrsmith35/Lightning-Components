@@ -1,0 +1,8 @@
+<design:component >
+
+	  <design:attribute name="fieldName" label="Name of Field to Update" />
+    <design:attribute name="buttonLabel"  label="Toggle Button Label" />
+	  <design:attribute name="toggleActiveMessage" label="Toggle Button Active Message" />
+    <design:attribute name="toggleInactiveMessage" label="Toggle Button Inactive Message" />    
+		
+</design:component>
