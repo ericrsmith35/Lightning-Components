@@ -22,10 +22,17 @@ You can use this Lightning Component on a Record Page.
 
 Here a Toggle is being added to a Record Page to change what is being displayed.  The Record Page components are filtered based on the value of the toggled field.
 
-![Setup Page](PageSetup.JPG?raw=true)
+![Setup Page](Setup.PNG?raw=true)
 
+The value of the field being toggled can be used to filter which components are displayed on the page.
+
+![Setup Filter](Filter.PNG?raw=true)
+
+This is what the page looks like when the toggle is inactive.
+
+![Inactive](Inactive.PNG?raw=true)
 
 This is what the page looks like when the toggle is active.
 
-![Button](PageLayout.JPG?raw=true)
+![Active](Active.PNG?raw=true)
 
