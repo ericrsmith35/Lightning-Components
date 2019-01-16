@@ -1,0 +1,55 @@
+<!--
+    ersToggleField Lightning Component
+    Eric Smith - 1/14/19
+
+    Created to allow for the updating of a Checkbox field using a Toggle Button 
+-->
+
+<aura:component implements="flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global" >
+    
+    <!-- Parameters -->
+    <aura:attribute name="buttonLabel" type="String" />
+    <aura:attribute name="fieldName" type="String" />
+    <aura:attribute name="toggleActiveMessage" type="String" default="YES" />
+    <aura:attribute name="toggleInactiveMessage" type="String" default="NO" />
+    
+    <!-- Variables -->
+    <aura:attribute name="checked" type="Boolean" default="true"/>
+    
+    <!-- Handlers -->
+    <aura:handler name="change" value="{!v.simpleRecord}" action="{!c.doRender}"/>
+    
+    <!-- To implement LDS we need "target" attributes to show and save data, plus "force:recordData" -->
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="simpleRecord" type="Object" />
+    <aura:attribute name="recordError" type="String" />
+    <force:recordData aura:id="recordEditor"
+                      layoutType="FULL"
+                      recordId="{!v.recordId}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.simpleRecord}"
+                      mode="EDIT" />
+    
+    <!-- Display LDS errors if any -->
+    <aura:if isTrue="{!not(empty(v.recordError))}">
+        <div class="recordError">
+            <ui:message title="Error" severity="error" closable="true">
+                {!v.recordError}
+            </ui:message>
+        </div>
+    </aura:if>
+    
+    <!--    Button Interface -->
+    <div class="slds-card slds-p-around_x-small slds-card__body">
+        <lightning:input type="toggle"  
+                         aura:id="togglebtn"                           
+                         label="{!v.buttonLabel}" 
+                         name="togglevalue" 
+                         checked="{!v.checked}" 
+                         messageToggleActive="{!v.toggleActiveMessage}" 
+                         messageToggleInactive="{!v.toggleInactiveMessage}"
+                         onchange="{!c.handleSaveRecord}"/>
+    </div>
+    
+</aura:component>
