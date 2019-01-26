@@ -2,7 +2,7 @@
 
 This is a generic Lightning Component that allows for the display or editing of a Long Text Area field on the record page with a larger input box than what is standard and the ability to toggle it on and off.
 
-Additional parameters include setting the width and height of the field display area and setting startup mode to on or off and the maximum size of the field.  The Button can be placed anywhere on a Lightning Record Page.
+Additional parameters include setting the width and starting height of the field display area and setting startup mode to on or off and the maximum size of the field.  The height of the input box can be adjusted by the user by dragging the bottom right corner.
 
 ## Using the Component
 
@@ -30,19 +30,16 @@ You can use this Lightning Component on a Record Page.
 
 ## Sample Usage
 
-Here a Toggle is being added to a Record Page to change what is being displayed.  The Record Page components are filtered based on the value of the toggled field.
+Drag the ersLongTextArea component onto your page. **(1)**  Then configure the parameters. **(2)**
 
-![Setup Page](Setup.PNG?raw=true)
+![Setup Page](Configure.PNG?raw=true)
 
-The value of the field being toggled can be used to filter which components are displayed on the page.
+This page shows the component in View mode, Full width, and Medium height. **(1)** 
+And it shows another copy of the component in Edit mode, Half width, and Small height. **(2)** 
 
-![Setup Filter](Filter.PNG?raw=true)
+![Sample 1](ViewEdit.PNG?raw=true)
 
-This is what the page looks like when the toggle is inactive.
+This page shows the component in View mode, Half width, and Large height. **(1)**
+And it shows another copy of the component Toggled Off. **(2)**
 
-![Inactive](Inactive.PNG?raw=true)
-
-This is what the page looks like when the toggle is active.
-
-![Active](Active.PNG?raw=true)
-
+![Sample 2](TallOff.PNG?raw=true)
