@@ -32,14 +32,14 @@ You can use this Lightning Component on a Record Page.
 
 Drag the ersLongTextArea component onto your page. **(1)**  Then configure the parameters. **(2)**
 
-![Setup Page](Configure.PNG?raw=true)
+![Setup Page](Configure.png?raw=true)
 
 This page shows the component in View mode, Full width, and Medium height. **(1)** 
 And it shows another copy of the component in Edit mode, Half width, and Small height. **(2)** 
 
-![Sample 1](ViewEdit.PNG?raw=true)
+![Sample 1](ViewEdit.png?raw=true)
 
 This page shows the component in View mode, Half width, and Large height. **(1)**
 And it shows another copy of the component Toggled Off. **(2)**
 
-![Sample 2](TallOff.PNG?raw=true)
+![Sample 2](TallOff.png?raw=true)
