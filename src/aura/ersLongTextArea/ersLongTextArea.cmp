@@ -1,6 +1,9 @@
 <!--
     ersLongTextArea Lightning Component
-    Eric Smith - 1/25/19
+    
+	Eric Smith - 1/25/19
+	https://success.salesforce.com/ProfileView?u=005300000095v5FAAQ
+	https://github.com/ericrsmith35
 
     Created to allow for the display or editing of a Long Text Area field on the record page 
     with a larger input box than what is standard and the ability to toggle it on and off.
@@ -12,14 +15,16 @@
 
 <aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,lightning:availableForFlowScreens,forceCommunity:availableForAllPageTypes" access="global" >
     
-    <aura:attribute name="fieldName" type="String" />
-    <aura:attribute name="toggleLabel" type="String" />
-    <aura:attribute name="default" type="String" />
-    <aura:attribute name="width" type="String" default="Full" />
-    <aura:attribute name="height" type="String" default="Medium" />
-    <aura:attribute name="mode" type="String" default="Edit" />
-    <aura:attribute name="maxChars" type="String" default="32000" />
+    <!-- Design Attributes -->
+    <aura:attribute name="fieldName" type="String" description="Long Text Area Field API Name" />
+    <aura:attribute name="toggleLabel" type="String" description="Toggle Button Label" />
+    <aura:attribute name="default" type="String" description="Starting Phase for Toggle (On or Off)" />
+    <aura:attribute name="width" type="String" default="Full" description="Component Width (Full or Half)" />
+    <aura:attribute name="height" type="String" default="Medium" description="Component Height (Small, Medium or Large)" />
+    <aura:attribute name="mode" type="String" default="Edit" description="View or Edit Mode (View or Edit)" />
+    <aura:attribute name="maxChars" type="String" default="32000" description="Maximum Field Length" />
     
+    <!-- Local Variables -->
     <aura:attribute name="recordId" type="String" />
     <aura:attribute name="fieldValue" type="String" />
     <aura:attribute name="simpleRecord" type="Object" />
@@ -29,11 +34,14 @@
     <aura:attribute name="loaded" type="Boolean" default="false" />
     <aura:attribute name="editMode" type="Boolean" default="true" />    
     
+    <!-- Handlers -->
     <lightning:notificationsLibrary aura:id="notificationsLibrary"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     
+    <!-- Display Component as a Lightning Card-->
     <lightning:card class="{!v.sldsSize}">    
         
+        <!-- Toggle Button -->
         <aura:set attribute="title">
             <lightning:input type="toggle"                             
                              label="{!v.toggleLabel}" 
@@ -44,7 +52,9 @@
                              onchange="{!c.handleToggleChanged}"/>
         </aura:set>
         
-        <aura:if isTrue="{!v.checked}">           
+        <!-- Field Display -->
+        <aura:if isTrue="{!v.checked}">
+            <!-- Lightning Data Service (LDS) -->
             <lightning:recordEditForm aura:id="recordEditForm"
                                       recordId="{!v.recordId}"
                                       objectApiName="Opportunity"
@@ -56,9 +66,11 @@
                 
                 <lightning:messages />
                 
+                <!-- Long Text Area Field Display and Input -->
                 <lightning:inputfield fieldName="{!v.fieldName}" aura:id="LTAField" class="slds-hide" />
                 <lightning:textarea name="largeTextArea" class="{!v.areaHeight}" value="{!v.fieldValue}" maxlength="{!v.maxChars}" /> 
                 
+                <!-- Spinner While Loading -->
                 <div class="displayTextArea">
                     <aura:if isTrue="{!v.loaded}">                        
                         <aura:set attribute="else">
@@ -67,6 +79,7 @@
                     </aura:if>
                 </div>
                 
+                <!-- Update Button (Edit Mode Only) -->
                 <aura:if isTrue="{!v.editMode}">
                     <lightning:button aura:id="submit" type="submit" variant="brand" label="Update" class="slds-m-top_medium" /> 
                 </aura:if>
