@@ -1,0 +1,20 @@
+.THIS .largeArea4 textarea {
+    height: 4rem;
+}
+
+.THIS .largeArea8 textarea {
+    height: 8rem;
+}
+
+.THIS .largeArea12 textarea {
+    height: 12rem;
+}
+
+.THIS.displayTextArea{
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+    width: 55px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
