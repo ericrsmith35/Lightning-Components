@@ -1,0 +1,78 @@
+<!--
+    ersLongTextArea Lightning Component
+    Eric Smith - 1/25/19
+
+    Created to allow for the display or editing of a Long Text Area field on the record page 
+    with a larger input box than what is standard and the ability to toggle it on and off.
+
+	Additional parameters include setting the width and height of the field display area and 
+	setting startup mode to on or off and the maximum size of the field.
+
+-->
+
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,lightning:availableForFlowScreens,forceCommunity:availableForAllPageTypes" access="global" >
+    
+    <aura:attribute name="fieldName" type="String" />
+    <aura:attribute name="toggleLabel" type="String" />
+    <aura:attribute name="default" type="String" />
+    <aura:attribute name="width" type="String" default="Full" />
+    <aura:attribute name="height" type="String" default="Medium" />
+    <aura:attribute name="mode" type="String" default="Edit" />
+    <aura:attribute name="maxChars" type="String" default="32000" />
+    
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="fieldValue" type="String" />
+    <aura:attribute name="simpleRecord" type="Object" />
+    <aura:attribute name="checked" type="Boolean" />
+    <aura:attribute name="sldsSize" type="String" />
+    <aura:attribute name="areaHeight" type="String" />
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="editMode" type="Boolean" default="true" />    
+    
+    <lightning:notificationsLibrary aura:id="notificationsLibrary"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:card class="{!v.sldsSize}">    
+        
+        <aura:set attribute="title">
+            <lightning:input type="toggle"                             
+                             label="{!v.toggleLabel}" 
+                             name="togglevalue" 
+                             checked="{!v.checked}" 
+                             messageToggleActive="On" 
+                             messageToggleInactive="Off"
+                             onchange="{!c.handleToggleChanged}"/>
+        </aura:set>
+        
+        <aura:if isTrue="{!v.checked}">           
+            <lightning:recordEditForm aura:id="recordEditForm"
+                                      recordId="{!v.recordId}"
+                                      objectApiName="Opportunity"
+                                      onload="{!c.handleLoad}"
+                                      onsubmit="{!c.handleSubmit}"
+                                      onsuccess="{!c.handleSaved}"
+                                      onerror="{!c.handleError}"
+                                      class="slds-card__body_inner">
+                
+                <lightning:messages />
+                
+                <lightning:inputfield fieldName="{!v.fieldName}" aura:id="LTAField" class="slds-hide" />
+                <lightning:textarea name="largeTextArea" class="{!v.areaHeight}" value="{!v.fieldValue}" maxlength="{!v.maxChars}" /> 
+                
+                <div class="displayTextArea">
+                    <aura:if isTrue="{!v.loaded}">                        
+                        <aura:set attribute="else">
+                            <lightning:spinner alternativeText="Loading..." />
+                        </aura:set>
+                    </aura:if>
+                </div>
+                
+                <aura:if isTrue="{!v.editMode}">
+                    <lightning:button aura:id="submit" type="submit" variant="brand" label="Update" class="slds-m-top_medium" /> 
+                </aura:if>
+                
+            </lightning:recordEditForm>                       
+        </aura:if>
+        
+    </lightning:card>    
+</aura:component>
