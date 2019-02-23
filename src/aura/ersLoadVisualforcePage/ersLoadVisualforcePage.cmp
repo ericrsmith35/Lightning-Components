@@ -1,0 +1,32 @@
+<!-- 
+Lightning Component: Load Visualforce Page
+Copyright 2019 - Eric R. Smith
+
+Used to load a Visualforce page in a new tab.  The original page will be redisplayed
+when the Visualforce page closes.  Supports both standard and console pages.
+
+-->
+
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+
+    <lightning:workspaceAPI aura:id="workspace" />
+
+    <aura:attribute name="buttonLabel" type="String" />
+    <aura:attribute name="buttonVariant" type="String" default="neutral" />
+    <aura:attribute name="domain" type="String" />
+    <aura:attribute name="pageName" type="String" />
+    <aura:attribute name="recordIdVar" type="String" />
+    <aura:attribute name="otherParams" type="String" />
+
+    <aura:attribute name="queryString" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:card>
+        <lightning:layoutItem padding="around-small">
+            <lightning:button label="{!v.buttonLabel}" variant="{!v.buttonVariant}" onclick="{!c.openPage}" />
+            <lightning:spinner aura:id="spinner" alternativeText="Loading" variant="brand" size="large" class="slds-hide" />
+        </lightning:layoutItem>
+    </lightning:card>
+
+</aura:component>
