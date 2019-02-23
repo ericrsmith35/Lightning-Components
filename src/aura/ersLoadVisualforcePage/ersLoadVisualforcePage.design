@@ -1,0 +1,10 @@
+<design:component>
+
+    <design:attribute name="buttonLabel" label="Button Label" />
+    <design:attribute name="buttonVariant" label="Button Variant" datasource="base,neutral,brand,destructive,success" />
+    <design:attribute name="domain" label="Domain Name" />
+    <design:attribute name="pageName" label="Visualforce Page API Name"/>
+	<design:attribute name="recordIdVar" label="Record Id Parameter Name"/>
+	<design:attribute name="otherParams" label="Additional URL Parameters"/>
+    
+</design:component>
