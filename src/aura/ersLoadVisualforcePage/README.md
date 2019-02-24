@@ -21,7 +21,8 @@ You can use this Lightning Component on a Record Page
 
 This screen shows the parameters being set when adding the component to a page.
 
+![Install](Install.PNG?raw=true)
 
 Here is the component in action in a Console.
 
-
+![Sample](LoadVF.GIF?raw=true)
