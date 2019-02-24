@@ -25,4 +25,4 @@ This screen shows the parameters being set when adding the component to a page.
 
 Here is the component in action in a Console.
 
-![Sample](LoadVF.GIF?raw=true)
+![Sample](LoadVF.gif?raw=true)
