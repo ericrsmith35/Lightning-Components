@@ -34,4 +34,4 @@ Sample parameter values when adding the component to the page
 
 Sample Highlights Panel
 
-![Setup Filter](Filter.PNG?raw=true)
+![Setup Filter](Example.PNG?raw=true)
