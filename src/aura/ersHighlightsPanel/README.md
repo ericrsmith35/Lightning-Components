@@ -30,8 +30,8 @@ You can use this Lightning Component on a Record Page.
 
 Sample parameter values when adding the component to the page
 
-![Setup Page](Setup.PNG?raw=true)
+![Setup Page](Configure.PNG?raw=true)
 
-Sample Highlights Panel
+Sample Highlights Panel (see ersToggleField for the Toggle Button component)
 
-![Setup Filter](Example.PNG?raw=true)
+![Sample Panel](Example.PNG?raw=true)
