@@ -4,7 +4,7 @@
         //Get Field Value
         var fieldName = component.get("v.fieldName");
         var simpleRecord = component.get("v.simpleRecord");
-		component.set("v.checked", simpleRecord [ fieldName ]);       
+        component.set("v.checked", simpleRecord [ fieldName ]);       
     },
     
     handleSaveRecord : function(component, event, helper) {
@@ -29,5 +29,11 @@
             }
         }));
     },   
-
+    
+    reloadRec : function(component, event, helper) {
+        component.find("recordEditor").reloadRecord(true, function(result){
+            console.log(JSON.parse(JSON.stringify(result)));
+        });
+    },
+    
 })
