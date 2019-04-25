@@ -1,6 +1,8 @@
 <!--
     ersToggleField Lightning Component
     Eric Smith - 1/14/19
+	
+ 	4/25/19 - ers - Refresh record to preserve other page edits prior to changing field
 
     Created to allow for the updating of a Checkbox field using a Toggle Button 
 -->
@@ -14,7 +16,7 @@
     <aura:attribute name="toggleInactiveMessage" type="String" default="NO" />
     
     <!-- Variables -->
-    <aura:attribute name="checked" type="Boolean" default="true"/>
+    <aura:attribute name="checked" type="Boolean" default="false"/>
     
     <!-- Handlers -->
     <aura:handler name="change" value="{!v.simpleRecord}" action="{!c.doRender}"/>
@@ -29,6 +31,7 @@
                       targetError="{!v.recordError}"
                       targetRecord="{!v.record}"
                       targetFields="{!v.simpleRecord}"
+                      recordUpdated="{!c.reloadRec}"
                       mode="EDIT" />
     
     <!-- Display LDS errors if any -->
