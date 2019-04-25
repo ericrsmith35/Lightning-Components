@@ -2,6 +2,7 @@
     Generic Lightning Component to be used when updating a field from a button
 
     Eric Smith - July 2018
+    4/25/19 - ers - Updated to refresh record so the field update does not overwrite other record edits from the same page.
 
     This replaces JavaScript buttons that were only used to set a field value.
 -->
