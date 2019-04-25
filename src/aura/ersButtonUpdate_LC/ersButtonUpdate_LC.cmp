@@ -40,6 +40,7 @@
                       targetError="{!v.recordError}"
                       targetRecord="{!v.record}"
                       targetFields="{!v.simpleRecord}"
+		      recordUpdated="{!c.reloadRec}"
                       mode="EDIT" />
     
     <!-- targetRecord -> Stores the result
