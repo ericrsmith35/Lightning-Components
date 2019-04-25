@@ -61,4 +61,10 @@ showToast : function(component, event, helper) {
 			}                   
 },    
 
+reloadRec : function(component, event, helper) {
+	component.find("recordEditor").reloadRecord(true, function(result){
+		console.log(JSON.parse(JSON.stringify(result)));
+	});
+},
+	
 })
