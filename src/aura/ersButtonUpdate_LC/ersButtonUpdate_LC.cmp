@@ -2,7 +2,7 @@
     Generic Lightning Component to be used when updating a field from a button
 
     Eric Smith - July 2018
-    4/25/19 - ers - Updated to refresh record so the field update does not overwrite other record edits from the same page.
+	4/25/19 - ers - Updated so the field update does not overwrite other record edits from the same page.
 
     This replaces JavaScript buttons that were only used to set a field value.
 -->
@@ -11,10 +11,11 @@
 
     <!-- Parameters -->
     <aura:attribute name="buttonLabel" type="String" />
-    <aura:attribute name="fieldName" type="String" />
+	<aura:attribute name="fieldName" type="String" />
     <aura:attribute name="fieldValue" type="String" default="True" />
     <aura:attribute name="fieldType" type="String" default="Boolean" />
     <aura:attribute name="successMessage" type="String" default="" />
+    <aura:attribute name="fieldList" type="String[]" default="['Id']" />
     
     <!-- Variables -->
     <aura:attribute name="buttonStyle" type="String" />
@@ -35,19 +36,14 @@
     <aura:attribute name="record" type="Object" />
     <aura:attribute name="simpleRecord" type="Object" />
     <aura:attribute name="recordError" type="String" />
-    <force:recordData aura:id="recordEditor"
-                      layoutType="FULL"
-                      recordId="{!v.recordId}"
-                      targetError="{!v.recordError}"
-                      targetRecord="{!v.record}"
-                      targetFields="{!v.simpleRecord}"
-		      recordUpdated="{!c.reloadRec}"
-                      mode="EDIT" />
+
+    <!-- Build the force:recordData component in the controller based on the input parameters -->
+    <div aura:id="recordDataContainer"/>   
     
     <!-- targetRecord -> Stores the result
 		 targetFields -> A simplified view of the fields on targetRecord. We refer to this object in the user interface markup.
          targetError  -> Stores the error message, if any.
-    -->
+	-->
     
 	<!-- User Interface -->    
 
