@@ -1,8 +1,8 @@
 <!--
     ersToggleField Lightning Component
+
     Eric Smith - 1/14/19
-	
- 	4/25/19 - ers - Refresh record to preserve other page edits prior to changing field
+	4/25/19 - ers - Updated so the field update does not overwrite other record edits from the same page.
 
     Created to allow for the updating of a Checkbox field using a Toggle Button 
 -->
@@ -19,20 +19,17 @@
     <aura:attribute name="checked" type="Boolean" default="false"/>
     
     <!-- Handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:handler name="change" value="{!v.simpleRecord}" action="{!c.doRender}"/>
     
     <!-- To implement LDS we need "target" attributes to show and save data, plus "force:recordData" -->
     <aura:attribute name="record" type="Object" />
     <aura:attribute name="simpleRecord" type="Object" />
     <aura:attribute name="recordError" type="String" />
-    <force:recordData aura:id="recordEditor"
-                      layoutType="FULL"
-                      recordId="{!v.recordId}"
-                      targetError="{!v.recordError}"
-                      targetRecord="{!v.record}"
-                      targetFields="{!v.simpleRecord}"
-                      recordUpdated="{!c.reloadRec}"
-                      mode="EDIT" />
+    <aura:attribute name="fieldList" type="String[]" default="['Id']" />
+    
+    <!-- Build the force:recordData component in the controller based on the input parameters -->
+    <div aura:id="recordDataContainer"/>   
     
     <!-- Display LDS errors if any -->
     <aura:if isTrue="{!not(empty(v.recordError))}">
