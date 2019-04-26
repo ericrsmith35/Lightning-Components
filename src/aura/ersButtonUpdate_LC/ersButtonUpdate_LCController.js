@@ -1,70 +1,98 @@
 ({
-doInit : function(component, event, helper) {
-	//button will change from brand style to neutral style once pressed
-	component.set("v.buttonStyle", 'slds-button_brand');
+    doInit : function(component, event, helper) {
+        
+        //button will change from brand style to neutral style once pressed
+        component.set("v.buttonStyle", 'slds-button_brand');
+        
+        //only update the designated field
+        var fl = component.get('v.fieldList');
+        fl.push(component.get('v.fieldName'));
+        console.log(fl);
+        component.set('v.fieldList', fl);
+        
+        //create component using parameters passed in
+        $A.createComponent('force:recordData',
+            {
+                'aura:id' : 'recordEditor',
+                fields : fl,
+                recordId : component.getReference('v.recordId'),
+                targetError : component.getReference('v.recordError'),
+                targetRecord : component.getReference('v.record'),
+                targetFields : component.getReference('v.simpleRecord'),
+                mode : 'EDIT'
+            },
+            function(cmp, result, err){
+                if(result === 'SUCCESS'){
+                    component.find('recordDataContainer').set('v.body', cmp);
+                }
+                else{
+                    var t = $A.get('e.force:showToast');
+                    t.setParams({
+                        title : 'ERROR',
+                        message : err,
+                        type : 'error'
+                    })
+                    t.fire();
+                }
+            }
+        )
+        
+        //set field values for each possible field type        
+        var fieldValue = component.get("v.fieldValue");
+        component.set("v.newFieldValue_Boolean", fieldValue.toLowerCase() == 'true');     
+        component.set("v.newFieldValue_String", fieldValue);
+        component.set("v.newFieldValue_Date", fieldValue);
+        component.set("v.newFieldValue_Datetime", fieldValue);
+        component.set("v.newFieldValue_Time", fieldValue);
+        component.set("v.newFieldValue_Integer", fieldValue);
+        component.set("v.newFieldValue_Long", fieldValue);
+        component.set("v.newFieldValue_Decimal", fieldValue);
+        component.set("v.newFieldValue_Double", fieldValue);
+    },
+    
+    handleSaveRecord : function(component, event, helper) {
 
-	//set field values for each possible field type        
-	var fieldValue = component.get("v.fieldValue");
-	component.set("v.newFieldValue_Boolean", fieldValue.toLowerCase() == 'true');     
-	component.set("v.newFieldValue_String", fieldValue);
-	component.set("v.newFieldValue_Date", fieldValue);
-	component.set("v.newFieldValue_Datetime", fieldValue);
-	component.set("v.newFieldValue_Time", fieldValue);
-	component.set("v.newFieldValue_Integer", fieldValue);
-	component.set("v.newFieldValue_Long", fieldValue);
-	component.set("v.newFieldValue_Decimal", fieldValue);
-	component.set("v.newFieldValue_Double", fieldValue);
-},
+        //Field Update
+        var fieldName = component.get("v.fieldName");
+        var simpleRecord = component.get("v.simpleRecord");        
+        var newFieldValueName = 'v.newFieldValue_' + component.get("v.fieldType");      
+        var fieldValue = component.get(newFieldValueName);
+        simpleRecord [ fieldName ] = fieldValue;
+        component.set("v.simpleRecord", simpleRecord);
+        
+        //Standard way to save a record template using Lightning Data Service
+        component.find("recordEditor").saveRecord($A.getCallback(function(saveResult){
+            if(saveResult.state === "SUCCESS" || saveResult.state === "DRAFT"){
+                console.log("Save completed successfully.");
+                // Change button Style
+                component.set("v.buttonStyle", 'slds-button_neutral');          
+                $A.get("e.force:closeQuickAction").fire();
+                // Show Success Message
+                $A.enqueueAction(component.get('c.showToast')); 
+            }else if(saveResult.state === "INCOMPLETE"){
+                console.log("User is offline, device doesn't support drafts.");
+            }else if(saveResult.state === "ERROR"){
+                console.log("Problem saving record, error: " + JSON.stringify(saveResult.error));
+            }else{
+                console.log("Unknown problem, state: " + saveResult.state + ", error: " + JSON.stringify(saveResult.error));
+            }
+        }));
+    },
+    
+    handleCancel : function(component, event, helper){
+        $A.get("e.force:closeQuickAction").fire();
+    },    
 
-handleSaveRecord : function(component, event, helper) {
+    showToast : function(component, event, helper) {
+                var toastEvent = $A.get("e.force:showToast");
+                var toastMessage = component.get("v.successMessage");   
+                toastEvent.setParams({
+                    "message": toastMessage,
+                    "type": "success"
+                });
+                if (toastMessage.length > 0) {
+                    toastEvent.fire();
+                }                   
+    },   
 
-	//Field Update
-	var fieldName = component.get("v.fieldName");
-	var simpleRecord = component.get("v.simpleRecord");        
-	var newFieldValueName = 'v.newFieldValue_' + component.get("v.fieldType");      
-	var fieldValue = component.get(newFieldValueName);
-	simpleRecord [ fieldName ] = fieldValue;
-	component.set("v.simpleRecord", simpleRecord);
-
-	//Standard way to save a record template using Lightning Data Service
-	component.find("recordEditor").saveRecord($A.getCallback(function(saveResult){
-		if(saveResult.state === "SUCCESS" || saveResult.state === "DRAFT"){
-			console.log("Save completed successfully.");
-			// Change button Style
-			component.set("v.buttonStyle", 'slds-button_neutral');          
-			$A.get("e.force:closeQuickAction").fire();
-			// Show Success Message
-			$A.enqueueAction(component.get('c.showToast')); 
-		}else if(saveResult.state === "INCOMPLETE"){
-			console.log("User is offline, device doesn't support drafts.");
-		}else if(saveResult.state === "ERROR"){
-			console.log("Problem saving record, error: " + JSON.stringify(saveResult.error));
-		}else{
-			console.log("Unknown problem, state: " + saveResult.state + ", error: " + JSON.stringify(saveResult.error));
-		}
-	}));
-},
-
-handleCancel : function(component, event, helper){
-	$A.get("e.force:closeQuickAction").fire();
-},    
-
-showToast : function(component, event, helper) {
-			var toastEvent = $A.get("e.force:showToast");
-			var toastMessage = component.get("v.successMessage");   
-			toastEvent.setParams({
-				"message": toastMessage,
-				"type": "success"
-			});
-			if (toastMessage.length > 0) {
-				toastEvent.fire();
-			}                   
-},    
-
-reloadRec : function(component, event, helper) {
-	component.find("recordEditor").reloadRecord(true, function(result){
-		console.log(JSON.parse(JSON.stringify(result)));
-	});
-},
-	
 })
