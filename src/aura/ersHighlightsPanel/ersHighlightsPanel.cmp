@@ -5,6 +5,7 @@ ersHighlightsPanel
 
 Allows the placement of a Highlights Panel displaying up to 10 fields on a Record Page
 
+	ers - 6/17/19 - Added Summer '19 density setting to recordViewForm
 -->
 
 <aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" >
@@ -46,7 +47,7 @@ Allows the placement of a Highlights Panel displaying up to 10 fields on a Recor
     </aura:if>
     
     <!-- Display record info -->
-    <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="{!v.objectName}">
+    <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="{!v.objectName}" density="comfy">
         <lightning:card title="{!v.panelTitle}" iconName="{!v.objectIcon}">
             <lightning:layout multipleRows="true">
                 <lightning:layoutItem flexibility="auto, no-grow" padding="horizontal-medium">
