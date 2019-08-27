@@ -1,85 +1,15 @@
-<!-- 
-Lightning Component: Highlights Panel
-Copyright 2019 - Eric R. Smith
-ersHighlightsPanel
-
-Allows the placement of a Highlights Panel displaying up to 10 fields on a Record Page
-
--->
-
-<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" >
-    
-    <!-- To implement LDS we need "target" attributes to show and save data, plus "force:recordData" -->
-    <aura:attribute name="record" type="Object" />
-    <aura:attribute name="simpleRecord" type="Object" />
-    <aura:attribute name="recordError" type="String" />
-    
-    <aura:attribute name="objectName" type="String" />
-    <aura:attribute name="objectIcon" type="String" />
-    <aura:attribute name="panelTitle" type="String" />
-    <aura:attribute name="field01Name" type="String" />
-    <aura:attribute name="field02Name" type="String" />
-    <aura:attribute name="field03Name" type="String" />
-    <aura:attribute name="field04Name" type="String" />
-    <aura:attribute name="field05Name" type="String" />
-    <aura:attribute name="field06Name" type="String" />
-    <aura:attribute name="field07Name" type="String" />
-    <aura:attribute name="field08Name" type="String" />
-    <aura:attribute name="field09Name" type="String" />
-    <aura:attribute name="field10Name" type="String" />
-    
-    <force:recordData aura:id="record"
-                      layoutType="FULL"
-                      recordId="{!v.recordId}"
-                      targetError="{!v.recordError}"
-                      targetRecord="{!v.record}"
-                      targetFields="{!v.simpleRecord}"
-                      mode="VIEW" />
-    
-    <!-- Display LDS errors, if any -->
-    <aura:if isTrue="{!not(empty(v.recordError))}">
-        <div class="recordError">
-            <ui:message title="Error" severity="error" closable="true">
-                {!v.recordError}
-            </ui:message>
-        </div>
-    </aura:if>
-    
-    <!-- Display record info -->
-    <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="{!v.objectName}">
-        <lightning:card title="{!v.panelTitle}" iconName="{!v.objectIcon}">
-            <lightning:layout multipleRows="true">
-                <lightning:layoutItem flexibility="auto, no-grow" padding="horizontal-medium">
-                    <lightning:outputField fieldName="{!v.field01Name}"/>
-                </lightning:layoutItem>
-                <lightning:layoutItem flexibility="auto, no-grow" padding="horizontal-medium">
-                    <lightning:outputField fieldName="{!v.field02Name}" />
-                </lightning:layoutItem>
-                <lightning:layoutItem flexibility="auto, no-grow" padding="horizontal-medium">
-                    <lightning:outputField fieldName="{!v.field03Name}" />
-                </lightning:layoutItem>                  
-                <lightning:layoutItem flexibility="auto, no-grow" padding="horizontal-medium">
-                    <lightning:outputField fieldName="{!v.field04Name}" />
-                </lightning:layoutItem>
-                <lightning:layoutItem flexibility="auto, no-grow" padding="horizontal-medium">
-                    <lightning:outputField fieldName="{!v.field05Name}" />
-                </lightning:layoutItem>                  
-                <lightning:layoutItem flexibility="auto, no-grow" padding="horizontal-medium">
-                    <lightning:outputField fieldName="{!v.field06Name}" />
-                </lightning:layoutItem>
-                <lightning:layoutItem flexibility="auto, no-grow" padding="horizontal-medium">
-                    <lightning:outputField fieldName="{!v.field07Name}" />
-                </lightning:layoutItem>  
-                <lightning:layoutItem flexibility="auto, no-grow" padding="horizontal-medium">
-                    <lightning:outputField fieldName="{!v.field08Name}" />
-                </lightning:layoutItem>                  
-                <lightning:layoutItem flexibility="auto, no-grow" padding="horizontal-medium">
-                    <lightning:outputField fieldName="{!v.field09Name}" />
-                </lightning:layoutItem>
-                <lightning:layoutItem flexibility="auto, no-grow" padding="horizontal-medium">
-                    <lightning:outputField fieldName="{!v.field10Name}" />
-                </lightning:layoutItem>                
-            </lightning:layout>
-        </lightning:card>
-    </lightning:recordViewForm>
-</aura:component>
+<design:component>
+    <design:attribute name="objectName" label="Object API Name" />
+    <design:attribute name="objectIcon" label="Object Icon" />
+    <design:attribute name="panelTitle" label="Highlights Panel Title" />
+    <design:attribute name="field01Name" label="Field 01 API Name" />
+    <design:attribute name="field02Name" label="Field 02 API Name" />
+    <design:attribute name="field03Name" label="Field 03 API Name" />
+    <design:attribute name="field04Name" label="Field 04 API Name" />
+    <design:attribute name="field05Name" label="Field 05 API Name" />
+    <design:attribute name="field06Name" label="Field 06 API Name" />
+    <design:attribute name="field07Name" label="Field 07 API Name" />
+    <design:attribute name="field08Name" label="Field 08 API Name" />
+    <design:attribute name="field09Name" label="Field 09 API Name" />
+    <design:attribute name="field10Name" label="Field 10 API Name" />
+</design:component>
