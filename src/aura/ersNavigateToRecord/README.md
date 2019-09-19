@@ -17,10 +17,10 @@ Then select File > Save All
 ## Parameters
 
 The component takes three parameters
-- ##Object## - SObject Type of the Record (Account, Case, Opportunity, Custom__c, etc)
-- ##Record ID## - Record Id of the record to display (This can be the Id of a new record created in the Flow)
-- ##View or Edit?## - Default (View), Select what mode you want to be in when switching to the record.
+- **Object** - SObject Type of the Record (Account, Case, Opportunity, Custom__c, etc)
+- **Record ID** - Record Id of the record to display (This can be the Id of a new record created in the Flow)
+- **View or Edit?** - Default (View), Select what mode you want to be in when switching to the record.
 
 ## Setup
 
-Drag the Action Element onto your Flow Canvas and provide Input Values for the 3 parameters.  If this element is the last one in your Flow, the user will be redirected to the defined record screen in the selected mode.
+Drag the Action Element onto your Flow Canvas, select ersNavigateToRecord and provide Input Values for the 3 parameters.  If this element is the last one in your Flow, the user will be redirected to the defined record screen in the selected mode.
