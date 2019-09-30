@@ -18,6 +18,8 @@ You can use this Lightning Component on a Record Page.
 
 - **Toggle Button Inactive Message** - Text to appear under the Inactive toggle
 
+- **Display Width (Out of 12)** - Set the display width of the component in 12ths of its container (Default = 12 ie:Full Width)
+
 ## Sample Usage
 
 Here a Toggle is being added to a Record Page to change what is being displayed.  The Record Page components are filtered based on the value of the toggled field.
