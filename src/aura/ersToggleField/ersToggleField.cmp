@@ -2,7 +2,8 @@
     ersToggleField Lightning Component
 
     Eric Smith - 1/14/19
-	4/25/19 - ers - Updated so the field update does not overwrite other record edits from the same page.
+    4/25/19 - ers - Updated so the field update does not overwrite other record edits from the same page
+    9/30/19 - ers - Added ability to set the display width of the component (x out of 12)
 
     Created to allow for the updating of a Checkbox field using a Toggle Button 
 -->
@@ -14,6 +15,7 @@
     <aura:attribute name="fieldName" type="String" />
     <aura:attribute name="toggleActiveMessage" type="String" default="YES" />
     <aura:attribute name="toggleInactiveMessage" type="String" default="NO" />
+    <aura:attribute name="displayWidth" type="String" default="12" />
     
     <!-- Variables -->
     <aura:attribute name="checked" type="Boolean" default="false"/>
@@ -41,7 +43,7 @@
     </aura:if>
     
     <!--    Button Interface -->
-    <div class="slds-card slds-p-around_x-small slds-card__body">
+    <div class="{!'slds-card slds-size_' + v.displayWidth + '-of-12 slds-p-around_x-small slds-card__body'}">
         <lightning:input type="toggle"  
                          aura:id="togglebtn"                           
                          label="{!v.buttonLabel}" 
