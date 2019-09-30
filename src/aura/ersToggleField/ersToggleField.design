@@ -4,5 +4,6 @@
 	<design:attribute name="buttonLabel"  label="Toggle Button Label" />
 	<design:attribute name="toggleActiveMessage" label="Toggle Button Active Message" />
 	<design:attribute name="toggleInactiveMessage" label="Toggle Button Inactive Message" />    
-		
+	<design:attribute name="displayWidth" label="Display Width (Out of 12)" Default="12" />   
+
 </design:component>
