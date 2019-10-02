@@ -27,10 +27,10 @@ You can use this Lightning Component on a Record Page.
 
 Here a Button is being added to a Tab on a Record Page
 
-![Setup Page](PageSetup.JPG?raw=true)
+![Setup Page](PageSetup.jpg?raw=true)
 
 
 This is what the button looks like when the tab is selected.
 
-![Button](PageLayout.JPG?raw=true)
+![Button](PageLayout.jpg?raw=true)
 
