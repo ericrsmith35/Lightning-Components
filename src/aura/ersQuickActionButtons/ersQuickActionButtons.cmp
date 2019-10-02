@@ -1,0 +1,76 @@
+<!-- 
+Lightning Component: Quick Action Buttons
+Copyright 2018 - Eric R. Smith
+
+Allows placement of a Quick Action as a Button on a Record Page
+
+10/2/19 - Eric Smith - Added support for up to 5 buttons including variant attribute
+
+-->
+
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <lightning:quickActionAPI aura:id="quickActionAPI" />
+    
+    <aura:attribute name="buttonLabel1" type="String" />
+    <aura:attribute name="objectName1" type="String" />
+    <aura:attribute name="actionName1" type="String" />
+    <aura:attribute name="variantType1" type="String" default="neutral" />
+    <aura:attribute name="isButton1" type="Boolean" default="false" />
+    <aura:attribute name="buttonLabel2" type="String" />
+    <aura:attribute name="objectName2" type="String" />
+    <aura:attribute name="actionName2" type="String" />
+    <aura:attribute name="variantType2" type="String" default="neutral" />
+    <aura:attribute name="isButton2" type="Boolean" default="false" />
+    <aura:attribute name="buttonLabel3" type="String" />
+    <aura:attribute name="objectName3" type="String" />
+    <aura:attribute name="actionName3" type="String" />
+    <aura:attribute name="variantType3" type="String" default="neutral" />
+    <aura:attribute name="isButton3" type="Boolean" default="false" />
+    <aura:attribute name="buttonLabel4" type="String" />
+    <aura:attribute name="objectName4" type="String" />
+    <aura:attribute name="actionName4" type="String" />
+    <aura:attribute name="variantType4" type="String" default="neutral" />
+    <aura:attribute name="isButton4" type="Boolean" default="false" />
+    <aura:attribute name="buttonLabel5" type="String" />
+    <aura:attribute name="objectName5" type="String" />
+    <aura:attribute name="actionName5" type="String" />
+    <aura:attribute name="variantType5" type="String" default="neutral" />
+    <aura:attribute name="isButton5" type="Boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:button label="{!v.buttonLabel}" onclick="{!c.selectAction}"/>
+    <div class="slds-form-element">
+        <div class="container">
+            <lightning:layout>
+                <lightning:layoutItem padding="around-small">
+                        <aura:if isTrue="{!v.isButton1}">
+                    <lightning:button variant="{!v.variantType1}" label="{!v.buttonLabel1}" onclick="{!c.selectAction1}" />
+                </aura:if>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small">
+                        <aura:if isTrue="{!v.isButton2}">
+                    <lightning:button variant="{!v.variantType2}" label="{!v.buttonLabel2}" onclick="{!c.selectAction2}" />
+                </aura:if>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small">
+                        <aura:if isTrue="{!v.isButton3}">
+                    <lightning:button variant="{!v.variantType3}" label="{!v.buttonLabel3}" onclick="{!c.selectAction3}" />
+                </aura:if>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small">
+                        <aura:if isTrue="{!v.isButton4}">
+                    <lightning:button variant="{!v.variantType4}" label="{!v.buttonLabel4}" onclick="{!c.selectAction4}" />
+                </aura:if>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small">
+                        <aura:if isTrue="{!v.isButton5}">
+                    <lightning:button variant="{!v.variantType5}" label="{!v.buttonLabel5}" onclick="{!c.selectAction5}" />
+                </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </div>
+
+</aura:component>
