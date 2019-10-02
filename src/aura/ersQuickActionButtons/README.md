@@ -17,7 +17,7 @@ You can use this Lightning Component on a Record Page.
 - **B1_Quick Action API Name** - The API name of the Quick Action
 
 - **B1_Button Variant Type** - Determines the color of the button.  Select from base,(neutral),brand,destructive,success
-Sample Button Variants
+![Sample Button Variants](Button_Variants.PNG?raw=true)
 
 #### _(Optional)_
 
