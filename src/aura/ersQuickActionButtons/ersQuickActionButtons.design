@@ -1,8 +1,8 @@
 <design:component>
 	<design:attribute name="buttonLabel1" label="B1_Button Label"/>
     <design:attribute name="objectName1" label="B1_Quick Action's Object API Name"/>
-    <design:attribute name="actionName1" label="B1_Quick Action API Name"/>
-    <design:attribute name="variantType1" label="B1_Button Variant Type" datasource="base,neutral,brand,destructive,success"/>
+	<design:attribute name="actionName1" label="B1_Quick Action API Name"/>
+	<design:attribute name="variantType1" label="B1_Button Variant Type" datasource="base,neutral,brand,destructive,success"/>
 	<design:attribute name="buttonLabel2" label="B2_Button Label"/>
     <design:attribute name="objectName2" label="B2_Quick Action's Object API Name"/>
     <design:attribute name="actionName2" label="B2_Quick Action API Name"/>
@@ -19,4 +19,7 @@
     <design:attribute name="objectName5" label="B5_Quick Action's Object API Name"/>
     <design:attribute name="actionName5" label="B5_Quick Action API Name"/>
     <design:attribute name="variantType5" label="B5_Button Variant Type" datasource="base,neutral,brand,destructive,success"/>
+    <design:attribute name="containerSize" label="Button Container Size (out of 12)" default="12"/>
+    <design:attribute name="buttonCount" label="Button Count per Row"/>
+    <design:attribute name="buttonSize" label="Button Size (normal, full)" datasource="normal, full" default="normal"/>
 </design:component>
