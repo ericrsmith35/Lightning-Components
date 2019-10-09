@@ -4,14 +4,15 @@ Copyright 2018 - Eric R. Smith
 
 Allows placement of a Quick Action as a Button on a Record Page
 
-10/2/19 - Eric Smith - Added support for up to 5 buttons including variant attribute
+10/2/19 - Eric Smith - Added support for up to 5 buttons including variant attribute, 
+                        button container width, # of buttons per row, and button size
 
 -->
 
-<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
-    
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+
     <lightning:quickActionAPI aura:id="quickActionAPI" />
-    
+
     <aura:attribute name="buttonLabel1" type="String" />
     <aura:attribute name="objectName1" type="String" />
     <aura:attribute name="actionName1" type="String" />
@@ -37,40 +38,51 @@ Allows placement of a Quick Action as a Button on a Record Page
     <aura:attribute name="actionName5" type="String" />
     <aura:attribute name="variantType5" type="String" default="neutral" />
     <aura:attribute name="isButton5" type="Boolean" default="false" />
+    <aura:attribute name="containerSize" type="String" default="12" />
+    <aura:attribute name="buttonCount" type="String" default="4" />
+    <aura:attribute name="buttonSize" type="String" default="normal" />
+    <aura:attribute name="setSize" type="String" />
+    <aura:attribute name="buttonClass" type="String" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
-    <lightning:button label="{!v.buttonLabel}" onclick="{!c.selectAction}"/>
-    <div class="slds-form-element">
-        <div class="container">
-            <lightning:layout>
-                <lightning:layoutItem padding="around-small">
+    <lightning:card>
+        <div class="{!'slds-size_' + v.containerSize + '-of-12 slds-form-element'}">
+            <div class="container">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="{!v.setSize}" padding="around-small">
                         <aura:if isTrue="{!v.isButton1}">
-                    <lightning:button variant="{!v.variantType1}" label="{!v.buttonLabel1}" onclick="{!c.selectAction1}" />
-                </aura:if>
-                </lightning:layoutItem>
-                <lightning:layoutItem padding="around-small">
+                            <lightning:button class="{!v.buttonClass}" variant="{!v.variantType1}" label="{!v.buttonLabel1}"
+                                onclick="{!c.selectAction1}" />
+                        </aura:if>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="{!v.setSize}" padding="around-small">
                         <aura:if isTrue="{!v.isButton2}">
-                    <lightning:button variant="{!v.variantType2}" label="{!v.buttonLabel2}" onclick="{!c.selectAction2}" />
-                </aura:if>
-                </lightning:layoutItem>
-                <lightning:layoutItem padding="around-small">
+                            <lightning:button class="{!v.buttonClass}" variant="{!v.variantType2}" label="{!v.buttonLabel2}"
+                                onclick="{!c.selectAction2}" />
+                        </aura:if>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="{!v.setSize}" padding="around-small">
                         <aura:if isTrue="{!v.isButton3}">
-                    <lightning:button variant="{!v.variantType3}" label="{!v.buttonLabel3}" onclick="{!c.selectAction3}" />
-                </aura:if>
-                </lightning:layoutItem>
-                <lightning:layoutItem padding="around-small">
+                            <lightning:button class="{!v.buttonClass}" variant="{!v.variantType3}" label="{!v.buttonLabel3}"
+                                onclick="{!c.selectAction3}" />
+                        </aura:if>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="{!v.setSize}" padding="around-small">
                         <aura:if isTrue="{!v.isButton4}">
-                    <lightning:button variant="{!v.variantType4}" label="{!v.buttonLabel4}" onclick="{!c.selectAction4}" />
-                </aura:if>
-                </lightning:layoutItem>
-                <lightning:layoutItem padding="around-small">
+                            <lightning:button class="{!v.buttonClass}" variant="{!v.variantType4}" label="{!v.buttonLabel4}"
+                                onclick="{!c.selectAction4}" />
+                        </aura:if>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="{!v.setSize}" padding="around-small">
                         <aura:if isTrue="{!v.isButton5}">
-                    <lightning:button variant="{!v.variantType5}" label="{!v.buttonLabel5}" onclick="{!c.selectAction5}" />
-                </aura:if>
-                </lightning:layoutItem>
-            </lightning:layout>
+                            <lightning:button class="{!v.buttonClass}" variant="{!v.variantType5}" label="{!v.buttonLabel5}"
+                                onclick="{!c.selectAction5}" />
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </div>
         </div>
-    </div>
+    </lightning:card>
 
 </aura:component>
