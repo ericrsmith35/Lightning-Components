@@ -15,6 +15,10 @@
         console.log('Label 5: [' + component.get("v.buttonLabel5") + ']');
         if (component.get("v.buttonLabel5"))
             component.set("v.isButton5", true);
+        var calcCount = 12 / parseInt(component.get("v.buttonCount"),10);
+        component.set("v.setSize", calcCount);
+        if (component.get("v.buttonSize").toLowerCase() == 'full')
+            component.set("v.buttonClass", 'slds-size_full');
     },
 
     selectAction1 : function( component, event, helper) {
