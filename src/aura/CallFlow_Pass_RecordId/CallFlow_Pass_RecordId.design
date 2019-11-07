@@ -1,0 +1,7 @@
+<design:component>
+    
+    <design:attribute name="button" label="Button Name" />
+    <design:attribute name="flowAPIName" label="Flow API Name" />
+    <design:attribute name="inputVariable" label="Flow recordId Input Variable" />    
+    
+</design:component>
