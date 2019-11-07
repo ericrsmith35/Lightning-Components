@@ -1,0 +1,22 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="object" type="Object" />
+    <aura:attribute name="flowAPIName" type="string" />
+    <aura:attribute name="inputVariable" type="string" />
+    <aura:attribute name="button" type="string" />
+    
+    <force:recordData aura:id="currentRecord" 
+                      recordId="{!v.recordId}" 
+                      targetRecord="{!v.object}" 
+                      recordUpdated="{!c.doInit}" 
+                      layoutType="FULL" />
+    
+    <aura:handler name="init" value="{! this}" action="{!c.doInit}" />
+    <!-- aura:handler event="c:recordUpdated" action="{!c.doInit}" / -->
+    
+    <lightning:flow aura:id="flowData"/>
+    
+    <lightning:button label="{!v.button}" title="{!v.button}" onclick="{! c.callFlow }"/>
+    
+</aura:component>
