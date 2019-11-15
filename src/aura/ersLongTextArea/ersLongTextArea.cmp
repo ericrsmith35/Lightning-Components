@@ -16,6 +16,8 @@
 <aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,lightning:availableForFlowScreens,forceCommunity:availableForAllPageTypes" access="global" >
     
     <!-- Design Attributes -->
+    <!-- Added below attribute for Object name - to allow use on all objects CAW 11/13/2019 -->
+    <aura:attribute name="objectname" type="String" description="Object API Name" default="Opportunity" />
     <aura:attribute name="fieldName" type="String" description="Long Text Area Field API Name" />
     <aura:attribute name="toggleLabel" type="String" description="Toggle Button Label" />
     <aura:attribute name="default" type="String" description="Starting Phase for Toggle (On or Off)" />
@@ -55,9 +57,11 @@
         <!-- Field Display -->
         <aura:if isTrue="{!v.checked}">
             <!-- Lightning Data Service (LDS) -->
+            <!-- Added objectAPIName to variable to make universal CAW 11/13/2019 -->
             <lightning:recordEditForm aura:id="recordEditForm"
                                       recordId="{!v.recordId}"
-                                      objectApiName="Opportunity"
+                                      objectApiName="{!v.objectname}"
+                                      
                                       onload="{!c.handleLoad}"
                                       onsubmit="{!c.handleSubmit}"
                                       onsuccess="{!c.handleSaved}"
