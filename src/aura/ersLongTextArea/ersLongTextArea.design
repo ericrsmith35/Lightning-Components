@@ -1,11 +1,13 @@
 <design:component>
 
-	<design:attribute name="fieldName" label="Long Text Area Field API Name" />
+	<!-- Added below to Make object name designated and use universal 11/13/2019 CAW -->
+    <design:attribute name="objectname" label= "Object API Name" />
+    <design:attribute name="fieldName" label="Long Text Area Field API Name" />
     <design:attribute name="toggleLabel" label="Toggle Button Label" />
     <design:attribute name="default" label="Starting Phase for Toggle" datasource="On,Off" default="On" />
     <design:attribute name="width" label="Component Width" datasource="Full,Half" default="Full" />
     <design:attribute name="height" label="Component Height" datasource="Small,Medium,Large" default="Medium" />
     <design:attribute name="mode" label="View or Edit Mode" datasource="View,Edit" default="Edit" />
     <design:attribute name="maxChars" label="Maximum Field Length" default="32000" />
-    
+       
 </design:component>
