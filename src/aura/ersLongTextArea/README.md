@@ -12,6 +12,8 @@ You can use this Lightning Component on a Record Page.
 
 #### _(Required)_
 
+- **Object API Name** - API Name of the Object with the Long Text Area field
+
 - **Long Text Area Field API Name** - API Name of the Long Text Area field
 
 #### _(Optional)_
