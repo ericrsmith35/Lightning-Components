@@ -1,0 +1,8 @@
+.THIS button.center{
+    margin: 0 auto;
+    display: block;
+}
+
+.THIS .min-height-64px{
+    min-height: 64px;
+}
