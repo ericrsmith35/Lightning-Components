@@ -1,0 +1,74 @@
+<!--
+    AppExchange App -   Launch Flow in Modal
+                        https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000FMYinUAH
+
+    Modified By -       Eric Smith - 12/20/19
+                        I modified the component to call a LWC (flowPickerFSC) to select the Flow to run in the modal
+                        https://unofficialsf.com/display-a-picklist-of-flow-names-with-the-flowlist-control/
+                        When adding this component to a Lightning App Page, I used these attribute values:
+                            Flow Name -                     Any random text as this will be set by the LWC
+                            Flow Modal Header -             Flow
+                            Flow Input Variables -          blank (N/A - my example does not load any Flows needing parameters)
+                            AutoLaunch Flow -               unchecked
+                            Hide Button -                   unchecked
+                            Button Label -                  Launch Flow
+                            Button Alignment -              Center
+                            Button Background Color -       #005290 (Standard Salesforce color for Brand)
+                            Button Text Color -             blank (defaults to White)
+                            Hide Flow Transition Overlay -  checked
+
+-->
+<aura:component
+    implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+    access="global">
+    <aura:attribute name="buttonLabel" type="String" access="global" default="Launch Flow" required="true" />
+    <aura:attribute name="align" type="String" access="global" default="Center" required="true" />
+    <aura:attribute name="flowName" type="String" access="global" default="" required="true" />
+    <aura:attribute name="flowModalHeader" type="String" access="global" />
+    <aura:attribute name="flowInputVariablesString" type="String" access="global" />
+    <aura:attribute name="autoLaunchFlow" type="Boolean" default="false" access="global" />
+    <aura:attribute name="hideButton" type="Boolean" default="false" access="global" />
+    <aura:attribute name="buttonBackgroundColor" type="String" default="" access="global" />
+    <aura:attribute name="buttonTextColor" type="String" default="" access="global" />
+    <aura:attribute name="hideFlowTransitionOverlay" type="Boolean" default="true" access="global" />
+
+    <aura:attribute name="flowInputVariables" type="Object" access="global" />
+    <aura:attribute name="flowOutputVariables" type="Object" access="global" />
+
+    <lightning:overlayLibrary aura:id="overlayLib" />
+
+    <aura:dependency resource="force:showToast" type="EVENT" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <!-- I wrapped this in a Lightning Card to force a white background and provide additional formatting -->
+    <lightning:card title="ADMIN TOOL Flow Menu" iconName="standard:bot">
+        <div class="slds-m-around_small">
+            <!-- This is the Lightning Web Component that displays a list of Flows for selection by the user 
+                 searchString is used to show only Flows with the ADMIN in the Flow label                 -->
+            <c:flowPickerFSC label="Select an ADMIN TOOL:" searchString="ADMIN" aura:id="SelectFlow" />
+        </div>
+        <!-- The button rendered in the Card footer-->
+        <aura:set attribute="footer">
+            <!-- The class is set to reduce the width of the button-->
+            <div class="slds-size_2-of-12 slds-p-vertical_none">
+                <aura:if isTrue="{!!v.hideButton}">
+                    <div class="slds">
+                        <!-- I changed the padding here from medium to none -->
+                        <div class="slds-p-vertical_none min-height-64px">
+                            <button
+                                class="{!'slds-button slds-button_brand ' + if(v.align == 'Left','slds-float_left slds-m-left_large',if(v.align == 'Right','slds-float_right slds-m-right_large','center'))}"
+                                style="{!
+                            if(empty(v.buttonBackgroundColor), '', 'background-color: ' + v.buttonBackgroundColor + 
+                            '; border-color: ' + v.buttonBackgroundColor + '; ') +
+                            if(empty(v.buttonTextColor), '', 'color: ' + v.buttonTextColor + '; ')
+                            }" onclick="{!c.handleShowModal}">
+                                {!v.buttonLabel}
+                            </button>
+                        </div>
+                    </div>
+                </aura:if>
+            </div>
+        </aura:set>
+    </lightning:card>
+</aura:component>
