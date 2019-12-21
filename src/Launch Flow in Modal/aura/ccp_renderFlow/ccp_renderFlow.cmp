@@ -1,0 +1,22 @@
+<aura:component >
+    <aura:attribute name="flowName" type="String"/>
+    <aura:attribute name="flowInputVariables" type="Object"/>
+    <aura:attribute name="flowOutputVariables" type="Object"/>
+    <aura:attribute name="hideFlowTransitionOverlay" type="Boolean" default="true" access="global"/>    
+    
+    <aura:attribute name="flowStatus" type="String" default="NOT STARTED"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <aura:if isTrue="{!v.flowStatus != 'FINISHED'}">
+        <span class="{!if(v.hideFlowTransitionOverlay,'hideOverlay','')}" >
+            <lightning:flow aura:id="flowRenderer" onstatuschange="{!c.handleStatusChange}"/>
+        </span> 
+    </aura:if>
+    
+    
+    
+    
+</aura:component>
