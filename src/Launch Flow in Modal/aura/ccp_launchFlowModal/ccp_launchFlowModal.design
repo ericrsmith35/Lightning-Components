@@ -1,0 +1,35 @@
+<design:component label="Launch Flow in Modal">
+    
+    <design:attribute name="flowName" label="Flow Name"
+    description="Set the value of this attribute to the API name of your flow." required="true"/>
+    
+    <design:attribute name="flowModalHeader" label="Flow Modal Header" default="Flow"
+    description="Text to display in the header of the modal."/>
+
+    <design:attribute name="flowInputVariablesString" label="Flow Input Variables" 
+    description="JSON String for flow input variables in the form of: 
+    [{ 
+        &#x22;name&#x22; : &#x22;flowVariableName&#x22;, &#x22;type&#x22; : &#x22;String&#x22;, &#x22;value&#x22;: &#x22;Flow A&#x22; 
+    }]"/>
+    
+    <design:attribute name="autoLaunchFlow" label="Auto Launch Flow" default="false"
+    description="Checking this box will auto launch the flow upon initialization."/>
+
+    <design:attribute name="hideButton" label="Hide Button" default="false"
+    description="Checking this box will hide the button."/>
+
+    <design:attribute name="buttonLabel" label="Button Label" default="Launch Flow" required="true"
+    description="Text to use for the button label."/>
+    
+    <design:attribute name="align" label="Button Alignment" datasource="Left,Right,Center" default="Center" required="true"
+    description="Choose how to align the button in its container."/>
+
+    <design:attribute name="buttonBackgroundColor" label="Button Background Color" default=""
+    description="CSS Background color for button. Leave blank if you want the button to inherit the brand color from your theme colors in a Community, otherwise specify a CSS color."/>
+
+    <design:attribute name="buttonTextColor" label="Button Text Color" default=""
+    description="CSS Text color for button. Leave blank if you want the button to inherit the default brand color, otherwise specify a CSS color."/>
+
+    <design:attribute name="hideFlowTransitionOverlay" label="Hide Flow Transition Overlay" default="true"
+    description="Checking this box will hide the overlay during flow transitions from one step to another."/>
+</design:component>
