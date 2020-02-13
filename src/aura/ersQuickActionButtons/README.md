@@ -6,6 +6,8 @@ This is a generic Lightning Component that allows a Button to execute a Quick Ac
 
 You can use this Lightning Component on a Record Page.
 
+**NOTE:** The Quick Action must also be included in the "Salesforce Mobile and Lightning Experience Actions" section of the standard Page Layout.
+
 ### Parameters
 
 #### _(Required)_
