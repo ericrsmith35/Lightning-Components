@@ -1,0 +1,47 @@
+<!-- 
+Lightning Web Component for Record Pages:       ersQuickSwitchApp
+
+This component allows the user to quickly switch Apps and stay on the current record.
+This is useful when supporting an org that has different Record Pages for different Apps.
+
+Additional components packaged with this LWC:
+
+                    Lightning Web Components:   quickAppSwitcherDT
+
+                    Lightning Aura Components:  ersQuickSwitchAppUtilityBar
+
+                    Apex Classes:               CustomMetadataController
+                                                CreateCustomMetadataQuickAppSwitcher 
+                                                CreateCustomMetadataQuickAppSwitcherTest
+
+                    Flows:                      ersQuickSwitchApp Custom Metadata Configurator
+
+                    Custom Metadata:            QuickAppSwitcher
+
+                    Static Resource:            <App_Images class="ZIP"></App_Images>
+
+2/9/20 -    Eric Smith -    Version 1.0
+
+-->
+<template>
+    <div class="slds-p-around_x-small" style={backgroundStyle}>
+        <template for:each={apps} for:item="app">
+            <span key={app.index}>
+                <lightning-avatar 
+                    variant={app.variant}
+                    src={app.image}
+                    alternative-text={app.altText}
+                    class="slds-m-around_x-small"
+                    size="large"
+                    initials="" 
+                    fallback-icon-name="utility:salesforce1"
+                    data-key={app.index}
+                    onmouseover={handleHover} 
+                    onmouseout={handleMouseOut} 
+                    onclick={navigateToAppPage}
+                >
+                </lightning-avatar>
+            </span>
+        </template>
+    </div>
+</template>

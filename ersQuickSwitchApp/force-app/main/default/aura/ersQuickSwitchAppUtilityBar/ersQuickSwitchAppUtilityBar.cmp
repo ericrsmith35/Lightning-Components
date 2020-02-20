@@ -1,0 +1,21 @@
+<!-- 
+Lightning Aura Component for Utility Bars:       ersQuickSwitchAppUtilityBar
+
+This component allows the user to quickly switch Apps and stay on the current record.
+This is useful when supporting an org that has different Record Pages for different Apps.
+
+Since an LWC on a Utility Bar can't access the recordId, it is wrapped in an Aura Component
+
+2/9/20 -    Eric Smith -    Version 1.0
+
+-->
+<aura:component implements="force:hasRecordId,flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="quickAppSwitcherLabel" type="String" />
+    <aura:attribute name="backgroundColor" type="String" />
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.onRecordIdChange}" />
+    <c:ersQuickSwitchApp 
+        recordId="{!v.recordId}" 
+        quickAppSwitcherLabel="{!v.quickAppSwitcherLabel}"
+        backgroundColor="{!v.backgroundColor}">
+    </c:ersQuickSwitchApp>
+</aura:component>

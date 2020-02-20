@@ -1,0 +1,4 @@
+<design:component >
+    <design:attribute name="quickAppSwitcherLabel" label="Label of the QuickAppSwitcher metadata record"/>
+    <design:attribute name="backgroundColor" label="Specify the background color for the component (Default: Pink)" description="Samples: #92a8d1, rgb(176, 196, 223), DarkCyan" default="Pink"/>
+</design:component>

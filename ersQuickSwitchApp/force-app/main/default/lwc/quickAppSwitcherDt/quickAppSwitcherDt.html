@@ -1,0 +1,62 @@
+<!-- 
+Lightning Web Component for Flow Screens:       QuickAppSwitcherDt
+
+This component allows the user to display a datatable for the App Definition object.
+
+2/14/20 -    Eric Smith -    Version 1.0
+
+-->
+<template>
+    <!-- Lightning Datatable for App Definition record selection -->
+    <lightning-datatable
+            data={mydata}
+            columns={columns}
+            key-field={keyfield}
+            sorted-by={sortedBy}
+            sorted-direction={sortedDirection}
+            max-row-selection={maxRowSelection}
+            selected-rows={preSelectedIds}
+            hide-checkbox-column={hideCheckboxColumn}
+            onsort={updateColumnSorting}
+            onsave={handleSave}
+            oncancel={cancelChanges}
+            onrowselection={getSelectedName}
+            onrowaction={handleRowAction}>
+    </lightning-datatable> 
+
+    <!-- Popup modal to request image file name     -->
+    <template if:true={requestImageNameModal}>
+        <div style="height:200px; width:200px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCancelModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{displayAppLabel}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div class="slds-p-around_medium lgc-bg">
+                            <lightning-input
+                                    type="file" 
+                                    name={imageName} 
+                                    label="Select a single Image File for this App" 
+                                    onchange={handleFileSelection}
+                                    accept="image/png, image/jpeg, image/gif">
+                            </lightning-input>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <span class="slds-m-right_medium"><b>{imageName}</b>
+                        <lightning-button label="Cancel" variant="neutral" onclick={handleCancelModal} class="slds-m-left_medium slds-m-right_medium"></lightning-button>
+                        <lightning-button label="Save" variant="brand" onclick={handleSaveModal}></lightning-button>
+                        </span>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>            
+        </div>
+    </template>
+</template>

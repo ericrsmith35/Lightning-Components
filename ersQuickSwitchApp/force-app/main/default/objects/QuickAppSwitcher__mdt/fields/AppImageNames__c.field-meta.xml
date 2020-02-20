@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AppImageNames__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>List of image names from /images/ sub-directory in the APP_Images Static Resource. Separate values with a comma but no space. Be sure to match case exactly. Example: Star.PNG,Apple.jpg</inlineHelpText>
+    <label>AppImageNames</label>
+    <length>1000</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

@@ -1,0 +1,25 @@
+<!-- 
+Lightning Web Component for Record Pages:       ersQuickSwitchApp
+
+This component allows the user to quickly switch Apps and stay on the current record.
+This is useful when supporting an org that has different Record Pages for different Apps.
+
+2/9/20 -    Eric Smith -    Version 1.0
+
+-->
+<template>
+    <div class="slds-p-around_x-small" style={backgroundStyle}>
+        <template for:each={apps} for:item="app">
+            <span key={app.index} class={avatar}>
+                <img src={app.image} 
+                    alt={app.altText} 
+                    class={app.avatar} 
+                    data-key={app.index}
+                    onmouseover={handleHover} 
+                    onmouseout={handleMouseOut} 
+                    onclick={navigateToAppPage}
+                >
+            </span>
+        </template>
+    </div>
+</template>

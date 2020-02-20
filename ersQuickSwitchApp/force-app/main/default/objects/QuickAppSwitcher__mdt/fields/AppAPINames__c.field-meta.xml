@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AppAPINames__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Prefix with &#39;standard__&#39; for Standard Apps and &#39;c__&#39; for Custom Apps. Separate values with a comma but no space.</inlineHelpText>
+    <label>AppAPINames</label>
+    <length>1000</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>
