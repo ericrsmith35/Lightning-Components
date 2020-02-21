@@ -1,4 +1,4 @@
-# SFDX  App
+# ersQuickSwitchApp
 Lightning Web Component for Record Pages:       ersQuickSwitchApp
 
 This component allows the user to quickly switch Apps and stay on the current record.
