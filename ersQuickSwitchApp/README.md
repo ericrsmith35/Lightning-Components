@@ -20,5 +20,5 @@ Additional components packaged with this LWC:
 
                     Static Resource:            <App_Images class="ZIP"></App_Images>
 
-2/9/20 -    Eric Smith -    Version 1.0
+2/9/20 -    Eric Smith
 
