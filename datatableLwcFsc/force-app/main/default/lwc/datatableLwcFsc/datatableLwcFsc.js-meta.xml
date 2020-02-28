@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>48.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="tableData" label="Datatable Record Collection" type="@salesforce/schema/Account[]" role="inputOnly"/>
+            <property name="columnDefinitions" label="Column Definitions" type="String" role="inputOnly"/>
+            <property name="keyField" label="Key Field" type="String" default="Id" role="inputOnly"/>
+            <property name="preSelectedRows" label="Pre-Selected Rows" type="@salesforce/schema/Account[]" role="inputOnly"/>
+            <property name="hideCheckboxColumn" label="Hide Checkbox Column?" type="Boolean" default="false" role="inputOnly"/>
+            <property name="singleRowSelection" label="Single Row Selection (Radio Buttons)?" type="Boolean" default="false" role="inputOnly"/>
+            <property name="suppressBottomBar" label="Suppress Cancel/Save Buttons during Edit Mode?" type="Boolean" default="false" role="inputOnly"/>
+            <property name="outputSelectedRows" label="Output Selected Rows" type="@salesforce/schema/Account[]" role="outputOnly"/>
+            <property name="outputEditedRows" label="Output Edited Rows" type="@salesforce/schema/Account[]" role="outputOnly"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
