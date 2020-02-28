@@ -28,6 +28,7 @@ export default class DatatableLwcFsc extends LightningElement {
     connectedCallback() {
         // Build Column Definitions 
         // (This could change depending on how I build the Custom Property Editor)
+        // Current Format is column attributes separated by , and columns separated by |
         const cols = [];
         const colEachDef = this.columnDefinitions.split('|');
         console.log('colEachDef:',colEachDef);
