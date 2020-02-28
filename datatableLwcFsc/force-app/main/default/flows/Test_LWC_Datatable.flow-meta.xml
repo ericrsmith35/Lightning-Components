@@ -55,7 +55,7 @@
     <screens>
         <name>Datatable</name>
         <label>Datatable</label>
-        <locationX>388</locationX>
+        <locationX>387</locationX>
         <locationY>298</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -70,7 +70,7 @@
             <inputParameters>
                 <name>columnDefinitions</name>
                 <value>
-                    <stringValue>Account Name,standard:account,Name,text,,,300|Account Number,,AccountNumber,,,true,100|Account Owner,,OwnerId,,,,200|Account Type,,Type,,,true,120</stringValue>
+                    <stringValue>Account Name,Name,text,,,300|Account Number,AccountNumber,,,true,100|Account Owner,OwnerId,,,,200|Account Type,Type,,,true,120</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -95,6 +95,12 @@
                 <name>hideCheckboxColumn</name>
                 <value>
                     <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnIcons</name>
+                <value>
+                    <stringValue>1:standard:account</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -130,7 +136,7 @@
             <inputParameters>
                 <name>columnDefinitions</name>
                 <value>
-                    <stringValue>Account Name,standard:account,Name,text,,,300|Account Number,,AccountNumber,,,false,100|Account Owner,,OwnerId,,,,200|Account Type,,Type,,,false,120</stringValue>
+                    <stringValue>Account Name,Name,text,,,300|Account Number,AccountNumber,,,false,100|Account Owner,OwnerId,,,,200|Account Type,Type,,,false,120</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
