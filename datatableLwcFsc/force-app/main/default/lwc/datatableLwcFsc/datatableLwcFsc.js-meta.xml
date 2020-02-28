@@ -9,6 +9,7 @@
         <targetConfig targets="lightning__FlowScreen">
             <property name="tableData" label="Datatable Record Collection" type="@salesforce/schema/Account[]" role="inputOnly"/>
             <property name="columnDefinitions" label="Column Definitions" type="String" role="inputOnly"/>
+            <property name="columnIcons" label="Column Icons (Col#:icon)" type="String" role="inputOnly"/>
             <property name="keyField" label="Key Field" type="String" default="Id" role="inputOnly"/>
             <property name="preSelectedRows" label="Pre-Selected Rows" type="@salesforce/schema/Account[]" role="inputOnly"/>
             <property name="hideCheckboxColumn" label="Hide Checkbox Column?" type="Boolean" default="false" role="inputOnly"/>

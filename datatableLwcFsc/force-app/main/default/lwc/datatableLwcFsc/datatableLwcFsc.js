@@ -6,6 +6,7 @@ export default class DatatableLwcFsc extends LightningElement {
     // Component Input & Output Attributes
     @api tableData;
     @api columnDefinitions;
+    @api columnIcons = [];
     @api keyField = 'Id';
     @api preSelectedRows = [];
     @api hideCheckboxColumn;
@@ -29,21 +30,36 @@ export default class DatatableLwcFsc extends LightningElement {
         // Build Column Definitions 
         // (This could change depending on how I build the Custom Property Editor)
         // Current Format is column attributes separated by , and columns separated by |
+        let columnNumber = 0;
+
+        // Parse icon attribute
+        const icons = [];
+        const parseIcons = (this.columnIcons.length > 0) ? this.columnIcons.split(',') : [];
+        parseIcons.forEach(icon => {
+            icons.push({
+                column: Number(icon.split(':')[0])-1,
+                icon: icon.slice(icon.search(':')+1)
+            });
+        });
+
+        // Parse column definitions
         const cols = [];
         const colEachDef = this.columnDefinitions.split('|');
         console.log('colEachDef:',colEachDef);
         colEachDef.forEach(colDef => {
-            let colAttrib = colDef.split(',');
+            const colAttrib = colDef.split(',');
+            const iconAttrib = icons.find(i => i['column'] == columnNumber);
             cols.push({
                 label: colAttrib[0],
-                iconName: colAttrib[1],
-                fieldName: colAttrib[2],
-                type: colAttrib[3],
-                typeAttributes: colAttrib[4],
-                editable: colAttrib[5].toLowerCase() === 'true',
+                iconName: (iconAttrib) ? iconAttrib.icon : null,
+                fieldName: colAttrib[1],
+                type: colAttrib[2],
+                typeAttributes: colAttrib[3],
+                editable: colAttrib[4].toLowerCase() === 'true',
                 sortable: 'true',
-                initialWidth: Number(colAttrib[6])
+                initialWidth: Number(colAttrib[5])
             });
+            columnNumber += 1;
         });
         this.columns = cols;
         console.log('columns:',this.columns);
