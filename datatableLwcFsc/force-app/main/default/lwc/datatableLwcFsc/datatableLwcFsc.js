@@ -36,12 +36,13 @@ export default class DatatableLwcFsc extends LightningElement {
             let colAttrib = colDef.split(',');
             cols.push({
                 label: colAttrib[0],
-                fieldName: colAttrib[1],
-                type: colAttrib[2],
-                typeAttributes: colAttrib[3],
-                editable: colAttrib[4].toLowerCase() === 'true',
+                iconName: colAttrib[1],
+                fieldName: colAttrib[2],
+                type: colAttrib[3],
+                typeAttributes: colAttrib[4],
+                editable: colAttrib[5].toLowerCase() === 'true',
                 sortable: 'true',
-                initialWidth: Number(colAttrib[5])
+                initialWidth: Number(colAttrib[6])
             });
         });
         this.columns = cols;
