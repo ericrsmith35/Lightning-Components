@@ -70,7 +70,7 @@
             <inputParameters>
                 <name>columnDefinitions</name>
                 <value>
-                    <stringValue>Account Name,Name,text,,,300|Account Number,AccountNumber,,,true,100|Account Owner,OwnerId,,,,200|Account Type,Type,,,true,120</stringValue>
+                    <stringValue>Account Name,standard:account,Name,text,,,300|Account Number,,AccountNumber,,,true,100|Account Owner,,OwnerId,,,,200|Account Type,,Type,,,true,120</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -130,7 +130,7 @@
             <inputParameters>
                 <name>columnDefinitions</name>
                 <value>
-                    <stringValue>Account Name,Name,text,,,300|Account Number,AccountNumber,,,false,100|Account Owner,OwnerId,,,,200|Account Type,Type,,,false,120</stringValue>
+                    <stringValue>Account Name,standard:account,Name,text,,,300|Account Number,,AccountNumber,,,false,100|Account Owner,,OwnerId,,,,200|Account Type,,Type,,,false,120</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
