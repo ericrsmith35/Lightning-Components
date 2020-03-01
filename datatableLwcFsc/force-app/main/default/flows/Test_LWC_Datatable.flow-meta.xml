@@ -34,7 +34,7 @@
         <name>Get_Pre_Accounts</name>
         <label>Get Pre Accounts</label>
         <locationX>201</locationX>
-        <locationY>298</locationY>
+        <locationY>299</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Datatable</targetReference>
@@ -56,7 +56,7 @@
         <name>Datatable</name>
         <label>Datatable</label>
         <locationX>387</locationX>
-        <locationY>298</locationY>
+        <locationY>299</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -70,7 +70,7 @@
             <inputParameters>
                 <name>columnDefinitions</name>
                 <value>
-                    <stringValue>Account Name,Name,text,,,300|Account Number,AccountNumber,,,true,100|Account Owner,OwnerId,,,,200|Account Type,Type,,,true,120</stringValue>
+                    <stringValue>Account Name,Name,text,,,300|Account Number,AccountNumber,,,true,100|Account Owner,OwnerId,lookup,,,200|Account Type,Type,,,true,120</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -101,6 +101,12 @@
                 <name>columnIcons</name>
                 <value>
                     <stringValue>1:standard:account</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnLookups</name>
+                <value>
+                    <stringValue>3:Owner_Name__c</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
