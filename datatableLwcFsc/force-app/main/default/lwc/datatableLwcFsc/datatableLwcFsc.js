@@ -1,5 +1,9 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 // import { FlowAttributeChangeEvent, FlowNavigationNextEvent } from 'lightning/flowSupport';
+import returnObjectName from '@salesforce/apex/GetObjectName.returnObjectName';
+import { getRecord } from 'lightning/uiRecordApi';
+
+const FIELDS = ['User.Name'];
 
 export default class DatatableLwcFsc extends LightningElement {
 
@@ -7,6 +11,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api tableData;
     @api columnDefinitions;
     @api columnIcons = [];
+    @api columnLookups = [];
     @api keyField = 'Id';
     @api preSelectedRows = [];
     @api hideCheckboxColumn;
@@ -22,7 +27,21 @@ export default class DatatableLwcFsc extends LightningElement {
     @track columns = [];
     @track mydata = [];
     @track selectedRows = [];
- 
+
+    // Handle Lookup Field Variables   
+    @api lookupId;
+    @api objectName;
+    @track lookupName;
+    @wire(getRecord, { recordId: '$lookupId', FIELDS })
+    wiredRecord({ error, data }) {
+        if (error) {
+            console.log('Error loading record',error.message);
+        } else if (data) {
+            this.lookupName = data.fields.Name.value;
+            console.log('lookupName',this.lookupName);
+        }
+    }    
+
     // Component working variables
     @api savePreEditData = [];
 
@@ -42,6 +61,16 @@ export default class DatatableLwcFsc extends LightningElement {
             });
         });
 
+        // Parse lookup attribute
+        const lookups = [];
+        const parseLookups = (this.columnLookups.length > 0) ? this.columnLookups.split(',') : [];
+        parseLookups.forEach(lookup => {
+            lookups.push({
+                column: Number(lookup.split(':')[0])-1,
+                displayField: lookup.slice(lookup.search(':')+1)
+            });
+        });
+
         // Parse column definitions
         const cols = [];
         const colEachDef = this.columnDefinitions.split('|');
@@ -49,35 +78,56 @@ export default class DatatableLwcFsc extends LightningElement {
         colEachDef.forEach(colDef => {
             const colAttrib = colDef.split(',');
             const iconAttrib = icons.find(i => i['column'] == columnNumber);
+            const label = colAttrib[0];
+            const fieldName = colAttrib[1];
+            const type = colAttrib[2].toLowerCase();
+            const typeAttributes = colAttrib[3];
+            const editable = colAttrib[4].toLowerCase() === 'true';
+            const initialWidth = Number(colAttrib[5]);
             cols.push({
-                label: colAttrib[0],
+                label: label,
                 iconName: (iconAttrib) ? iconAttrib.icon : null,
-                fieldName: colAttrib[1],
-                type: colAttrib[2],
-                typeAttributes: colAttrib[3],
-                editable: colAttrib[4].toLowerCase() === 'true',
+                fieldName: fieldName,
+                type: type,
+                typeAttributes: typeAttributes,
+                editable: editable,
                 sortable: 'true',
-                initialWidth: Number(colAttrib[5])
+                initialWidth: initialWidth
             });
             columnNumber += 1;
         });
         this.columns = cols;
         console.log('columns:',this.columns);
-
-        // Process Incoming Data Collection
-        const data = (this.tableData) ? JSON.parse(JSON.stringify([...this.tableData])) : [];
-        data.forEach(record => {
-            // If needed, add fields to datatable records
-            // (Useful for Custom Row Actions/Buttons)
-            // record['addField'] = 'newValue';
-        });
-
+       
         // Handle pre-selected records
         this.outputSelectedRows = this.preSelectedRows;
         const selected = JSON.parse(JSON.stringify([...this.preSelectedRows]));
         console.log('selected',selected);
         selected.forEach(record => {
             this.selectedRows.push(record[this.keyField]);            
+        });
+
+        // Process Incoming Data Collection
+        const data = (this.tableData) ? JSON.parse(JSON.stringify([...this.tableData])) : [];
+
+        this.lookupId = data[0]['OwnerId'];
+        console.log('lookupId',this.lookupId);
+        // console.log('wired',wiredRecord);
+        console.log('lookupName',this.lookupName);
+        returnObjectName({recordIdStrings: this.lookupId})
+        .then(result => {
+            console.log('result',result);
+            this.objectName = result[0];
+        })
+        .catch(error => {
+            console.log('Object Name Lookup Error:',error);
+        });
+        console.log('Object:',this.objectName);
+
+        data.forEach(record => {
+            // If needed, add fields to datatable records
+            // (Useful for Custom Row Actions/Buttons)
+            // record['addField'] = 'newValue';
         });
 
         // Set table data attributes
