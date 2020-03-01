@@ -1,9 +1,7 @@
 import { LightningElement, api, track, wire } from 'lwc';
 // import { FlowAttributeChangeEvent, FlowNavigationNextEvent } from 'lightning/flowSupport';
-import returnObjectName from '@salesforce/apex/GetObjectName.returnObjectName';
-import { getRecord } from 'lightning/uiRecordApi';
 
-const FIELDS = ['User.Name'];
+const MYDOMAIN = 'https://' + window.location.hostname.split('.')[0].replace('--c','');
 
 export default class DatatableLwcFsc extends LightningElement {
 
@@ -31,16 +29,8 @@ export default class DatatableLwcFsc extends LightningElement {
     // Handle Lookup Field Variables   
     @api lookupId;
     @api objectName;
+    @api originalFieldName = [];
     @track lookupName;
-    @wire(getRecord, { recordId: '$lookupId', FIELDS })
-    wiredRecord({ error, data }) {
-        if (error) {
-            console.log('Error loading record',error.message);
-        } else if (data) {
-            this.lookupName = data.fields.Name.value;
-            console.log('lookupName',this.lookupName);
-        }
-    }    
 
     // Component working variables
     @api savePreEditData = [];
@@ -76,14 +66,22 @@ export default class DatatableLwcFsc extends LightningElement {
         const colEachDef = this.columnDefinitions.split('|');
         console.log('colEachDef:',colEachDef);
         colEachDef.forEach(colDef => {
-            const colAttrib = colDef.split(',');
-            const iconAttrib = icons.find(i => i['column'] == columnNumber);
-            const label = colAttrib[0];
-            const fieldName = colAttrib[1];
-            const type = colAttrib[2].toLowerCase();
-            const typeAttributes = colAttrib[3];
-            const editable = colAttrib[4].toLowerCase() === 'true';
-            const initialWidth = Number(colAttrib[5]);
+            this.originalFieldName.push({});
+            let colAttrib = colDef.split(',');
+            let iconAttrib = icons.find(i => i['column'] == columnNumber);
+            let label = colAttrib[0];
+            let fieldName = colAttrib[1];
+            let type = colAttrib[2].toLowerCase();
+            let lookupAttrib = lookups.find(i => i['column'] == columnNumber);
+            let typeAttributes = colAttrib[3];
+            let editable = colAttrib[4].toLowerCase() === 'true';
+            let initialWidth = Number(colAttrib[5]);
+            if(lookupAttrib && type == 'lookup') {
+                this.originalFieldName[columnNumber] = fieldName;
+                type = 'url';
+                fieldName = 'Lookup_' + columnNumber;
+                typeAttributes = { label: { fieldName: lookupAttrib.displayField }, target: '_blank' };
+            }
             cols.push({
                 label: label,
                 iconName: (iconAttrib) ? iconAttrib.icon : null,
@@ -102,7 +100,6 @@ export default class DatatableLwcFsc extends LightningElement {
         // Handle pre-selected records
         this.outputSelectedRows = this.preSelectedRows;
         const selected = JSON.parse(JSON.stringify([...this.preSelectedRows]));
-        console.log('selected',selected);
         selected.forEach(record => {
             this.selectedRows.push(record[this.keyField]);            
         });
@@ -110,24 +107,16 @@ export default class DatatableLwcFsc extends LightningElement {
         // Process Incoming Data Collection
         const data = (this.tableData) ? JSON.parse(JSON.stringify([...this.tableData])) : [];
 
-        this.lookupId = data[0]['OwnerId'];
-        console.log('lookupId',this.lookupId);
-        // console.log('wired',wiredRecord);
-        console.log('lookupName',this.lookupName);
-        returnObjectName({recordIdStrings: this.lookupId})
-        .then(result => {
-            console.log('result',result);
-            this.objectName = result[0];
-        })
-        .catch(error => {
-            console.log('Object Name Lookup Error:',error);
-        });
-        console.log('Object:',this.objectName);
-
         data.forEach(record => {
             // If needed, add fields to datatable records
             // (Useful for Custom Row Actions/Buttons)
             // record['addField'] = 'newValue';
+
+            // Add new columns with correct Lookup urls
+            lookups.forEach(lookup => {
+                record['Lookup_' + Number(lookup.column)] = MYDOMAIN + '.lightning.force.com/lightning/r/Account/' + record[this.originalFieldName[Number(lookup.column)]] + '/view';
+            });
+
         });
 
         // Set table data attributes
