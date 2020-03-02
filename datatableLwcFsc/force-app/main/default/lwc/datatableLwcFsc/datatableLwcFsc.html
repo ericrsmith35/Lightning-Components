@@ -7,20 +7,25 @@ xx/xx/20 -    Eric Smith -    Version 1.0
 
 -->
 <template>
-    <lightning-datatable
-        data={mydata}
-        columns={columns}
-        key-field={keyField}
-        sorted-by={sortedBy}
-        sorted-direction={sortedDirection}
-        max-row-selection={maxRowSelection}
-        selected-rows={selectedRows}
-        hide-checkbox-column={hideCheckboxColumn}
-        suppress-bottom-bar={suppressBottomBar}
-        onsort={updateColumnSorting}
-        onsave={handleSave}
-        oncancel={cancelChanges}
-        onrowselection={handleRowSelection}
-        onrowaction={handleRowAction}>
-    </lightning-datatable> 
+    <template if:false={showSpinner}>
+        <lightning-datatable
+            data={mydata}
+            columns={columns}
+            key-field={keyField}
+            sorted-by={sortedBy}
+            sorted-direction={sortedDirection}
+            max-row-selection={maxRowSelection}
+            selected-rows={selectedRows}
+            hide-checkbox-column={hideCheckboxColumn}
+            suppress-bottom-bar={suppressBottomBar}
+            onsort={updateColumnSorting}
+            onsave={handleSave}
+            oncancel={cancelChanges}
+            onrowselection={handleRowSelection}
+            onrowaction={handleRowAction}>
+        </lightning-datatable>
+    </template>
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </template> 
 </template>

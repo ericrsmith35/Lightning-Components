@@ -1,5 +1,6 @@
 import { LightningElement, api, track, wire } from 'lwc';
 // import { FlowAttributeChangeEvent, FlowNavigationNextEvent } from 'lightning/flowSupport';
+import getNameFromIds from '@salesforce/apex/AddRelatedNames.getNameFromIds';
 
 const MYDOMAIN = 'https://' + window.location.hostname.split('.')[0].replace('--c','');
 
@@ -9,7 +10,6 @@ export default class DatatableLwcFsc extends LightningElement {
     @api tableData;
     @api columnDefinitions;
     @api columnIcons = [];
-    @api columnLookups = [];
     @api keyField = 'Id';
     @api preSelectedRows = [];
     @api hideCheckboxColumn;
@@ -29,11 +29,11 @@ export default class DatatableLwcFsc extends LightningElement {
     // Handle Lookup Field Variables   
     @api lookupId;
     @api objectName;
-    @api originalFieldName = [];
     @track lookupName;
 
     // Component working variables
     @api savePreEditData = [];
+    @track showSpinner = true;
 
     connectedCallback() {
         // Build Column Definitions 
@@ -41,7 +41,7 @@ export default class DatatableLwcFsc extends LightningElement {
         // Current Format is column attributes separated by , and columns separated by |
         let columnNumber = 0;
 
-        // Parse icon attribute
+        // Parse special icon attribute
         const icons = [];
         const parseIcons = (this.columnIcons.length > 0) ? this.columnIcons.split(',') : [];
         parseIcons.forEach(icon => {
@@ -51,37 +51,35 @@ export default class DatatableLwcFsc extends LightningElement {
             });
         });
 
-        // Parse lookup attribute
-        const lookups = [];
-        const parseLookups = (this.columnLookups.length > 0) ? this.columnLookups.split(',') : [];
-        parseLookups.forEach(lookup => {
-            lookups.push({
-                column: Number(lookup.split(':')[0])-1,
-                displayField: lookup.slice(lookup.search(':')+1)
-            });
-        });
-
         // Parse column definitions
         const cols = [];
         const colEachDef = this.columnDefinitions.split('|');
         console.log('colEachDef:',colEachDef);
+        let lufield = '';
+        let lookups = [];
         colEachDef.forEach(colDef => {
-            this.originalFieldName.push({});
             let colAttrib = colDef.split(',');
             let iconAttrib = icons.find(i => i['column'] == columnNumber);
             let label = colAttrib[0];
             let fieldName = colAttrib[1];
             let type = colAttrib[2].toLowerCase();
-            let lookupAttrib = lookups.find(i => i['column'] == columnNumber);
             let typeAttributes = colAttrib[3];
             let editable = colAttrib[4].toLowerCase() === 'true';
             let initialWidth = Number(colAttrib[5]);
-            if(lookupAttrib && type == 'lookup') {
-                this.originalFieldName[columnNumber] = fieldName;
+
+            // Change lookup to url and reference the new fields that will be added to the datatable object
+            if(type == 'lookup') {
                 type = 'url';
-                fieldName = 'Lookup_' + columnNumber;
-                typeAttributes = { label: { fieldName: lookupAttrib.displayField }, target: '_blank' };
+                if(fieldName.toLowerCase().endsWith('id')) {
+                    lufield = fieldName.replace(/Id$/gi,'');
+                } else {
+                    lufield = fieldName.replace(/__c$/gi,'__r');
+                }
+                fieldName = lufield + '_lookup';
+                typeAttributes = { label: { fieldName: lufield + '_name' }, target: '_blank' };
+                lookups.push(lufield);
             }
+
             cols.push({
                 label: label,
                 iconName: (iconAttrib) ? iconAttrib.icon : null,
@@ -105,31 +103,49 @@ export default class DatatableLwcFsc extends LightningElement {
         });
 
         // Process Incoming Data Collection
-        const data = (this.tableData) ? JSON.parse(JSON.stringify([...this.tableData])) : [];
+        let data = (this.tableData) ? JSON.parse(JSON.stringify([...this.tableData])) : [];
 
-        data.forEach(record => {
-            // If needed, add fields to datatable records
-            // (Useful for Custom Row Actions/Buttons)
-            // record['addField'] = 'newValue';
+        // Call Apex to get Name values for all Lookup Id values
+        getNameFromIds({
+            records: data,
+            fields: 'OwnerId'
+        })
+        .then(result => {
+            data = [...result];
+            let field = '';
+            data.forEach(record => {
+                // Flatten returned data
+                lookups.forEach(lookup => {
+                    record[lookup + '_name'] = record[lookup]['Name'];
+                    record[lookup + '_id'] = record[lookup]['Id'];
+                    // Add new column with correct Lookup urls - the correct record will load even though the object name shows Account
+                    record[lookup + '_lookup'] = MYDOMAIN + '.lightning.force.com/lightning/r/Account/' + record[lookup + '_id'] + '/view';
+                });                
 
-            // Add new columns with correct Lookup urls
-            lookups.forEach(lookup => {
-                record['Lookup_' + Number(lookup.column)] = MYDOMAIN + '.lightning.force.com/lightning/r/Account/' + record[this.originalFieldName[Number(lookup.column)]] + '/view';
+                // If needed, add more fields to datatable records
+                // (Useful for Custom Row Actions/Buttons)
+                // record['addField'] = 'newValue';
+
             });
 
+            // Set table data attributes
+            this.selectedRows = [...this.selectedRows];
+            this.mydata = [...data];
+            this.savePreEditData = [...this.mydata];
+            console.log('selectedRows',this.selectedRows);
+            console.log('keyField:',this.keyField);
+            console.log('tableData',this.tableData);
+            console.log('mydata:',this.mydata);
+
+            // Set other initial values here
+            if (this.singleRowSelection) this.maxRowSelection = 1;
+            this.showSpinner = false;
+        })
+        // Apex failure message
+        .catch(error => {
+            console.log('getNameFromIds Error:', error);
+            this.showSpinner = false;
         });
-
-        // Set table data attributes
-        this.selectedRows = [...this.selectedRows];
-        this.mydata = [...data];
-        this.savePreEditData = [...this.mydata];
-        console.log('selectedRows',this.selectedRows);
-        console.log('keyField:',this.keyField);
-        console.log('tableData',this.tableData);
-        console.log('mydata:',this.mydata);
-
-        // Set other initial values here
-        if (this.singleRowSelection) this.maxRowSelection = 1;
 
     }
 
