@@ -1,6 +1,6 @@
 import { LightningElement, api, track, wire } from 'lwc';
 // import { FlowAttributeChangeEvent, FlowNavigationNextEvent } from 'lightning/flowSupport';
-import getNameFromIds from '@salesforce/apex/AddRelatedNames.getNameFromIds';
+import getNameFromIds from '@salesforce/apex/SObjectController.getNameFromIds';
 
 const MYDOMAIN = 'https://' + window.location.hostname.split('.')[0].replace('--c','');
 
@@ -56,6 +56,7 @@ export default class DatatableLwcFsc extends LightningElement {
         const colEachDef = this.columnDefinitions.split('|');
         console.log('colEachDef:',colEachDef);
         let lufield = '';
+        let lookupFields = [];
         let lookups = [];
         colEachDef.forEach(colDef => {
             let colAttrib = colDef.split(',');
@@ -70,6 +71,7 @@ export default class DatatableLwcFsc extends LightningElement {
             // Change lookup to url and reference the new fields that will be added to the datatable object
             if(type == 'lookup') {
                 type = 'url';
+                lookupFields.push(fieldName);
                 if(fieldName.toLowerCase().endsWith('id')) {
                     lufield = fieldName.replace(/Id$/gi,'');
                 } else {
@@ -108,7 +110,7 @@ export default class DatatableLwcFsc extends LightningElement {
         // Call Apex to get Name values for all Lookup Id values
         getNameFromIds({
             records: data,
-            fields: 'OwnerId'
+            fields: lookupFields
         })
         .then(result => {
             data = [...result];

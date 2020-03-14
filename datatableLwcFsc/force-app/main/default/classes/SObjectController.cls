@@ -10,7 +10,8 @@
  * 
  **/
 
-public with sharing class AddRelatedNames {
+public with sharing class SObjectController {
+
     @AuraEnabled
     public static List<SObject> getNameFromIds(List<SObject> records, List<String> fields) {
         String objName = records[0].getSObjectType().getDescribe().getName();
@@ -62,4 +63,5 @@ public with sharing class AddRelatedNames {
 
         return records;
     }
+    
 }
