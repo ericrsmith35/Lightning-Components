@@ -1,14 +1,14 @@
 import { LightningElement, api, track, wire } from 'lwc';
 // import { FlowAttributeChangeEvent, FlowNavigationNextEvent } from 'lightning/flowSupport';
-import getReturnResults from '@salesforce/apex/SObjectController.getReturnResults';
+import getNameFromIds from '@salesforce/apex/testso.getNameFromIds';
 
 const MYDOMAIN = 'https://' + window.location.hostname.split('.')[0].replace('--c','');
 
-export default class DatatableLwcFsc extends LightningElement {
+export default class dttest extends LightningElement {
 
     // Component Input & Output Attributes
     @api tableData;
-    @api columnFields;
+    @api columnDefinitions;
     @api columnIcons = [];
     @api keyField = 'Id';
     @api preSelectedRows = [];
@@ -33,17 +33,69 @@ export default class DatatableLwcFsc extends LightningElement {
 
     // Component working variables
     @api savePreEditData = [];
-    @api errorApex;
-    @api dtableColumnFieldDescriptorString;
-    @api basicColumns = [];
-    @api icons = [];
-    @api lookups = [];
-    @api recordData = [];
     @track showSpinner = true;
 
     connectedCallback() {
-    // *** Process Column Details and Data ***
-              
+        // Build Column Definitions 
+        // (This could change depending on how I build the Custom Property Editor)
+        // Current Format is column attributes separated by , and columns separated by |
+        let columnNumber = 0;
+
+        // Parse special icon attribute
+        const icons = [];
+        const parseIcons = (this.columnIcons.length > 0) ? this.columnIcons.split(',') : [];
+        parseIcons.forEach(icon => {
+            icons.push({
+                column: Number(icon.split(':')[0])-1,
+                icon: icon.slice(icon.search(':')+1)
+            });
+        });
+
+        // Parse column definitions
+        const cols = [];
+        const colEachDef = this.columnDefinitions.split('|');
+        console.log('colEachDef:',colEachDef);
+        let lufield = '';
+        let lookups = [];
+        colEachDef.forEach(colDef => {
+            let colAttrib = colDef.split(',');
+            let iconAttrib = icons.find(i => i['column'] == columnNumber);
+            let label = colAttrib[0];
+            let fieldName = colAttrib[1];
+            let type = colAttrib[2].toLowerCase();
+            let typeAttributes = colAttrib[3];
+            let editable = colAttrib[4].toLowerCase() === 'true';
+            let initialWidth = Number(colAttrib[5]);
+
+            // Change lookup to url and reference the new fields that will be added to the datatable object
+            if(type == 'lookup') {
+                type = 'url';
+                if(fieldName.toLowerCase().endsWith('id')) {
+                    lufield = fieldName.replace(/Id$/gi,'');
+                } else {
+                    lufield = fieldName.replace(/__c$/gi,'__r');
+                }
+                fieldName = lufield + '_lookup';
+                typeAttributes = { label: { fieldName: lufield + '_name' }, target: '_blank' };
+                lookups.push(lufield);
+console.log('lookups',lookups);
+            }
+
+            cols.push({
+                label: label,
+                iconName: (iconAttrib) ? iconAttrib.icon : null,
+                fieldName: fieldName,
+                type: type,
+                typeAttributes: typeAttributes,
+                editable: editable,
+                sortable: 'true',
+                initialWidth: initialWidth
+            });
+            columnNumber += 1;
+        });
+        this.columns = cols;
+        console.log('columns:',this.columns);
+       
         // Handle pre-selected records
         this.outputSelectedRows = this.preSelectedRows;
         const selected = JSON.parse(JSON.stringify([...this.preSelectedRows]));
@@ -51,143 +103,53 @@ export default class DatatableLwcFsc extends LightningElement {
             this.selectedRows.push(record[this.keyField]);            
         });
 
-        // Parse special icon attribute
-        const parseIcons = (this.columnIcons.length > 0) ? this.columnIcons.split(',') : [];
-        parseIcons.forEach(icon => {
-            this.icons.push({
-                column: Number(icon.split(':')[0])-1,
-                icon: icon.slice(icon.search(':')+1)
-            });
-        });
+        // Process Incoming Data Collection
+        let data = (this.tableData) ? JSON.parse(JSON.stringify([...this.tableData])) : [];
 
-        // Generate datatable
-        if (this.tableData) {
+        // Call Apex to get Name values for all Lookup Id values
+        getNameFromIds({
+            records: data,
+            fields: 'OwnerId'
+        })
+        .then(result => {
+            data = [...result];
+console.log('data',data);
+            let field = '';
+            data.forEach(record => {
+                // Flatten returned data
+                lookups.forEach(lookup => {
+                    record[lookup + '_name'] = record[lookup]['Name'];
+                    record[lookup + '_id'] = record[lookup]['Id'];
+                    // Add new column with correct Lookup urls - the correct record will load even though the object name shows Account
+                    record[lookup + '_lookup'] = MYDOMAIN + '.lightning.force.com/lightning/r/Account/' + record[lookup + '_id'] + '/view';
+                });                
+
+                // If needed, add more fields to datatable records
+                // (Useful for Custom Row Actions/Buttons)
+                // record['addField'] = 'newValue';
+
+            });
+console.log('data',data);
+            // Set table data attributes
+            this.selectedRows = [...this.selectedRows];
+            this.mydata = [...data];
+console.log('mydata',this.mydata);
+            this.savePreEditData = [...this.mydata];
+            console.log('selectedRows',this.selectedRows);
+            console.log('keyField:',this.keyField);
+            console.log('tableData',this.tableData);
+            console.log('mydata:',this.mydata);
 
             // Set other initial values here
-            this.maxRowSelection = (this.singleRowSelection) ? 1 : this.tableData.length;
-
-            console.log('Processing Datatable');
-            this.processDatatable();
-
-        } else {
-            this.showSpinner = false;
-        }
-    }
-
-    processDatatable() {
-        // Call Apex Controller and get Column Definitions and update Row Data
-        getReturnResults({ records: this.tableData, fieldNames: this.columnFields })
-        .then(result => {
-            let returnResults = JSON.parse(result);
-
-            // Update row data for lookup fields
-            this.recordData = [...returnResults.rowData];
-            this.lookups = returnResults.lookupFieldList;
-            this.objectName = returnResults.objectName;
-            this.updateLookups();
-
-            // Basic column info (label, fieldName, type) taken from the Schema in Apex
-            this.dtableColumnFieldDescriptorString = '[' + returnResults.dtableColumnFieldDescriptorString + ']';
-            this.basicColumns = JSON.parse(this.dtableColumnFieldDescriptorString);
-
-            // Custom column processing
-            this.updateColumns();
-
-            // Done processing the datatable
+            if (this.singleRowSelection) this.maxRowSelection = 1;
             this.showSpinner = false;
         })
+        // Apex failure message
         .catch(error => {
-            console.log('getReturnResults error is: ' + JSON.stringify(error));
-            this.errorApex = 'Apex Action error: ' + error.body.message;
-            return this.errorApex; 
-        });
-    }
-
-    updateLookups() {
-        // Process Incoming Data Collection
-        let data = (this.recordData) ? JSON.parse(JSON.stringify([...this.recordData])) : [];
-        let lookupFields = this.lookups;
-        let lufield = '';
-
-        data.forEach(record => {
-            // Flatten returned data
-            lookupFields.forEach(lookup => {
-                if(lookup.toLowerCase().endsWith('id')) {
-                    lufield = lookup.replace(/Id$/gi,'');
-                } else {
-                    lufield = lookup.replace(/__c$/gi,'__r');
-                }                
-                record[lufield + '_name'] = record[lufield]['Name'];
-                record[lufield + '_id'] = record[lufield]['Id'];
-                // Add new column with correct Lookup urls
-                record[lufield + '_lookup'] = MYDOMAIN + '.lightning.force.com/lightning/r/' + this.objectName + '/' + record[lufield + '_id'] + '/view';
-            });                
-
-            // If needed, add more fields to datatable records
-            // (Useful for Custom Row Actions/Buttons)
-            // record['addField'] = 'newValue';
-
+            console.log('getNameFromIds Error:', error);
+            this.showSpinner = false;
         });
 
-        // Set table data attributes
-        this.mydata = [...data];
-        this.savePreEditData = [...this.mydata];
-        console.log('selectedRows',this.selectedRows);
-        console.log('keyField:',this.keyField);
-        console.log('tableData',this.tableData);
-        console.log('mydata:',this.mydata);
-    }
-
-    updateColumns() {
-        // Parse column definitions
-        let columnNumber = 0;
-        const cols = [];
-        let lufield = '';
-        this.basicColumns.forEach(colDef => {
-
-            // Standard parameters
-            let label = colDef['label'];
-            let fieldName = colDef['fieldName'];
-            let type = colDef['type'];
-            let typeAttributes = '';
-
-            // Update attribute overrides by column
-            let iconAttrib = this.icons.find(i => i['column'] == columnNumber);
-
-            // Change lookup to url and reference the new fields that will be added to the datatable object
-            if(type == 'lookup') {
-                type = 'url';
-                // lookupFields.push(fieldName);
-                console.log('fieldName',fieldName);
-                if(fieldName.toLowerCase().endsWith('id')) {
-                    lufield = fieldName.replace(/Id$/gi,'');
-                } else {
-                    lufield = fieldName.replace(/__c$/gi,'__r');
-                }
-                fieldName = lufield + '_lookup';
-                console.log('fieldName',fieldName);
-                typeAttributes = { label: { fieldName: lufield + '_name' }, target: '_blank' };
-                // this.lookups.push(lufield);
-                console.log('lufield',lufield);
-            }
-
-            // Save the updated column definitions
-            cols.push({
-                label: label,
-                iconName: (iconAttrib) ? iconAttrib.icon : null,
-                fieldName: fieldName,
-                type: type,
-                typeAttributes: typeAttributes,
-                // editable: editable,
-                sortable: 'true',
-                // initialWidth: initialWidth
-            });
-
-            // Repeat for next column
-            columnNumber += 1;
-        });
-        this.columns = cols;
-        console.log('columns:',this.columns);
     }
 
     handleRowAction(event) {

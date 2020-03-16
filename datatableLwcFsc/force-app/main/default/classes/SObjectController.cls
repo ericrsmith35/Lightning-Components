@@ -19,19 +19,21 @@
 
 public with sharing class SObjectController {
 
-    //this is just a convenient way to return two very different pieces of data to the component
+    //this is just a convenient way to return multiple unique pieces of data to the component
     public class ReturnResults {
         List<SObject> rowData;
         String dtableColumnFieldDescriptorString;
         List<String> lookupFieldList;
+        String objectName;
     }
 
     @AuraEnabled
     public static string getReturnResults(List<SObject> records, String fieldNames){
-        String objectName = records[0].getSObjectType().getDescribe().getName();
+        String objName = records[0].getSObjectType().getDescribe().getName();
         ReturnResults curRR = new ReturnResults();
-        curRR = getColumnData(curRR, fieldNames, objectName);
+        curRR = getColumnData(curRR, fieldNames, objName);
         curRR.rowData = getRowData(records, curRR.lookupFieldList);
+        curRR.objectName = objName;
         return JSON.serialize(curRR);  
     }
 
@@ -43,8 +45,6 @@ public with sharing class SObjectController {
 
         SObjectType sobjType = ((SObject)(Type.forName('Schema.'+objectName).newInstance())).getSObjectType();
         DescribeSObjectResult objDescribe = sobjType.getDescribe();
-              
-        System.debug('objDescribe is: ' + objDescribe);
 
         String datatableColumnFieldDescriptor = '';
         String fieldType = '';
@@ -73,10 +73,12 @@ public with sharing class SObjectController {
 
     @AuraEnabled
     public static List<SObject> getRowData(List<SObject> records, List<String> lookupFields) {
-            
+        // Update object to include values for the Name field referenced by Lookup fields
+
         Map<String, Set<Id>> objIdMap = new Map<String, Set<Id>>();
-        List<String> fields = lookupFields; //.split(',');
-System.debug('fields: ' + fields);
+        List<String> fields = lookupFields;
+
+        // Get names of the related objects
         for(SObject so : records) {
             for(String lf : fields) {
                 if(so.get(lf) != null) {
@@ -90,23 +92,21 @@ System.debug('fields: ' + fields);
             }
         }
 
+        // Lookup the Name field in the related object
         Map<String, Map<Id, SObject>> dataMap = new Map<String, Map<Id, SObject>>();
         for(String obj : objIdMap.keySet()) {
             Set<Id> ids = objIdMap.get(obj);
-            SObject[] recs = Database.query('Select Id, Name from ' + obj + ' where Id in :ids');
-System.debug('recs: ' + recs);            
+            SObject[] recs = Database.query('Select Id, Name from ' + obj + ' where Id in :ids');        
             Map<Id, SObject> somap = new Map<Id, SObject>();
             for(SObject so : recs) {
                 somap.put((Id) so.get('Id'), so);
             }
-
             dataMap.put(obj, somap);
         }
 
-        for(SObject so : records) {
-System.debug('so: ' + so);            
-            for(String lf : fields) {
-System.debug('lf: ' + lf);                  
+        // Add new field values to the records
+        for(SObject so : records) {         
+            for(String lf : fields) {             
                 if(so.get(lf) != null) {
                     Id lrid = ((Id) so.get(lf));
                     String relObjName = lrid.getSobjectType().getDescribe().getName();
@@ -125,7 +125,6 @@ System.debug('lf: ' + lf);
             }
         }
         // System.debug('records: ' + JSON.serializePretty(records));
-        System.debug('records: ' + records);
         return records;
     }
 

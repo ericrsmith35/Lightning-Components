@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <interviewLabel>Test - LWC Datatable {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Test - LWC Datatable</label>
+    <interviewLabel>Test - test {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Test - test</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -55,8 +55,8 @@
     <screens>
         <name>Datatable</name>
         <label>Datatable</label>
-        <locationX>386</locationX>
-        <locationY>299</locationY>
+        <locationX>419</locationX>
+        <locationY>153</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -65,7 +65,7 @@
         </connector>
         <fields>
             <name>lwc</name>
-            <extensionName>c:datatableLwcFsc</extensionName>
+            <extensionName>c:dttest</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
                 <name>tableData</name>
@@ -80,33 +80,15 @@
                 </value>
             </inputParameters>
             <inputParameters>
+                <name>columnDefinitions</name>
+                <value>
+                    <stringValue>Account Name,Name,text,,,300|Account Number,AccountNumber,,,true,100|Account Owner,OwnerId,lookup,,,200|Account Type,Type,,,true,120</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
                 <name>preSelectedRows</name>
                 <value>
                     <elementReference>Get_Pre_Accounts</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnFields</name>
-                <value>
-                    <stringValue>Name,AccountNumber,OwnerId,Type</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>hideCheckboxColumn</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>singleRowSelection</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>suppressBottomBar</name>
-                <value>
-                    <booleanValue>false</booleanValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -125,8 +107,8 @@
     <screens>
         <name>Results</name>
         <label>Results</label>
-        <locationX>574</locationX>
-        <locationY>351</locationY>
+        <locationX>581</locationX>
+        <locationY>152</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -137,18 +119,18 @@
         </fields>
         <fields>
             <name>afteredit</name>
-            <extensionName>c:datatableLwcFsc</extensionName>
+            <extensionName>c:dttest</extensionName>
             <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>columnDefinitions</name>
+                <value>
+                    <stringValue>Account Name,Name,text,,,300|Account Number,AccountNumber,,,false,100|Account Owner,OwnerId,,,,200|Account Type,Type,,,false,120</stringValue>
+                </value>
+            </inputParameters>
             <inputParameters>
                 <name>tableData</name>
                 <value>
                     <elementReference>colAccountEdited</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnFields</name>
-                <value>
-                    <stringValue>Name,AccountNumber,OwnerId,Type</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
