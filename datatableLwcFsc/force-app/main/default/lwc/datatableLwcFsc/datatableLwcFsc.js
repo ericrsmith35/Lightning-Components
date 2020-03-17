@@ -34,6 +34,7 @@ export default class DatatableLwcFsc extends LightningElement {
 
     // Component working variables
     @api savePreEditData = [];
+    @api outputData = [];
     @api errorApex;
     @api dtableColumnFieldDescriptorString;
     @api basicColumns = [];
@@ -56,7 +57,7 @@ export default class DatatableLwcFsc extends LightningElement {
 
         // Parse special Column Edit attribute
         if (this.columnEdits.toLowerCase() != 'all') {
-            const parseEdits = (this.columnEdits.length > 0) ? this.columnEdits.split(',') : [];
+            const parseEdits = (this.columnEdits.length > 0) ? this.columnEdits.replace(/\s/g, '').split(',') : [];
             this.editAttribType = 'none';
             parseEdits.forEach(edit => {
                 let colEdit = (edit.slice(edit.search(':')+1).toLowerCase() == 'true') ? true : false;
@@ -71,7 +72,7 @@ export default class DatatableLwcFsc extends LightningElement {
         }
 
         // Parse special Column Icon attribute
-        const parseIcons = (this.columnIcons.length > 0) ? this.columnIcons.split(',') : [];
+        const parseIcons = (this.columnIcons.length > 0) ? this.columnIcons.replace(/\s/g, '').split(',') : [];
         parseIcons.forEach(icon => {
             this.icons.push({
                 column: Number(icon.split(':')[0])-1,
@@ -96,7 +97,8 @@ export default class DatatableLwcFsc extends LightningElement {
     processDatatable() {
         // Call Apex Controller and get Column Definitions and update Row Data
         let data = (this.tableData) ? JSON.parse(JSON.stringify([...this.tableData])) : [];
-        getReturnResults({ records: data, fieldNames: this.columnFields })
+        let fieldList = this.columnFields.replace(/\s/g, ''); // Remove spaces
+        getReturnResults({ records: data, fieldNames: fieldList })
         .then(result => {
             let returnResults = JSON.parse(result);
 console.log('recordData',[...returnResults.rowData]);
@@ -152,7 +154,7 @@ console.log('recordData',[...returnResults.rowData]);
         // Set table data attributes
         this.mydata = [...data];
         this.savePreEditData = [...this.mydata];
-        // this.savePreEditData = [...this.tableData];
+        this.outputData = JSON.parse(JSON.stringify([...this.tableData]));  // Must clone because cached items are read-only
         console.log('selectedRows',this.selectedRows);
         console.log('keyField:',this.keyField);
         console.log('tableData',this.tableData);
@@ -243,8 +245,9 @@ console.log('recordData',[...returnResults.rowData]);
     handleSave(event) {
         // Only used with inline editing
         const draftValues = event.detail.draftValues;
-        let data = [...this.mydata];
+
         // apply drafts to mydata
+        let data = [...this.mydata];
         data = data.map(item => {
             const draft = draftValues.find(d => d[this.keyField] == item[this.keyField]);
             if (draft != undefined) {
@@ -252,13 +255,23 @@ console.log('recordData',[...returnResults.rowData]);
                 fieldNames.forEach(el => item[el] = draft[el]);
             }
             return item;
-        }); 
-        // Set output attribute values
-        this.outputEditedRows = [...data];
-        // Resave the current table values
-        this.savePreEditData = [...data];
-        // Reset the current table values
-        this.mydata = [...data];
+        });
+
+        // apply drafts to outputData
+        let odata = [...this.outputData];
+        odata = odata.map(oitem => {
+            const odraft = draftValues.find(d => d[this.keyField] == oitem[this.keyField]);
+            if (odraft != undefined) {
+                let ofieldNames = Object.keys(odraft);
+                ofieldNames.forEach(el => oitem[el] = odraft[el]);
+            }
+            return oitem;
+        });  
+
+        this.outputEditedRows = [...odata]; // Set output attribute values
+        this.savePreEditData = [...data];   // Resave the current table values
+        this.mydata = [...data];            // Reset the current table values
+
         // Force clearing of the edit highlights
         this.columns = [...this.columns];
     }
