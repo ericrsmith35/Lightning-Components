@@ -59,7 +59,7 @@ public with sharing class testso {
                 }
             }
         }
-
+        System.debug('records: ' + JSON.serializePretty(records));
         return records;
     }
 }

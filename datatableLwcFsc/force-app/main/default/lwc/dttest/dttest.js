@@ -78,7 +78,6 @@ export default class dttest extends LightningElement {
                 fieldName = lufield + '_lookup';
                 typeAttributes = { label: { fieldName: lufield + '_name' }, target: '_blank' };
                 lookups.push(lufield);
-console.log('lookups',lookups);
             }
 
             cols.push({
@@ -113,7 +112,6 @@ console.log('lookups',lookups);
         })
         .then(result => {
             data = [...result];
-console.log('data',data);
             let field = '';
             data.forEach(record => {
                 // Flatten returned data
@@ -129,11 +127,10 @@ console.log('data',data);
                 // record['addField'] = 'newValue';
 
             });
-console.log('data',data);
+
             // Set table data attributes
             this.selectedRows = [...this.selectedRows];
             this.mydata = [...data];
-console.log('mydata',this.mydata);
             this.savePreEditData = [...this.mydata];
             console.log('selectedRows',this.selectedRows);
             console.log('keyField:',this.keyField);
@@ -173,7 +170,6 @@ console.log('mydata',this.mydata);
     handleSave(event) {
         // Only used with inline editing
         const draftValues = event.detail.draftValues;
-        console.log('draftValues',draftValues);
         let data = [...this.mydata];
         // apply drafts to mydata
         data = data.map(item => {

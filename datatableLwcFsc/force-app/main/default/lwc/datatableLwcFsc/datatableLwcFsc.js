@@ -9,6 +9,7 @@ export default class DatatableLwcFsc extends LightningElement {
     // Component Input & Output Attributes
     @api tableData;
     @api columnFields;
+    @api columnEdits = '';
     @api columnIcons = [];
     @api keyField = 'Id';
     @api preSelectedRows = [];
@@ -36,14 +37,16 @@ export default class DatatableLwcFsc extends LightningElement {
     @api errorApex;
     @api dtableColumnFieldDescriptorString;
     @api basicColumns = [];
+    @api edits = [];
+    @api isEditAttribSet = false;
+    @api editAttribType = 'none';
     @api icons = [];
     @api lookups = [];
     @api recordData = [];
     @track showSpinner = true;
 
     connectedCallback() {
-    // *** Process Column Details and Data ***
-              
+         
         // Handle pre-selected records
         this.outputSelectedRows = this.preSelectedRows;
         const selected = JSON.parse(JSON.stringify([...this.preSelectedRows]));
@@ -51,7 +54,23 @@ export default class DatatableLwcFsc extends LightningElement {
             this.selectedRows.push(record[this.keyField]);            
         });
 
-        // Parse special icon attribute
+        // Parse special Column Edit attribute
+        if (this.columnEdits.toLowerCase() != 'all') {
+            const parseEdits = (this.columnEdits.length > 0) ? this.columnEdits.split(',') : [];
+            this.editAttribType = 'none';
+            parseEdits.forEach(edit => {
+                let colEdit = (edit.slice(edit.search(':')+1).toLowerCase() == 'true') ? true : false;
+                this.edits.push({
+                    column: Number(edit.split(':')[0])-1,
+                    edit: colEdit
+                });
+                this.editAttribType = 'cols';
+            });
+        } else {
+            this.editAttribType = 'all';
+        }
+
+        // Parse special Column Icon attribute
         const parseIcons = (this.columnIcons.length > 0) ? this.columnIcons.split(',') : [];
         parseIcons.forEach(icon => {
             this.icons.push({
@@ -150,25 +169,34 @@ export default class DatatableLwcFsc extends LightningElement {
             let fieldName = colDef['fieldName'];
             let type = colDef['type'];
             let typeAttributes = '';
+            let editAttrib = [];
 
             // Update attribute overrides by column
+            switch (this.editAttribType) {
+                case 'cols':
+                    editAttrib = this.edits.find(i => i['column'] == columnNumber);
+                    break;
+                case 'all': 
+                    // editAttrib = [{'column': columnNumber, 'edit': true}];
+                    editAttrib.edit = true;
+                    break;
+                default:
+                    editAttrib.edit = false;
+            }
+
             let iconAttrib = this.icons.find(i => i['column'] == columnNumber);
 
             // Change lookup to url and reference the new fields that will be added to the datatable object
             if(type == 'lookup') {
                 type = 'url';
                 // lookupFields.push(fieldName);
-                console.log('fieldName',fieldName);
                 if(fieldName.toLowerCase().endsWith('id')) {
                     lufield = fieldName.replace(/Id$/gi,'');
                 } else {
                     lufield = fieldName.replace(/__c$/gi,'__r');
                 }
                 fieldName = lufield + '_lookup';
-                console.log('fieldName',fieldName);
                 typeAttributes = { label: { fieldName: lufield + '_name' }, target: '_blank' };
-                // this.lookups.push(lufield);
-                console.log('lufield',lufield);
             }
 
             // Save the updated column definitions
@@ -178,7 +206,7 @@ export default class DatatableLwcFsc extends LightningElement {
                 fieldName: fieldName,
                 type: type,
                 typeAttributes: typeAttributes,
-                // editable: editable,
+                editable: (editAttrib) ? editAttrib.edit : false,
                 sortable: 'true',
                 // initialWidth: initialWidth
             });
@@ -211,12 +239,11 @@ export default class DatatableLwcFsc extends LightningElement {
     handleSave(event) {
         // Only used with inline editing
         const draftValues = event.detail.draftValues;
-        console.log('draftValues',draftValues);
-        let data = [...this.mydata];
+        // let data = [...this.mydata];
+        let data = this.mydata;
         // apply drafts to mydata
         data = data.map(item => {
             const draft = draftValues.find(d => d[this.keyField] == item[this.keyField]);
-            console.log('draft',draft);
             if (draft != undefined) {
                 let fieldNames = Object.keys(draft);
                 fieldNames.forEach(el => item[el] = draft[el]);
@@ -224,7 +251,7 @@ export default class DatatableLwcFsc extends LightningElement {
             return item;
         }); 
         // Set output attribute values
-        this.outputEditedRows = [...data];
+        this.outputEditedRows = data;
         // Resave the current table values
         this.savePreEditData = [...data];
         // Reset the current table values

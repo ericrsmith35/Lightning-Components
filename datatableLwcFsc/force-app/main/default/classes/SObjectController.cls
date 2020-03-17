@@ -124,7 +124,7 @@ public with sharing class SObjectController {
                 }
             }
         }
-        // System.debug('records: ' + JSON.serializePretty(records));
+        System.debug('records: ' + JSON.serializePretty(records));
         return records;
     }
 
