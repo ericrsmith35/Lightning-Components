@@ -11,6 +11,8 @@ export default class DatatableLwcFsc extends LightningElement {
     @api columnFields;
     @api columnEdits = '';
     @api columnIcons = [];
+    @api columnLabels = [];
+    @api columnWidths = [];
     @api keyField = 'Id';
     @api preSelectedRows = [];
     @api hideCheckboxColumn;
@@ -42,6 +44,8 @@ export default class DatatableLwcFsc extends LightningElement {
     @api isEditAttribSet = false;
     @api editAttribType = 'none';
     @api icons = [];
+    @api labels = [];
+    @api widths = [];
     @api lookups = [];
     @api recordData = [];
     @track showSpinner = true;
@@ -80,6 +84,24 @@ export default class DatatableLwcFsc extends LightningElement {
             });
         });
 
+        // Parse special Column Label attribute
+        const parseLabels = (this.columnLabels.length > 0) ? this.columnLabels.replace(', ', ',').split(',') : [];
+        parseLabels.forEach(label => {
+            this.labels.push({
+                column: Number(label.split(':')[0])-1,
+                label: label.slice(label.search(':')+1)
+            });
+        });
+
+        // Parse special Column Width attribute
+        const parseWidths = (this.columnWidths.length > 0) ? this.columnWidths.replace(/\s/g, '').split(',') : [];
+        parseWidths.forEach(width => {
+            this.widths.push({
+                column: Number(width.split(':')[0])-1,
+                width: parseInt(width.slice(width.search(':')+1))
+            });
+        });
+
         // Generate datatable
         if (this.tableData) {
 
@@ -101,7 +123,7 @@ export default class DatatableLwcFsc extends LightningElement {
         getReturnResults({ records: data, fieldNames: fieldList })
         .then(result => {
             let returnResults = JSON.parse(result);
-console.log('recordData',[...returnResults.rowData]);
+
             // Update row data for lookup fields
             this.recordData = [...returnResults.rowData];
             this.lookups = returnResults.lookupFieldList;
@@ -190,7 +212,11 @@ console.log('recordData',[...returnResults.rowData]);
             // Update Icon attribute overrides by column
             let iconAttrib = this.icons.find(i => i['column'] == columnNumber);
 
+            // Update Label attribute overrides by column
+            let labelAttrib = this.labels.find(i => i['column'] == columnNumber);
+
             // Update Width attribute overrides by column
+            let widthAttrib = this.widths.find(i => i['column'] == columnNumber);
 
             // Change lookup to url and reference the new fields that will be added to the datatable object
             if(type == 'lookup') {
@@ -207,14 +233,14 @@ console.log('recordData',[...returnResults.rowData]);
 
             // Save the updated column definitions
             cols.push({
-                label: label,
+                label: (labelAttrib) ? labelAttrib.label : label,
                 iconName: (iconAttrib) ? iconAttrib.icon : null,
                 fieldName: fieldName,
                 type: type,
                 typeAttributes: typeAttributes,
                 editable: (editAttrib) ? editAttrib.edit : false,
                 sortable: 'true',
-                // initialWidth: initialWidth
+                initialWidth: (widthAttrib) ? widthAttrib.width : null
             });
 
             // Repeat for next column
