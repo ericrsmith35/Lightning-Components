@@ -3,7 +3,20 @@ Lightning Web Component for Flow Screens:       datatableLwcFsc
 
 This component allows the user to configure and display a datatable in a Flow screen.
 
-xx/xx/20 -    Eric Smith -    Version 1.0
+Features:   The only required paramters are the SObject collection of records and a list of field API names
+            The field label and field type will default to what is defined in the object
+            Lookup fields are supported and will display the referenced record's name field as a clickable link
+            All columns are sortable
+            The selection column can be multi-select (Checkboxes), single-select (Radio Buttons), or hidden
+            A collection of pre-selected rows can be passed into the component
+            Inline editing is supported with changed values passed back to the flow
+            Optional attribute overrides are supported and can be specified by column including:
+                Editable
+                Header Icon
+                Header Label
+                Initial Column Width
+
+xx/xx/20 -  Eric Smith -    Version 1.0
 
 -->
 <template>
