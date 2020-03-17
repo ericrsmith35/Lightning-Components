@@ -95,10 +95,12 @@ export default class DatatableLwcFsc extends LightningElement {
 
     processDatatable() {
         // Call Apex Controller and get Column Definitions and update Row Data
-        getReturnResults({ records: this.tableData, fieldNames: this.columnFields })
+        let data = (this.tableData) ? JSON.parse(JSON.stringify([...this.tableData])) : [];
+        getReturnResults({ records: data, fieldNames: this.columnFields })
         .then(result => {
+console.log('result',result);
             let returnResults = JSON.parse(result);
-
+console.log('recordData',[...returnResults.rowData]);
             // Update row data for lookup fields
             this.recordData = [...returnResults.rowData];
             this.lookups = returnResults.lookupFieldList;
@@ -239,8 +241,7 @@ export default class DatatableLwcFsc extends LightningElement {
     handleSave(event) {
         // Only used with inline editing
         const draftValues = event.detail.draftValues;
-        // let data = [...this.mydata];
-        let data = this.mydata;
+        let data = [...this.mydata];
         // apply drafts to mydata
         data = data.map(item => {
             const draft = draftValues.find(d => d[this.keyField] == item[this.keyField]);
@@ -251,7 +252,7 @@ export default class DatatableLwcFsc extends LightningElement {
             return item;
         }); 
         // Set output attribute values
-        this.outputEditedRows = data;
+        this.outputEditedRows = [...data];
         // Resave the current table values
         this.savePreEditData = [...data];
         // Reset the current table values

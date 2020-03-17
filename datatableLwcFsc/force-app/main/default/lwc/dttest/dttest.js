@@ -112,6 +112,7 @@ export default class dttest extends LightningElement {
         })
         .then(result => {
             data = [...result];
+console.log('result',result);
             let field = '';
             data.forEach(record => {
                 // Flatten returned data
