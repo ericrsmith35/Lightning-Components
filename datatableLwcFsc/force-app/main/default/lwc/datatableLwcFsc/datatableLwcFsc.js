@@ -98,7 +98,6 @@ export default class DatatableLwcFsc extends LightningElement {
         let data = (this.tableData) ? JSON.parse(JSON.stringify([...this.tableData])) : [];
         getReturnResults({ records: data, fieldNames: this.columnFields })
         .then(result => {
-console.log('result',result);
             let returnResults = JSON.parse(result);
 console.log('recordData',[...returnResults.rowData]);
             // Update row data for lookup fields
@@ -153,6 +152,7 @@ console.log('recordData',[...returnResults.rowData]);
         // Set table data attributes
         this.mydata = [...data];
         this.savePreEditData = [...this.mydata];
+        // this.savePreEditData = [...this.tableData];
         console.log('selectedRows',this.selectedRows);
         console.log('keyField:',this.keyField);
         console.log('tableData',this.tableData);
@@ -173,7 +173,7 @@ console.log('recordData',[...returnResults.rowData]);
             let typeAttributes = '';
             let editAttrib = [];
 
-            // Update attribute overrides by column
+            // Update Edit attribute overrides by column
             switch (this.editAttribType) {
                 case 'cols':
                     editAttrib = this.edits.find(i => i['column'] == columnNumber);
@@ -185,8 +185,10 @@ console.log('recordData',[...returnResults.rowData]);
                 default:
                     editAttrib.edit = false;
             }
-
+            // Update Icon attribute overrides by column
             let iconAttrib = this.icons.find(i => i['column'] == columnNumber);
+
+            // Update Width attribute overrides by column
 
             // Change lookup to url and reference the new fields that will be added to the datatable object
             if(type == 'lookup') {
