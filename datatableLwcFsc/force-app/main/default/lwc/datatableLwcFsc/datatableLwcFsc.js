@@ -318,8 +318,8 @@ export default class DatatableLwcFsc extends LightningElement {
         // Handle column sorting
         console.log('Sort:',event.detail.fieldName,event.detail.sortDirection);
         this.sortedBy = event.detail.fieldName;
-        // Change sort field from Id to Name for lookups
         let sortField = this.sortedBy;
+        // Change sort field from Id to Name for lookups
         if (sortField.endsWith('_lookup')) {
             sortField = sortField.slice(0,sortField.lastIndexOf('_lookup')) + '_name';   
         }
