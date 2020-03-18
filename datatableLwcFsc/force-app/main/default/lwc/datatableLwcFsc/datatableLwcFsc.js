@@ -23,7 +23,7 @@ export default class DatatableLwcFsc extends LightningElement {
 
     // Other Datatable attributes
     @api sortedBy;
-    @api sortedDirection;
+    @api sortDirection; 
     @api maxRowSelection;
     @track columns = [];
     @track mydata = [];
@@ -315,11 +315,16 @@ export default class DatatableLwcFsc extends LightningElement {
     }
    
     updateColumnSorting(event) {
-        console.log('Sort:',event.detail.fieldName,event.detail.sortDirection);
         // Handle column sorting
+        console.log('Sort:',event.detail.fieldName,event.detail.sortDirection);
         this.sortedBy = event.detail.fieldName;
+        // Change sort field from Id to Name for lookups
+        let sortField = this.sortedBy;
+        if (sortField.endsWith('_lookup')) {
+            sortField = sortField.slice(0,sortField.lastIndexOf('_lookup')) + '_name';   
+        }
         this.sortedDirection = event.detail.sortDirection;
-        let fieldValue = row => row[this.sortedBy] || '';
+        let fieldValue = row => row[sortField] || '';
         let reverse = this.sortedDirection === 'asc'? 1: -1;
         this.mydata = [...this.mydata.sort(
             (a,b)=>(a=fieldValue(a),b=fieldValue(b),reverse*((a>b)-(b>a)))
