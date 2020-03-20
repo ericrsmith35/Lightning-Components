@@ -308,6 +308,7 @@ export default class DatatableLwcFsc extends LightningElement {
         });  
 
         this.outputEditedRows = [...odata]; // Set output attribute values
+console.log('this.outputEditedRows',this.outputEditedRows);
         this.savePreEditData = [...data];   // Resave the current table values
         this.mydata = [...data];            // Reset the current table values
 
@@ -323,16 +324,10 @@ export default class DatatableLwcFsc extends LightningElement {
     handleRowSelection(event) {
         // Only used with row selection
         // Update values to be passed back to the Flow
-        let selectedRows = event.detail.selectedRows;
-        let sdata = [];
-        selectedRows.forEach(srow => {
-            const selData = this.tableData.find(d => d[this.keyField] == srow[this.keyField]);
-            sdata.push(selData);
-        });
-        this.outputSelectedRows = [...sdata]; // Set output attribute values
-        console.log('outputSelectedRows',this.outputSelectedRows);
+        this.outputSelectedRows = event.detail.selectedRows;
+        console.log('Start-outputselectedrows',this.outputSelectedRows);      
     }
-   
+
     updateColumnSorting(event) {
         // Handle column sorting
         console.log('Sort:',event.detail.fieldName,event.detail.sortDirection);

@@ -29,7 +29,9 @@ public with sharing class SObjectController {
 
     @AuraEnabled
     public static string getReturnResults(List<SObject> records, String fieldNames){
+System.debug('records ' + records);
         String objName = records[0].getSObjectType().getDescribe().getName();
+System.debug('objName ' + objName);
         ReturnResults curRR = new ReturnResults();
         curRR = getColumnData(curRR, fieldNames, objName);
         curRR.rowData = getRowData(records, curRR.lookupFieldList);
@@ -74,26 +76,33 @@ public with sharing class SObjectController {
     @AuraEnabled
     public static List<SObject> getRowData(List<SObject> records, List<String> lookupFields) {
         // Update object to include values for the Name field referenced by Lookup fields
-
+System.debug('records: ' + records);
+String objName = records[0].getSObjectType().getDescribe().getName();
+System.debug('objName: ' + objName);
+System.debug('lookupFields: ' + lookupFields);
         Map<String, Set<Id>> objIdMap = new Map<String, Set<Id>>();
         List<String> fields = lookupFields;
 
         // Get names of the related objects
         for(SObject so : records) {
             for(String lf : fields) {
+System.debug('so:lf ' + so + ':' + lf);
                 if(so.get(lf) != null) {
                     Id lrid = ((Id) so.get(lf));
+System.debug('lrid: ' + lrid);
                     String relObjName = lrid.getSobjectType().getDescribe().getName();
                     if(!objIdMap.containsKey(relObjName)) {
                         objIdMap.put(relObjName, new Set<Id>());
                     }
                     objIdMap.get(relObjName).add(lrid);
+System.debug('relObjName: ' + relObjName + ' | ' + lf);
                 }
             }
         }
 
         // Lookup the Name field in the related object
         Map<String, Map<Id, SObject>> dataMap = new Map<String, Map<Id, SObject>>();
+System.debug('objIdMap: ' + objIdMap);
         for(String obj : objIdMap.keySet()) {
             Set<Id> ids = objIdMap.get(obj);
             SObject[] recs = Database.query('Select Id, Name from ' + obj + ' where Id in :ids');        
@@ -106,14 +115,17 @@ public with sharing class SObjectController {
 
         // Add new field values to the records
         for(SObject so : records) {         
-            for(String lf : fields) {             
+            for(String lf : fields) {   
+System.debug('Add so:lf ' + so + ':' + lf);          
                 if(so.get(lf) != null) {
                     Id lrid = ((Id) so.get(lf));
+System.debug('Add lrid: ' + lrid);
                     String relObjName = lrid.getSobjectType().getDescribe().getName();
                     Map<Id, SObject> recs = dataMap.get(relObjName);
                     if (recs == null) continue;
                     SObject cso = recs.get(lrid);
                     if (cso == null) continue;
+System.debug('Add relObjName: ' + relObjName + ' | ' + lf);
                     String relName;
                     if (lf.toLowerCase().endsWith('id')) {
                         relName = lf.replaceAll('(?i)id$', '');
@@ -141,7 +153,7 @@ public with sharing class SObjectController {
             when 'CURRENCY' {
                 return 'currency';
             }
-            when 'DATE', 'DATETIME' {
+            when 'DATE', 'DATETIME', 'TIME' {
                 return 'date';
             }
             when 'DECIMAL', 'DOUBLE', 'INTEGER', 'LONG' {
