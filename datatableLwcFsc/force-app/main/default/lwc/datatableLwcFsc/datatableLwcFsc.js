@@ -41,6 +41,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api errorApex;
     @api dtableColumnFieldDescriptorString;
     @api basicColumns = [];
+    @api columnArray = [];
     @api edits = [];
     @api isEditAttribSet = false;
     @api editAttribType = 'none';
@@ -52,13 +53,9 @@ export default class DatatableLwcFsc extends LightningElement {
     @track showSpinner = true;
 
     connectedCallback() {
-         
-        // Handle pre-selected records
-        this.outputSelectedRows = this.preSelectedRows;
-        const selected = JSON.parse(JSON.stringify([...this.preSelectedRows]));
-        selected.forEach(record => {
-            this.selectedRows.push(record[this.keyField]);            
-        });
+
+        // Get array of column field API names
+        this.columnArray = (this.columnFields.length > 0) ? this.columnFields.replace(/\s/g, '').split(',') : [];
 
         // Parse special Column Edit attribute
         if (this.columnEdits.toLowerCase() != 'all') {
@@ -67,7 +64,7 @@ export default class DatatableLwcFsc extends LightningElement {
             parseEdits.forEach(edit => {
                 let colEdit = (edit.slice(edit.search(':')+1).toLowerCase() == 'true') ? true : false;
                 this.edits.push({
-                    column: Number(edit.split(':')[0])-1,
+                    column: this.columnReference(edit),
                     edit: colEdit
                 });
                 this.editAttribType = 'cols';
@@ -80,16 +77,21 @@ export default class DatatableLwcFsc extends LightningElement {
         const parseIcons = (this.columnIcons.length > 0) ? this.columnIcons.replace(/\s/g, '').split(',') : [];
         parseIcons.forEach(icon => {
             this.icons.push({
-                column: Number(icon.split(':')[0])-1,
+                column: this.columnReference(icon),
                 icon: icon.slice(icon.search(':')+1)
             });
         });
 
         // Parse special Column Label attribute
-        const parseLabels = (this.columnLabels.length > 0) ? this.columnLabels.replace(', ', ',').split(',') : [];
+        const parseLabels = (this.columnLabels.length > 0) ? this.columnLabels
+            .replace(', ', ',')
+            .replace(' ,', ',')
+            .replace(': ', ':')
+            .replace(' :', ':')
+            .split(',') : [];
         parseLabels.forEach(label => {
             this.labels.push({
-                column: Number(label.split(':')[0])-1,
+                column: this.columnReference(label),
                 label: label.slice(label.search(':')+1)
             });
         });
@@ -98,7 +100,7 @@ export default class DatatableLwcFsc extends LightningElement {
         const parseWidths = (this.columnWidths.length > 0) ? this.columnWidths.replace(/\s/g, '').split(',') : [];
         parseWidths.forEach(width => {
             this.widths.push({
-                column: Number(width.split(':')[0])-1,
+                column: this.columnReference(width),
                 width: parseInt(width.slice(width.search(':')+1))
             });
         });
@@ -115,6 +117,26 @@ export default class DatatableLwcFsc extends LightningElement {
         } else {
             this.showSpinner = false;
         }
+
+        // Handle pre-selected records
+        this.outputSelectedRows = this.preSelectedRows;
+        const selected = JSON.parse(JSON.stringify([...this.preSelectedRows]));
+        selected.forEach(record => {
+            this.selectedRows.push(record[this.keyField]);            
+        });
+
+    }
+ 
+    columnReference(attrib) {
+        // The column reference can be either the field API name or the column sequence number (1,2,3 ...)
+        // Return the actual column # (0,1,2 ...)
+        let colDescriptor = attrib.split(':')[0];
+        let colRef = Number(colDescriptor)-1;
+        if (isNaN(colRef)) {
+            colRef = this.columnArray.indexOf(colDescriptor);
+            colRef = (colRef != -1) ? colRef : 0;
+        }
+        return colRef;
     }
 
     processDatatable() {
