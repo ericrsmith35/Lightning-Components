@@ -29,9 +29,7 @@ public with sharing class SObjectController {
 
     @AuraEnabled
     public static string getReturnResults(List<SObject> records, String fieldNames){
-System.debug('records ' + records);
         String objName = records[0].getSObjectType().getDescribe().getName();
-System.debug('objName ' + objName);
         ReturnResults curRR = new ReturnResults();
         curRR = getColumnData(curRR, fieldNames, objName);
         curRR.rowData = getRowData(records, curRR.lookupFieldList);

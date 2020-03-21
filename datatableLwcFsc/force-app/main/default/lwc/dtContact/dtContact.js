@@ -54,11 +54,12 @@ export default class DatatableLwcFsc extends LightningElement {
     connectedCallback() {
          
         // Handle pre-selected records
-        this.outputSelectedRows = this.preSelectedRows;
+        // this.outputSelectedRows = this.preSelectedRows;
         const selected = JSON.parse(JSON.stringify([...this.preSelectedRows]));
         selected.forEach(record => {
             this.selectedRows.push(record[this.keyField]);            
         });
+        this.outputSelectedRows = [...selected];
 
         // Parse special Column Edit attribute
         if (this.columnEdits.toLowerCase() != 'all') {
@@ -308,7 +309,6 @@ export default class DatatableLwcFsc extends LightningElement {
         });  
 
         this.outputEditedRows = [...odata]; // Set output attribute values
-console.log('this.outputEditedRows',this.outputEditedRows);
         this.savePreEditData = [...data];   // Resave the current table values
         this.mydata = [...data];            // Reset the current table values
 
@@ -324,8 +324,14 @@ console.log('this.outputEditedRows',this.outputEditedRows);
     handleRowSelection(event) {
         // Only used with row selection
         // Update values to be passed back to the Flow
-        this.outputSelectedRows = event.detail.selectedRows;
-        console.log('Start-outputselectedrows',this.outputSelectedRows);      
+        let selectedRows = event.detail.selectedRows;
+        let sdata = [];
+        selectedRows.forEach(srow => {
+            const selData = this.tableData.find(d => d[this.keyField] == srow[this.keyField]);
+            sdata.push(selData);
+        });
+        this.outputSelectedRows = [...sdata]; // Set output attribute values
+        console.log('outputSelectedRows',this.outputSelectedRows);   
     }
 
     updateColumnSorting(event) {
