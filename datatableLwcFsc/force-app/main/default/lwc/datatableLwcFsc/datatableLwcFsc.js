@@ -42,6 +42,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api dtableColumnFieldDescriptorString;
     @api basicColumns = [];
     @api columnArray = [];
+    @api percentFieldArray = [];
     @api edits = [];
     @api isEditAttribSet = false;
     @api editAttribType = 'none';
@@ -150,6 +151,7 @@ export default class DatatableLwcFsc extends LightningElement {
             // Update row data for lookup fields
             this.recordData = [...returnResults.rowData];
             this.lookups = returnResults.lookupFieldList;
+            this.percentFieldArray = (returnResults.percentFieldList.length > 0) ? returnResults.percentFieldList.toString().split(',') : [];
             this.objectName = returnResults.objectName;
             this.updateLookups();
 
@@ -162,11 +164,11 @@ export default class DatatableLwcFsc extends LightningElement {
 
             // Done processing the datatable
             this.showSpinner = false;
-        })
-        .catch(error => {
-            console.log('getReturnResults error is: ' + JSON.stringify(error));
-            this.errorApex = 'Apex Action error: ' + error.body.message;
-            return this.errorApex; 
+        // })
+        // .catch(error => {
+        //     console.log('getReturnResults error is: ' + JSON.stringify(error));
+        //     this.errorApex = 'Apex Action error: ' + error.body.message;
+        //     return this.errorApex; 
         });
     }
 
@@ -217,7 +219,7 @@ export default class DatatableLwcFsc extends LightningElement {
             let label = colDef['label'];
             let fieldName = colDef['fieldName'];
             let type = colDef['type'];
-            let typeAttributes = '';
+            let typeAttributes = null;
             let editAttrib = [];
 
             // Update Edit attribute overrides by column
@@ -256,7 +258,6 @@ export default class DatatableLwcFsc extends LightningElement {
             // Change lookup to url and reference the new fields that will be added to the datatable object
             if(type == 'lookup') {
                 type = 'url';
-                // lookupFields.push(fieldName);
                 if(fieldName.toLowerCase().endsWith('id')) {
                     lufield = fieldName.replace(/Id$/gi,'');
                 } else {
@@ -324,7 +325,13 @@ export default class DatatableLwcFsc extends LightningElement {
             const odraft = draftValues.find(d => d[this.keyField] == oitem[this.keyField]);
             if (odraft != undefined) {
                 let ofieldNames = Object.keys(odraft);
-                ofieldNames.forEach(el => oitem[el] = odraft[el]);
+                ofieldNames.forEach(el => {
+                    if(this.percentFieldArray.indexOf(el) != -1) {
+                        oitem[el] = Number(odraft[el])*100; // Percent field
+                    } else {
+                        oitem[el] = odraft[el];
+                    }
+                });
             }
             return oitem;
         });  

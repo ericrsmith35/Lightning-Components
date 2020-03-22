@@ -24,6 +24,7 @@ public with sharing class SObjectController {
         List<SObject> rowData;
         String dtableColumnFieldDescriptorString;
         List<String> lookupFieldList;
+        List<String> percentFieldList;
         String objectName;
     }
 
@@ -32,7 +33,7 @@ public with sharing class SObjectController {
         String objName = records[0].getSObjectType().getDescribe().getName();
         ReturnResults curRR = new ReturnResults();
         curRR = getColumnData(curRR, fieldNames, objName);
-        curRR.rowData = getRowData(records, curRR.lookupFieldList);
+        curRR.rowData = getRowData(records, curRR.lookupFieldList, curRR.percentFieldList);
         curRR.objectName = objName;
         return JSON.serialize(curRR);  
     }
@@ -50,6 +51,7 @@ public with sharing class SObjectController {
         String fieldType = '';
         List<Schema.DescribeFieldResult> curFieldDescribes = new List<Schema.DescribeFieldResult>();
         List<String> lookupFields = new List<String>();
+        List<String> percentFields = new List<String>();
 
         for (String fieldName : fields.split(',')) {
            System.debug('for field: ' + fieldName);
@@ -64,20 +66,25 @@ public with sharing class SObjectController {
            if (dfr.getType().name() == 'REFERENCE') {
                lookupFields.add(fieldName);
            }
+           if (dfr.getType().name() == 'PERCENT') {
+               percentFields.add(fieldName);
+           }
         }
         System.debug('final fieldDescribe string is: ' + datatableColumnFieldDescriptor);
         curRR.dtableColumnFieldDescriptorString = datatableColumnFieldDescriptor.substring(1);   // Remove leading ,
         curRR.lookupFieldList = lookupFields;
+        curRR.percentFieldList = percentFields;
         return curRR;
     }
 
     @AuraEnabled
-    public static List<SObject> getRowData(List<SObject> records, List<String> lookupFields) {
+    public static List<SObject> getRowData(List<SObject> records, List<String> lookupFields, List<String> percentFields) {
         // Update object to include values for the Name field referenced by Lookup fields
 System.debug('records: ' + records);
 String objName = records[0].getSObjectType().getDescribe().getName();
 System.debug('objName: ' + objName);
 System.debug('lookupFields: ' + lookupFields);
+System.debug('percentFields: ' + percentFields);
         Map<String, Set<Id>> objIdMap = new Map<String, Set<Id>>();
         List<String> fields = lookupFields;
 
@@ -112,7 +119,14 @@ System.debug('objIdMap: ' + objIdMap);
         }
 
         // Add new field values to the records
-        for(SObject so : records) {         
+        for(SObject so : records) {   
+            // Divide percent field values by 100
+            for(String pf : percentFields) {
+                if(so.get(pf) != null) {
+                    so.put(pf, double.valueOf(so.get(pf))/100);
+                }
+            }
+            // Add new lookup field values 
             for(String lf : fields) {   
 System.debug('Add so:lf ' + so + ':' + lf);          
                 if(so.get(lf) != null) {
@@ -134,6 +148,7 @@ System.debug('Add relObjName: ' + relObjName + ' | ' + lf);
                 }
             }
         }
+
         System.debug('records: ' + JSON.serializePretty(records));
         return records;
     }

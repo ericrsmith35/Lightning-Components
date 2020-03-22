@@ -7,7 +7,7 @@ const COLUMNS = [
     {label : "Title", fieldName : "Title", type : "text"},
 ]
 
-export default class DatatableLwcFsc extends LightningElement {
+export default class dtGeoError extends LightningElement {
 
     // Component Input & Output Attributes
     @api tableData;
