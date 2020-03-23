@@ -12,6 +12,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api columnEdits = '';
     @api columnIcons = [];
     @api columnLabels = [];
+    @api columnTypeAttribs;
     @api columnWidths = [];
     @api keyField = 'Id';
     @api preSelectedRows = [];
@@ -48,6 +49,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api editAttribType = 'none';
     @api icons = [];
     @api labels = [];
+    @api typeAttribs = [];
     @api widths = [];
     @api lookups = [];
     @api recordData = [];
@@ -58,7 +60,7 @@ export default class DatatableLwcFsc extends LightningElement {
         // Get array of column field API names
         this.columnArray = (this.columnFields.length > 0) ? this.columnFields.replace(/\s/g, '').split(',') : [];
 
-        // Parse special Column Edit attribute
+        // Parse Column Edit attribute
         if (this.columnEdits.toLowerCase() != 'all') {
             const parseEdits = (this.columnEdits.length > 0) ? this.columnEdits.replace(/\s/g, '').split(',') : [];
             this.editAttribType = 'none';
@@ -74,7 +76,7 @@ export default class DatatableLwcFsc extends LightningElement {
             this.editAttribType = 'all';
         }
 
-        // Parse special Column Icon attribute
+        // Parse Column Icon attribute
         const parseIcons = (this.columnIcons.length > 0) ? this.columnIcons.replace(/\s/g, '').split(',') : [];
         parseIcons.forEach(icon => {
             this.icons.push({
@@ -83,7 +85,7 @@ export default class DatatableLwcFsc extends LightningElement {
             });
         });
 
-        // Parse special Column Label attribute
+        // Parse Column Label attribute
         const parseLabels = (this.columnLabels.length > 0) ? this.columnLabels
             .replace(', ', ',')
             .replace(' ,', ',')
@@ -97,7 +99,16 @@ export default class DatatableLwcFsc extends LightningElement {
             });
         });
 
-        // Parse special Column Width attribute
+        // Parse Column TypeAttribute attribute (Because multiple attributes use , these are separated by ;)
+        const parseTypeAttribs = (this.columnTypeAttribs.length > 0) ? this.columnTypeAttribs.replace(/\s/g, '').split(';') : [];
+        parseTypeAttribs.forEach(typeAttrib => {
+            this.typeAttribs.push({
+                column: this.columnReference(typeAttrib),
+                typeAttrib: typeAttrib.slice(typeAttrib.search(':')+1)
+            });
+        });
+        
+        // Parse Column Width attribute
         const parseWidths = (this.columnWidths.length > 0) ? this.columnWidths.replace(/\s/g, '').split(',') : [];
         parseWidths.forEach(width => {
             this.widths.push({
@@ -214,7 +225,7 @@ export default class DatatableLwcFsc extends LightningElement {
         const cols = [];
         let lufield = '';
         this.basicColumns.forEach(colDef => {
-
+console.log('#,colDef',columnNumber,colDef);
             // Standard parameters
             let label = colDef['label'];
             let fieldName = colDef['fieldName'];
@@ -228,7 +239,6 @@ export default class DatatableLwcFsc extends LightningElement {
                     editAttrib = this.edits.find(i => i['column'] == columnNumber);
                     break;
                 case 'all': 
-                    // editAttrib = [{'column': columnNumber, 'edit': true}];
                     editAttrib.edit = true;
                     break;
                 default:
@@ -252,6 +262,35 @@ export default class DatatableLwcFsc extends LightningElement {
             // Update Label attribute overrides by column
             let labelAttrib = this.labels.find(i => i['column'] == columnNumber);
 
+            // Update TypeAttribute attribute overrides by column
+            let colTypeAttrib = this.typeAttribs.find(i => i['column'] == columnNumber);
+console.log('colTypeAttrib',colTypeAttrib);
+            if (colTypeAttrib) {
+                let typeAttribSplit = colTypeAttrib.typeAttrib.slice(1,-1).split(',');
+                let newAttribDef = {};
+                typeAttribSplit.forEach(ta => {
+                    let newAttrib = ta.split(':');
+                    newAttribDef[newAttrib[0]] = newAttrib[1];
+//                     let newAttribString = ta.typeAttrib;
+//                     let newAttribName = newAttribString.split(':')[0].slice(1);
+//                     let newAttribValue = JSON.parse(newAttribString.slice(newAttribString.search(':')+1).slice(0,-1));
+//                     newAttribDef[newAttribName] = newAttribValue;
+// console.log('newAttribString',newAttribString);
+// console.log('newAttribName',newAttribName);
+// console.log('newAttribValue',newAttribValue);
+console.log('newAttribDef',newAttribDef);
+                });
+
+// typeAttributes = {};
+// typeAttributes['minimumFractionDigits'] = 5;
+                typeAttributes = newAttribDef;
+                // typeAttributes = [];
+                // typeAttributes = typeAttributes.push(newAttribDef);
+            }
+console.log('typeAttribs',this.typeAttribs);
+
+console.log('typeAttributes',typeAttributes);
+
             // Update Width attribute overrides by column
             let widthAttrib = this.widths.find(i => i['column'] == columnNumber);
 
@@ -268,6 +307,7 @@ export default class DatatableLwcFsc extends LightningElement {
             }
 
             // Save the updated column definitions
+console.log('fld:attrib',label,typeAttributes);
             cols.push({
                 label: (labelAttrib) ? labelAttrib.label : label,
                 iconName: (iconAttrib) ? iconAttrib.icon : null,
