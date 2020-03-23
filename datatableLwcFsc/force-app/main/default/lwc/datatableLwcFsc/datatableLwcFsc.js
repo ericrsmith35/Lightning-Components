@@ -224,8 +224,9 @@ export default class DatatableLwcFsc extends LightningElement {
         let columnNumber = 0;
         const cols = [];
         let lufield = '';
+        
         this.basicColumns.forEach(colDef => {
-console.log('#,colDef',columnNumber,colDef);
+
             // Standard parameters
             let label = colDef['label'];
             let fieldName = colDef['fieldName'];
@@ -264,32 +265,15 @@ console.log('#,colDef',columnNumber,colDef);
 
             // Update TypeAttribute attribute overrides by column
             let colTypeAttrib = this.typeAttribs.find(i => i['column'] == columnNumber);
-console.log('colTypeAttrib',colTypeAttrib);
             if (colTypeAttrib) {
-                let typeAttribSplit = colTypeAttrib.typeAttrib.slice(1,-1).split(',');
                 let newAttribDef = {};
+                let typeAttribSplit = colTypeAttrib.typeAttrib.slice(1,-1).split(',');
                 typeAttribSplit.forEach(ta => {
                     let newAttrib = ta.split(':');
                     newAttribDef[newAttrib[0]] = newAttrib[1];
-//                     let newAttribString = ta.typeAttrib;
-//                     let newAttribName = newAttribString.split(':')[0].slice(1);
-//                     let newAttribValue = JSON.parse(newAttribString.slice(newAttribString.search(':')+1).slice(0,-1));
-//                     newAttribDef[newAttribName] = newAttribValue;
-// console.log('newAttribString',newAttribString);
-// console.log('newAttribName',newAttribName);
-// console.log('newAttribValue',newAttribValue);
-console.log('newAttribDef',newAttribDef);
                 });
-
-// typeAttributes = {};
-// typeAttributes['minimumFractionDigits'] = 5;
                 typeAttributes = newAttribDef;
-                // typeAttributes = [];
-                // typeAttributes = typeAttributes.push(newAttribDef);
             }
-console.log('typeAttribs',this.typeAttribs);
-
-console.log('typeAttributes',typeAttributes);
 
             // Update Width attribute overrides by column
             let widthAttrib = this.widths.find(i => i['column'] == columnNumber);
@@ -307,7 +291,6 @@ console.log('typeAttributes',typeAttributes);
             }
 
             // Save the updated column definitions
-console.log('fld:attrib',label,typeAttributes);
             cols.push({
                 label: (labelAttrib) ? labelAttrib.label : label,
                 iconName: (iconAttrib) ? iconAttrib.icon : null,
