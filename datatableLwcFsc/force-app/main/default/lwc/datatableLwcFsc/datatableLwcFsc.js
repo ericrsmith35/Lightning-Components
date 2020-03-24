@@ -8,11 +8,11 @@ export default class DatatableLwcFsc extends LightningElement {
 
     // Component Input & Output Attributes
     @api tableData;
-    @api columnFields;
+    @api columnFields = [];
     @api columnEdits = '';
     @api columnIcons = [];
     @api columnLabels = [];
-    @api columnTypeAttribs;
+    @api columnTypeAttribs = [];
     @api columnWidths = [];
     @api keyField = 'Id';
     @api preSelectedRows = [];
@@ -44,6 +44,8 @@ export default class DatatableLwcFsc extends LightningElement {
     @api basicColumns = [];
     @api columnArray = [];
     @api percentFieldArray = [];
+    @api percentMultiplier = 100;   // Not needed to be 100 if minimumFractionDigits typeAttribute is set
+    @api noEditFieldArray = [];
     @api edits = [];
     @api isEditAttribSet = false;
     @api editAttribType = 'none';
@@ -159,7 +161,7 @@ export default class DatatableLwcFsc extends LightningElement {
         .then(result => {
             let returnResults = JSON.parse(result);
 
-            // Update row data for lookup fields
+            // Update row data for lookup and percent fields
             this.recordData = [...returnResults.rowData];
             this.lookups = returnResults.lookupFieldList;
             this.percentFieldArray = (returnResults.percentFieldList.length > 0) ? returnResults.percentFieldList.toString().split(',') : [];
@@ -171,6 +173,7 @@ export default class DatatableLwcFsc extends LightningElement {
             this.basicColumns = JSON.parse(this.dtableColumnFieldDescriptorString);
 
             // Custom column processing
+            this.noEditFieldArray = (returnResults.noEditFieldList.length > 0) ? returnResults.noEditFieldList.toString().split(',') : [];
             this.updateColumns();
 
             // Done processing the datatable
@@ -224,13 +227,14 @@ export default class DatatableLwcFsc extends LightningElement {
         let columnNumber = 0;
         const cols = [];
         let lufield = '';
-        
+
         this.basicColumns.forEach(colDef => {
 
             // Standard parameters
             let label = colDef['label'];
             let fieldName = colDef['fieldName'];
             let type = colDef['type'];
+            let scale = colDef['scale'];
             let typeAttributes = null;
             let editAttrib = [];
 
@@ -251,7 +255,11 @@ export default class DatatableLwcFsc extends LightningElement {
                 switch (type) {
                     case 'location':
                     case 'lookup':
+                    case 'time':
                         editAttrib.edit = false;
+                        break;
+                    case 'text':
+                        if (this.noEditFieldArray.indexOf(fieldName) != -1) editAttrib.edit = false;
                         break;
                     default:
                 }
@@ -262,6 +270,27 @@ export default class DatatableLwcFsc extends LightningElement {
 
             // Update Label attribute overrides by column
             let labelAttrib = this.labels.find(i => i['column'] == columnNumber);
+
+            // Set default typeAttributes based on data type
+            switch(type) {
+                case 'date':
+                    typeAttributes = { year:'numeric', month:'numeric', day:'numeric' }
+                    break;
+                case 'datetime':
+                    type = 'date';
+                    typeAttributes = { year:'numeric', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', timeZoneName:'short' };
+                    break;           
+                case 'time':
+                    type = 'date';
+                    typeAttributes = { hour:'2-digit', minute:'2-digit', timeZoneName:'short' };
+                    break;
+                case 'currency':
+                case 'number':
+                case 'percent':
+                    typeAttributes = { minimumFractionDigits:scale };   // Show the number of decimal places defined for the field
+                    break;
+                default:
+            }
 
             // Update TypeAttribute attribute overrides by column
             let colTypeAttrib = this.typeAttribs.find(i => i['column'] == columnNumber);
@@ -350,7 +379,7 @@ export default class DatatableLwcFsc extends LightningElement {
                 let ofieldNames = Object.keys(odraft);
                 ofieldNames.forEach(el => {
                     if(this.percentFieldArray.indexOf(el) != -1) {
-                        oitem[el] = Number(odraft[el])*100; // Percent field
+                        oitem[el] = Number(odraft[el])*this.percentMultiplier; // Percent field
                     } else {
                         oitem[el] = odraft[el];
                     }

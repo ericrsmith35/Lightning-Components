@@ -25,6 +25,7 @@ public with sharing class SObjectController {
         String dtableColumnFieldDescriptorString;
         List<String> lookupFieldList;
         List<String> percentFieldList;
+        List<String> noEditFieldList;
         String objectName;
     }
 
@@ -52,33 +53,56 @@ public with sharing class SObjectController {
         List<Schema.DescribeFieldResult> curFieldDescribes = new List<Schema.DescribeFieldResult>();
         List<String> lookupFields = new List<String>();
         List<String> percentFields = new List<String>();
+        List<String> noEditFields = new List<String>();
 
         for (String fieldName : fields.split(',')) {
-           System.debug('for field: ' + fieldName);
+            System.debug('for field: ' + fieldName);
 
-           Map<String, Schema.SObjectField> fieldMap = objDescribe.fields.getMap();
-           Schema.SObjectField fieldItem = fieldMap.get(fieldName);
-           if (fieldItem == null) 
+            Map<String, Schema.SObjectField> fieldMap = objDescribe.fields.getMap();
+            Schema.SObjectField fieldItem = fieldMap.get(fieldName);
+            if (fieldItem == null) 
                 throw new MyApexException('could not find the field: ' + fieldName + 'on the object ' + objectName);
-           Schema.DescribeFieldResult dfr = fieldItem.getDescribe();
-           curFieldDescribes.add(dfr);
-           datatableColumnFieldDescriptor = datatableColumnFieldDescriptor + ',{"label" : "' + dfr.getLabel() + '", "fieldName" : "' + fieldName + '", "type" : "' + convertType(dfr.getType().name()) + '"}';
-           if (dfr.getType().name() == 'REFERENCE') {
-               lookupFields.add(fieldName);
-           }
-           if (dfr.getType().name() == 'PERCENT') {
-               percentFields.add(fieldName);
-           }
+            Schema.DescribeFieldResult dfr = fieldItem.getDescribe();
+            curFieldDescribes.add(dfr);
+            datatableColumnFieldDescriptor = datatableColumnFieldDescriptor 
+                + ',{"label" : "' + dfr.getLabel() 
+                + '", "fieldName" : "' + fieldName 
+                + '", "type" : "' + convertType(dfr.getType().name()) 
+                + '", "scale" : "' + dfr.getScale() 
+                + '"}';
+            System.debug('dfr --- ' + dfr);
+            switch on dfr.getType().name() {
+                when 'REFERENCE' {
+                    lookupFields.add(fieldName);
+                }
+                when 'PERCENT' {
+                    percentFields.add(fieldName);
+                }
+                when 'TEXTAREA' {
+                    if (!dfr.isSortable()) noEditFields.add(fieldName); // Long Text Area and Rich Text Area                   
+                }
+                when 'ENCRYPTEDSTRING', 'PICKLIST', 'MULTIPICKLIST' {
+                    noEditFields.add(fieldName);
+                }
+                when 'CURRENCY', 'DECIMAL', 'DOUBLE', 'INTEGER', 'LONG' {
+                    // *** create scale attrib in datatableColumnFieldDescriptor and pass the getScale() values in that way. ***
+                }
+                when else {
+                }
+            }   
         }
+System.debug('noEditFields --- ' + noEditFields);
         System.debug('final fieldDescribe string is: ' + datatableColumnFieldDescriptor);
         curRR.dtableColumnFieldDescriptorString = datatableColumnFieldDescriptor.substring(1);   // Remove leading ,
         curRR.lookupFieldList = lookupFields;
         curRR.percentFieldList = percentFields;
+        curRR.noEditFieldList = noEditFields;
         return curRR;
     }
 
     @AuraEnabled
     public static List<SObject> getRowData(List<SObject> records, List<String> lookupFields, List<String> percentFields) {
+        Integer percentMultiplier = 100;  // Not needed to be 100 if minimumFractionDigits typeAttribute is set
         // Update object to include values for the Name field referenced by Lookup fields
 System.debug('records: ' + records);
 String objName = records[0].getSObjectType().getDescribe().getName();
@@ -122,9 +146,11 @@ System.debug('objIdMap: ' + objIdMap);
         for(SObject so : records) {   
             // Divide percent field values by 100
             for(String pf : percentFields) {
+System.debug('BEFORE ' + so.get(pf));
                 if(so.get(pf) != null) {
-                    so.put(pf, double.valueOf(so.get(pf))/100);
+                    so.put(pf, double.valueOf(so.get(pf))/percentMultiplier/1);
                 }
+System.debug('AFTER ' + so.get(pf));
             }
             // Add new lookup field values 
             for(String lf : fields) {   
@@ -166,8 +192,11 @@ System.debug('Add relObjName: ' + relObjName + ' | ' + lf);
             when 'CURRENCY' {
                 return 'currency';
             }
-            when 'DATE', 'DATETIME', 'TIME' {
+            when 'DATE' {
                 return 'date';
+            }
+            when 'DATETIME' {
+                return 'datetime';   // Custom type for this component
             }
             when 'DECIMAL', 'DOUBLE', 'INTEGER', 'LONG' {
                 return 'number';
@@ -189,6 +218,9 @@ System.debug('Add relObjName: ' + relObjName + ' | ' + lf);
             }
             when 'REFERENCE' {
                 return 'lookup';    // Custom type for this component
+            }
+            when 'TIME' {
+                return 'time';      // Custom type for this component
             }
             when 'URL' {
                 return 'url';
