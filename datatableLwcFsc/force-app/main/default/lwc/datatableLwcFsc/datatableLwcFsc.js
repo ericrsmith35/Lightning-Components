@@ -9,6 +9,7 @@ export default class DatatableLwcFsc extends LightningElement {
     // Component Input & Output Attributes
     @api tableData;
     @api columnFields = [];
+    @api columnAlignments = [];
     @api columnEdits = '';
     @api columnIcons = [];
     @api columnLabels = [];
@@ -49,6 +50,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api edits = [];
     @api isEditAttribSet = false;
     @api editAttribType = 'none';
+    @api alignments = [];
     @api icons = [];
     @api labels = [];
     @api typeAttribs = [];
@@ -61,6 +63,15 @@ export default class DatatableLwcFsc extends LightningElement {
 
         // Get array of column field API names
         this.columnArray = (this.columnFields.length > 0) ? this.columnFields.replace(/\s/g, '').split(',') : [];
+
+        // Parse Column Alignment attribute
+        const parseAlignments = (this.columnAlignments.length > 0) ? this.columnAlignments.replace(/\s/g, '').split(',') : [];
+        parseAlignments.forEach(align => {
+            this.alignments.push({
+                column: this.columnReference(align),
+                alignment: align.slice(align.search(':')+1)
+            });
+        });
 
         // Parse Column Edit attribute
         if (this.columnEdits.toLowerCase() != 'all') {
@@ -235,8 +246,24 @@ export default class DatatableLwcFsc extends LightningElement {
             let fieldName = colDef['fieldName'];
             let type = colDef['type'];
             let scale = colDef['scale'];
+            let cellAttributes = null;
             let typeAttributes = null;
             let editAttrib = [];
+
+            // Update Alignment attribute overrides by column
+            let alignmentAttrib = this.alignments.find(i => i['column'] == columnNumber);
+            if (alignmentAttrib) {
+                let alignment = alignmentAttrib.alignment.toLowerCase();
+                switch (alignment) {
+                    case 'left':
+                    case 'center':
+                    case 'right':
+                        break;
+                    default:
+                        alignment = 'left';
+                }
+                cellAttributes = { alignment:alignment };
+            }
 
             // Update Edit attribute overrides by column
             switch (this.editAttribType) {
@@ -325,6 +352,7 @@ export default class DatatableLwcFsc extends LightningElement {
                 iconName: (iconAttrib) ? iconAttrib.icon : null,
                 fieldName: fieldName,
                 type: type,
+                cellAttributes, cellAttributes,
                 typeAttributes: typeAttributes,
                 editable: (editAttrib) ? editAttrib.edit : false,
                 sortable: 'true',
