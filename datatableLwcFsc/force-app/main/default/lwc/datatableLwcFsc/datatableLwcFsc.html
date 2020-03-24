@@ -7,11 +7,12 @@ Features:   The only required paramters are the SObject collection of records an
             The field label and field type will default to what is defined in the object
             Numeric fields will display with the correct number of decimal places as defined in the object
             Lookup fields are supported and will display the referenced record's name field as a clickable link
-            All columns are sortable, including lookups
+            All columns are sortable, including lookups (by name)
             The selection column can be multi-select (Checkboxes), single-select (Radio Buttons), or hidden
             A collection of pre-selected rows can be passed into the component
             Inline editing is supported with changed values passed back to the flow
-            Optional attribute overrides are supported and can be specified by column including:
+            Unlike the original datatable component, only the edited records will be passed back to the flow
+            Optional attribute overrides are supported and can be specified by column # or by field name, including:
                 Editable
                 Header Icon
                 Header Label

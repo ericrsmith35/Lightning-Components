@@ -102,7 +102,6 @@ System.debug('noEditFields --- ' + noEditFields);
 
     @AuraEnabled
     public static List<SObject> getRowData(List<SObject> records, List<String> lookupFields, List<String> percentFields) {
-        Integer percentMultiplier = 100;  // Not needed to be 100 if minimumFractionDigits typeAttribute is set
         // Update object to include values for the Name field referenced by Lookup fields
 System.debug('records: ' + records);
 String objName = records[0].getSObjectType().getDescribe().getName();
@@ -144,13 +143,12 @@ System.debug('objIdMap: ' + objIdMap);
 
         // Add new field values to the records
         for(SObject so : records) {   
+            
             // Divide percent field values by 100
             for(String pf : percentFields) {
-System.debug('BEFORE ' + so.get(pf));
                 if(so.get(pf) != null) {
-                    so.put(pf, double.valueOf(so.get(pf))/percentMultiplier/1);
+                    so.put(pf, double.valueOf(so.get(pf))/100);
                 }
-System.debug('AFTER ' + so.get(pf));
             }
             // Add new lookup field values 
             for(String lf : fields) {   

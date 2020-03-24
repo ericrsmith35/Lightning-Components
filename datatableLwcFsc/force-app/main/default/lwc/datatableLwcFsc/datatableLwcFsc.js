@@ -38,13 +38,13 @@ export default class DatatableLwcFsc extends LightningElement {
 
     // Component working variables
     @api savePreEditData = [];
+    @api editedData = [];
     @api outputData = [];
     @api errorApex;
     @api dtableColumnFieldDescriptorString;
     @api basicColumns = [];
     @api columnArray = [];
     @api percentFieldArray = [];
-    @api percentMultiplier = 100;   // Not needed to be 100 if minimumFractionDigits typeAttribute is set
     @api noEditFieldArray = [];
     @api edits = [];
     @api isEditAttribSet = false;
@@ -215,7 +215,7 @@ export default class DatatableLwcFsc extends LightningElement {
         // Set table data attributes
         this.mydata = [...data];
         this.savePreEditData = [...this.mydata];
-        this.outputData = JSON.parse(JSON.stringify([...this.tableData]));  // Must clone because cached items are read-only
+        this.editedData = JSON.parse(JSON.stringify([...this.tableData]));  // Must clone because cached items are read-only
         console.log('selectedRows',this.selectedRows);
         console.log('keyField:',this.keyField);
         console.log('tableData',this.tableData);
@@ -360,7 +360,7 @@ export default class DatatableLwcFsc extends LightningElement {
         // Only used with inline editing
         const draftValues = event.detail.draftValues;
 
-        // apply drafts to mydata
+        // Apply drafts to mydata
         let data = [...this.mydata];
         data = data.map(item => {
             const draft = draftValues.find(d => d[this.keyField] == item[this.keyField]);
@@ -371,24 +371,30 @@ export default class DatatableLwcFsc extends LightningElement {
             return item;
         });
 
-        // apply drafts to outputData
-        let odata = [...this.outputData];
-        odata = odata.map(oitem => {
-            const odraft = draftValues.find(d => d[this.keyField] == oitem[this.keyField]);
-            if (odraft != undefined) {
-                let ofieldNames = Object.keys(odraft);
-                ofieldNames.forEach(el => {
-                    if(this.percentFieldArray.indexOf(el) != -1) {
-                        oitem[el] = Number(odraft[el])*this.percentMultiplier; // Percent field
+        // Apply drafts to editedData
+        let edata = [...this.editedData];
+        edata = edata.map(eitem => {
+            const edraft = draftValues.find(d => d[this.keyField] == eitem[this.keyField]);
+            if (edraft != undefined) {
+                let efieldNames = Object.keys(edraft);
+                efieldNames.forEach(ef => {
+                    if(this.percentFieldArray.indexOf(ef) != -1) {
+                        eitem[ef] = Number(edraft[ef])*100; // Percent field
                     } else {
-                        oitem[el] = odraft[el];
+                        eitem[ef] = edraft[ef];
                     }
                 });
+                // Add/update edited record to output collection
+                const orecord = this.outputEditedRows.find(o => o[this.keyField] == eitem[this.keyField]);   // Check to see if already in output collection
+                if (orecord) {
+                    efieldNames.forEach(ef => orecord[ef] = edraft[ef]);    // Change existing output record
+                } else {
+                    this.outputEditedRows.push(eitem);  // Add to output attribute collection
+                }
             }
-            return oitem;
+            return eitem;
         });  
 
-        this.outputEditedRows = [...odata]; // Set output attribute values
         this.savePreEditData = [...data];   // Resave the current table values
         this.mydata = [...data];            // Reset the current table values
 
