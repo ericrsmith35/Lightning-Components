@@ -372,9 +372,17 @@ export default class DatatableLwcFsc extends LightningElement {
             let colCellAttrib = this.cellAttribs.find(i => i['column'] == columnNumber);
             if (colCellAttrib) {
                 let newAttribDef = cellAttributes;
-                let cellAttribSplit = colCellAttrib.cellAttrib.slice(1,-1).split(',');
+                let cellAttribSplit = colCellAttrib.cellAttrib.slice(1,-1)
+                    .replace(', ', ',')
+                    .replace(' ,', ',')
+                    .replace(': ', ':')
+                    .replace(' :', ':')
+                    .replace('{ ', '{')
+                    .replace(' {', '{')
+                    .replace('} ', '}')
+                    .replace(' }', '}')
+                    .split(',');
                 cellAttribSplit.forEach(ta => {
-console.log('cta', ta);
                     let subAttribPos = ta.search('{');
                     if (subAttribPos != -1) {
                         // This attribute value has another attribute object definition {name: {name:value}}
@@ -383,7 +391,7 @@ console.log('cta', ta);
                         let attrib = ta.slice(subAttribPos).slice(1,-1)
                         let rightName = attrib.split(':')[0];
                         let rightValue = attrib.slice(attrib.search(':')+1);
-                        value[rightName] = rightValue;
+                        value[rightName] = rightValue.replace(/["']{1}/gi,"");  // Remove single or double quotes
                         newAttribDef[name] = value;
                     } else {
                         // This is a standard attribute definition {name:value}
@@ -398,7 +406,16 @@ console.log('cta', ta);
             let colTypeAttrib = this.typeAttribs.find(i => i['column'] == columnNumber);
             if (colTypeAttrib) {
                 let newAttribDef = typeAttributes;
-                let typeAttribSplit = colTypeAttrib.typeAttrib.slice(1,-1).split(',');
+                let typeAttribSplit = colTypeAttrib.typeAttrib.slice(1,-1)
+                    .replace(', ', ',')
+                    .replace(' ,', ',')
+                    .replace(': ', ':')
+                    .replace(' :', ':')
+                    .replace('{ ', '{')
+                    .replace(' {', '{')
+                    .replace('} ', '}')
+                    .replace(' }', '}')
+                    .split(',');
                 typeAttribSplit.forEach(ta => {
                     let subAttribPos = ta.search('{');
                     if (subAttribPos != -1) {
@@ -408,7 +425,7 @@ console.log('cta', ta);
                         let attrib = ta.slice(subAttribPos).slice(1,-1)
                         let rightName = attrib.split(':')[0];
                         let rightValue = attrib.slice(attrib.search(':')+1);
-                        value[rightName] = rightValue;
+                        value[rightName] = rightValue.replace(/["']{1}/gi,"");  // Remove single or double quotes
                         newAttribDef[name] = value;
                     } else {
                         // This is a standard attribute definition {name:value}
