@@ -69,7 +69,7 @@ export default class DatatableLwcFsc extends LightningElement {
         parseAlignments.forEach(align => {
             this.alignments.push({
                 column: this.columnReference(align),
-                alignment: align.slice(align.search(':')+1)
+                alignment: this.columnValue(align)
             });
         });
 
@@ -78,7 +78,7 @@ export default class DatatableLwcFsc extends LightningElement {
             const parseEdits = (this.columnEdits.length > 0) ? this.columnEdits.replace(/\s/g, '').split(',') : [];
             this.editAttribType = 'none';
             parseEdits.forEach(edit => {
-                let colEdit = (edit.slice(edit.search(':')+1).toLowerCase() == 'true') ? true : false;
+                let colEdit = (this.columnValue(edit).toLowerCase() == 'true') ? true : false;
                 this.edits.push({
                     column: this.columnReference(edit),
                     edit: colEdit
@@ -94,7 +94,7 @@ export default class DatatableLwcFsc extends LightningElement {
         parseIcons.forEach(icon => {
             this.icons.push({
                 column: this.columnReference(icon),
-                icon: icon.slice(icon.search(':')+1)
+                icon: this.columnValue(icon)
             });
         });
 
@@ -108,7 +108,7 @@ export default class DatatableLwcFsc extends LightningElement {
         parseLabels.forEach(label => {
             this.labels.push({
                 column: this.columnReference(label),
-                label: label.slice(label.search(':')+1)
+                label: this.columnValue(label)
             });
         });
 
@@ -117,7 +117,7 @@ export default class DatatableLwcFsc extends LightningElement {
         parseTypeAttribs.forEach(typeAttrib => {
             this.typeAttribs.push({
                 column: this.columnReference(typeAttrib),
-                typeAttrib: typeAttrib.slice(typeAttrib.search(':')+1)
+                typeAttrib: this.columnValue(typeAttrib)
             });
         });
         
@@ -126,7 +126,7 @@ export default class DatatableLwcFsc extends LightningElement {
         parseWidths.forEach(width => {
             this.widths.push({
                 column: this.columnReference(width),
-                width: parseInt(width.slice(width.search(':')+1))
+                width: parseInt(this.columnValue(width))
             });
         });
 
@@ -162,6 +162,11 @@ export default class DatatableLwcFsc extends LightningElement {
             colRef = (colRef != -1) ? colRef : 0;
         }
         return colRef;
+    }
+
+    columnValue(attrib) {
+        // Extract the value from the column attribute
+        return attrib.slice(attrib.search(':')+1);
     }
 
     processDatatable() {
@@ -325,8 +330,21 @@ export default class DatatableLwcFsc extends LightningElement {
                 let newAttribDef = {};
                 let typeAttribSplit = colTypeAttrib.typeAttrib.slice(1,-1).split(',');
                 typeAttribSplit.forEach(ta => {
-                    let newAttrib = ta.split(':');
-                    newAttribDef[newAttrib[0]] = newAttrib[1];
+                    let subAttribPos = ta.search('{');
+                    if (subAttribPos != -1) {
+                        // This attribute value has another attribute object definition {name: {name:value}}
+                        let value = {};
+                        let name = ta.split(':')[0];
+                        let attrib = ta.slice(subAttribPos).slice(1,-1)
+                        let rightName = attrib.split(':')[0];
+                        let rightValue = attrib.slice(attrib.search(':')+1);
+                        value[rightName] = rightValue;
+                        newAttribDef[name] = value;
+                    } else {
+                        // This is a standard attribute definition {name:value}
+                        let attrib = ta.split(':');
+                        newAttribDef[attrib[0]] = attrib[1];                          
+                    }
                 });
                 typeAttributes = newAttribDef;
             }
