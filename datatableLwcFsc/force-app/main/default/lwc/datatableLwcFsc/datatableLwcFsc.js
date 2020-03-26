@@ -104,12 +104,7 @@ export default class DatatableLwcFsc extends LightningElement {
         });
 
         // Parse Column Label attribute
-        const parseLabels = (this.columnLabels.length > 0) ? this.columnLabels
-            .replace(', ', ',')
-            .replace(' ,', ',')
-            .replace(': ', ':')
-            .replace(' :', ':')
-            .split(',') : [];
+        const parseLabels = (this.columnLabels.length > 0) ? this.removeSpaces(this.columnLabels).split(',') : [];
         parseLabels.forEach(label => {
             this.labels.push({
                 column: this.columnReference(label),
@@ -118,56 +113,29 @@ export default class DatatableLwcFsc extends LightningElement {
         });
 
         // Parse Column CellAttribute attribute (Because multiple attributes use , these are separated by ;)
-        const parseCellAttribs = (this.columnCellAttribs.length > 0) ? this.columnCellAttribs
-            .replace(', ', ',')
-            .replace(' ,', ',')
-            .replace(': ', ':')
-            .replace(' :', ':')
-            .replace('{ ', '{')
-            .replace(' {', '{')
-            .replace('} ', '}')
-            .replace(' }', '}')
-            .split(';') : [];
+        const parseCellAttribs = (this.columnCellAttribs.length > 0) ? this.removeSpaces(this.columnCellAttribs).split(';') : [];
         parseCellAttribs.forEach(cellAttrib => {
             this.cellAttribs.push({
                 column: this.columnReference(cellAttrib),
-                cellAttrib: this.columnValue(cellAttrib)
+                attribute: this.columnValue(cellAttrib)
             });
         });
         
         // Parse Column Other Attributes attribute (Because multiple attributes use , these are separated by ;)
-        const parseOtherAttribs = (this.columnOtherAttribs.length > 0) ? this.columnOtherAttribs
-            .replace(', ', ',')
-            .replace(' ,', ',')
-            .replace(': ', ':')
-            .replace(' :', ':')
-            .replace('{ ', '{')
-            .replace(' {', '{')
-            .replace('} ', '}')
-            .replace(' }', '}')
-            .split(';') : [];
+        const parseOtherAttribs = (this.columnOtherAttribs.length > 0) ? this.removeSpaces(this.columnOtherAttribs).split(';') : [];
             parseOtherAttribs.forEach(otherAttrib => {
             this.otherAttribs.push({
                 column: this.columnReference(otherAttrib),
-                otherAttrib: this.columnValue(otherAttrib)
+                attribute: this.columnValue(otherAttrib)
             });
         });
          
         // Parse Column TypeAttribute attribute (Because multiple attributes use , these are separated by ;)
-        const parseTypeAttribs = (this.columnTypeAttribs.length > 0) ? this.columnTypeAttribs
-            .replace(', ', ',')
-            .replace(' ,', ',')
-            .replace(': ', ':')
-            .replace(' :', ':')
-            .replace('{ ', '{')
-            .replace(' {', '{')
-            .replace('} ', '}')
-            .replace(' }', '}')
-            .split(';') : [];
+        const parseTypeAttribs = (this.columnTypeAttribs.length > 0) ? this.removeSpaces(this.columnTypeAttribs).split(';') : [];
         parseTypeAttribs.forEach(typeAttrib => {
             this.typeAttribs.push({
                 column: this.columnReference(typeAttrib),
-                typeAttrib: this.columnValue(typeAttrib)
+                attribute: this.columnValue(typeAttrib)
             });
         });
         
@@ -201,7 +169,19 @@ export default class DatatableLwcFsc extends LightningElement {
         });
 
     }
- 
+
+    removeSpaces(string) {
+        return string
+            .replace(', ', ',')
+            .replace(' ,', ',')
+            .replace(': ', ':')
+            .replace(' :', ':')
+            .replace('{ ', '{')
+            .replace(' {', '{')
+            .replace('} ', '}')
+            .replace(' }', '}');
+    }
+
     columnReference(attrib) {
         // The column reference can be either the field API name or the column sequence number (1,2,3 ...)
         // Return the actual column # (0,1,2 ...)
@@ -245,11 +225,11 @@ export default class DatatableLwcFsc extends LightningElement {
 
             // Done processing the datatable
             this.showSpinner = false;
-        // })
-        // .catch(error => {
-        //     console.log('getReturnResults error is: ' + JSON.stringify(error));
-        //     this.errorApex = 'Apex Action error: ' + error.body.message;
-        //     return this.errorApex; 
+        })
+        .catch(error => {
+            console.log('getReturnResults error is: ' + JSON.stringify(error));
+            this.errorApex = 'Apex Action error: ' + error.body.message;
+            return this.errorApex; 
         });
     }
 
@@ -401,110 +381,17 @@ export default class DatatableLwcFsc extends LightningElement {
             }
 
             // Update CellAttribute attribute overrides by column
-            let colCellAttrib = this.cellAttribs.find(i => i['column'] == columnNumber);
-            if (colCellAttrib) {
-                let newAttribDef = cellAttributes;
-                let cellAttribSplit = colCellAttrib.cellAttrib.slice(1,-1)
-                    .replace(', ', ',')
-                    .replace(' ,', ',')
-                    .replace(': ', ':')
-                    .replace(' :', ':')
-                    .replace('{ ', '{')
-                    .replace(' {', '{')
-                    .replace('} ', '}')
-                    .replace(' }', '}')
-                    .split(',');
-                cellAttribSplit.forEach(ca => {
-                    let subAttribPos = ca.search('{');
-                    if (subAttribPos != -1) {
-                        // This attribute value has another attribute object definition {name: {name:value}}
-                        let value = {};
-                        let name = ca.split(':')[0];
-                        let attrib = ca.slice(subAttribPos).slice(1,-1)
-                        let rightName = attrib.split(':')[0];
-                        let rightValue = attrib.slice(attrib.search(':')+1);
-                        value[rightName] = rightValue.replace(/["']{1}/gi,"");  // Remove single or double quotes
-                        newAttribDef[name] = value;
-                    } else {
-                        // This is a standard attribute definition {name:value}
-                        let attrib = ca.split(':');
-                        newAttribDef[attrib[0]] = attrib[1];                          
-                    }
-                });
-                cellAttributes = newAttribDef;
-            }
+            let cellResults = this.parseAttributes(this.cellAttribs, cellAttributes, columnNumber);
+            cellAttributes = cellResults['attribute'];
 
             // Update Other Attributes attribute overrides by column
-            let colOtherAttrib = this.otherAttribs.find(i => i['column'] == columnNumber);
-            if (colOtherAttrib) {
-                let newAttribDef = otherAttributes;
-                let otherAttribSplit = colOtherAttrib.otherAttrib.slice(1,-1)
-                    .replace(', ', ',')
-                    .replace(' ,', ',')
-                    .replace(': ', ':')
-                    .replace(' :', ':')
-                    .replace('{ ', '{')
-                    .replace(' {', '{')
-                    .replace('} ', '}')
-                    .replace(' }', '}')
-                    .split(',');
-                otherAttribSplit.forEach(oa => {
-                    let subAttribPos = oa.search('{');
-                    if (subAttribPos != -1) {
-                        // This attribute value has another attribute object definition {name: {name:value}}
-                        let value = {};
-                        let name = oa.split(':')[0];
-                        let attrib = oa.slice(subAttribPos).slice(1,-1)
-                        let rightName = attrib.split(':')[0];
-                        let rightValue = attrib.slice(attrib.search(':')+1);
-                        value[rightName] = rightValue.replace(/["']{1}/gi,"");  // Remove single or double quotes
-                        newAttribDef[name] = value;
-                        otherAttribName = name;
-                        otherAttribValue = value;
-                    } else {
-                        // This is a standard attribute definition {name:value}
-                        let attrib = oa.split(':');
-                        newAttribDef[attrib[0]] = attrib[1];
-                        otherAttribName = attrib[0];
-                        otherAttribValue = attrib[1];                                               
-                    }
-                });
-                otherAttributes = newAttribDef;
-            }
+            let otherResults = this.parseAttributes(this.otherAttribs, otherAttributes, columnNumber);
+            otherAttribName = otherResults['name'];
+            otherAttribValue = otherResults['value'];
                 
             // Update TypeAttribute attribute overrides by column
-            let colTypeAttrib = this.typeAttribs.find(i => i['column'] == columnNumber);
-            if (colTypeAttrib) {
-                let newAttribDef = typeAttributes;
-                let typeAttribSplit = colTypeAttrib.typeAttrib.slice(1,-1)
-                    .replace(', ', ',')
-                    .replace(' ,', ',')
-                    .replace(': ', ':')
-                    .replace(' :', ':')
-                    .replace('{ ', '{')
-                    .replace(' {', '{')
-                    .replace('} ', '}')
-                    .replace(' }', '}')
-                    .split(',');
-                typeAttribSplit.forEach(ta => {
-                    let subAttribPos = ta.search('{');
-                    if (subAttribPos != -1) {
-                        // This attribute value has another attribute object definition {name: {name:value}}
-                        let value = {};
-                        let name = ta.split(':')[0];
-                        let attrib = ta.slice(subAttribPos).slice(1,-1)
-                        let rightName = attrib.split(':')[0];
-                        let rightValue = attrib.slice(attrib.search(':')+1);
-                        value[rightName] = rightValue.replace(/["']{1}/gi,"");  // Remove single or double quotes
-                        newAttribDef[name] = value;
-                    } else {
-                        // This is a standard attribute definition {name:value}
-                        let attrib = ta.split(':');
-                        newAttribDef[attrib[0]] = attrib[1];                          
-                    }
-                });
-                typeAttributes = newAttribDef;
-            }
+            let typeResults = this.parseAttributes(this.typeAttribs, typeAttributes, columnNumber);
+            typeAttributes = typeResults['attribute'];
 
             // Save the updated column definitions
             cols.push({
@@ -518,7 +405,7 @@ export default class DatatableLwcFsc extends LightningElement {
                 sortable: 'true',
                 initialWidth: (widthAttrib) ? widthAttrib.width : null
             });
-            if (colOtherAttrib) {
+            if (otherResults) {
                 cols[columnNumber][otherAttribName] = otherAttribValue;
             }
 
@@ -527,6 +414,39 @@ export default class DatatableLwcFsc extends LightningElement {
         });
         this.columns = cols;
         console.log('columns:',this.columns);
+    }
+
+    parseAttributes(inputAttributes, outputAttributes, columnNumber) {
+        // Parse regular and nested name:value attribute pairs
+        let result = [];
+        let fullAttrib = inputAttributes.find(i => i['column'] == columnNumber);
+        if (fullAttrib) {
+            let newAttribDef = outputAttributes;
+            let attribSplit = this.removeSpaces(fullAttrib.attribute.slice(1,-1)).split(',');
+            attribSplit.forEach(ca => {
+                let subAttribPos = ca.search('{');
+                if (subAttribPos != -1) {
+                    // This attribute value has another attribute object definition {name: {name:value}}
+                    let value = {};
+                    let name = ca.split(':')[0];
+                    let attrib = ca.slice(subAttribPos).slice(1,-1)
+                    let rightName = attrib.split(':')[0];
+                    let rightValue = attrib.slice(attrib.search(':')+1);
+                    value[rightName] = rightValue.replace(/["']{1}/gi,"");  // Remove single or double quotes
+                    newAttribDef[name] = value;
+                    result['name'] = name;
+                    result['value'] = value;
+                } else {
+                    // This is a standard attribute definition {name:value}
+                    let attrib = ca.split(':');
+                    newAttribDef[attrib[0]] = attrib[1]; 
+                    result['name'] = attrib[0];
+                    result['value'] = attrib[1];                           
+                }
+            });
+            result['attribute'] = newAttribDef;
+        }
+        return result;        
     }
 
     handleRowAction(event) {
