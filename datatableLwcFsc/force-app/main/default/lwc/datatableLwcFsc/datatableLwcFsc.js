@@ -10,6 +10,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api tableData;
     @api columnFields = [];
     @api columnAlignments = [];
+    @api columnCellAttribs = [];
     @api columnEdits = '';
     @api columnIcons = [];
     @api columnLabels = [];
@@ -51,6 +52,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api isEditAttribSet = false;
     @api editAttribType = 'none';
     @api alignments = [];
+    @api cellAttribs = [];
     @api icons = [];
     @api labels = [];
     @api typeAttribs = [];
@@ -112,8 +114,35 @@ export default class DatatableLwcFsc extends LightningElement {
             });
         });
 
+        // Parse Column CellAttribute attribute (Because multiple attributes use , these are separated by ;)
+        const parseCellAttribs = (this.columnCellAttribs.length > 0) ? this.columnCellAttribs
+            .replace(', ', ',')
+            .replace(' ,', ',')
+            .replace(': ', ':')
+            .replace(' :', ':')
+            .replace('{ ', '{')
+            .replace(' {', '{')
+            .replace('} ', '}')
+            .replace(' }', '}')
+            .split(';') : [];
+        parseCellAttribs.forEach(cellAttrib => {
+            this.cellAttribs.push({
+                column: this.columnReference(cellAttrib),
+                cellAttrib: this.columnValue(cellAttrib)
+            });
+        });
+        
         // Parse Column TypeAttribute attribute (Because multiple attributes use , these are separated by ;)
-        const parseTypeAttribs = (this.columnTypeAttribs.length > 0) ? this.columnTypeAttribs.replace(/\s/g, '').split(';') : [];
+        const parseTypeAttribs = (this.columnTypeAttribs.length > 0) ? this.columnTypeAttribs
+            .replace(', ', ',')
+            .replace(' ,', ',')
+            .replace(': ', ':')
+            .replace(' :', ':')
+            .replace('{ ', '{')
+            .replace(' {', '{')
+            .replace('} ', '}')
+            .replace(' }', '}')
+            .split(';') : [];
         parseTypeAttribs.forEach(typeAttrib => {
             this.typeAttribs.push({
                 column: this.columnReference(typeAttrib),
@@ -251,8 +280,8 @@ export default class DatatableLwcFsc extends LightningElement {
             let fieldName = colDef['fieldName'];
             let type = colDef['type'];
             let scale = colDef['scale'];
-            let cellAttributes = null;
-            let typeAttributes = null;
+            let cellAttributes = {};
+            let typeAttributes = {};
             let editAttrib = [];
 
             // Update Alignment attribute overrides by column
@@ -303,6 +332,9 @@ export default class DatatableLwcFsc extends LightningElement {
             // Update Label attribute overrides by column
             let labelAttrib = this.labels.find(i => i['column'] == columnNumber);
 
+            // Update Width attribute overrides by column
+            let widthAttrib = this.widths.find(i => i['column'] == columnNumber);
+
             // Set default typeAttributes based on data type
             switch(type) {
                 case 'date':
@@ -324,10 +356,48 @@ export default class DatatableLwcFsc extends LightningElement {
                 default:
             }
 
+            // Change lookup to url and reference the new fields that will be added to the datatable object
+            if(type == 'lookup') {
+                type = 'url';
+                if(fieldName.toLowerCase().endsWith('id')) {
+                    lufield = fieldName.replace(/Id$/gi,'');
+                } else {
+                    lufield = fieldName.replace(/__c$/gi,'__r');
+                }
+                fieldName = lufield + '_lookup';
+                typeAttributes = { label: { fieldName: lufield + '_name' }, target: '_blank' };
+            }
+
+            // Update CellAttribute attribute overrides by column
+            let colCellAttrib = this.cellAttribs.find(i => i['column'] == columnNumber);
+            if (colCellAttrib) {
+                let newAttribDef = cellAttributes;
+                let cellAttribSplit = colCellAttrib.cellAttrib.slice(1,-1).split(',');
+                cellAttribSplit.forEach(ta => {
+console.log('cta', ta);
+                    let subAttribPos = ta.search('{');
+                    if (subAttribPos != -1) {
+                        // This attribute value has another attribute object definition {name: {name:value}}
+                        let value = {};
+                        let name = ta.split(':')[0];
+                        let attrib = ta.slice(subAttribPos).slice(1,-1)
+                        let rightName = attrib.split(':')[0];
+                        let rightValue = attrib.slice(attrib.search(':')+1);
+                        value[rightName] = rightValue;
+                        newAttribDef[name] = value;
+                    } else {
+                        // This is a standard attribute definition {name:value}
+                        let attrib = ta.split(':');
+                        newAttribDef[attrib[0]] = attrib[1];                          
+                    }
+                });
+                cellAttributes = newAttribDef;
+            }
+
             // Update TypeAttribute attribute overrides by column
             let colTypeAttrib = this.typeAttribs.find(i => i['column'] == columnNumber);
             if (colTypeAttrib) {
-                let newAttribDef = {};
+                let newAttribDef = typeAttributes;
                 let typeAttribSplit = colTypeAttrib.typeAttrib.slice(1,-1).split(',');
                 typeAttribSplit.forEach(ta => {
                     let subAttribPos = ta.search('{');
@@ -347,21 +417,6 @@ export default class DatatableLwcFsc extends LightningElement {
                     }
                 });
                 typeAttributes = newAttribDef;
-            }
-
-            // Update Width attribute overrides by column
-            let widthAttrib = this.widths.find(i => i['column'] == columnNumber);
-
-            // Change lookup to url and reference the new fields that will be added to the datatable object
-            if(type == 'lookup') {
-                type = 'url';
-                if(fieldName.toLowerCase().endsWith('id')) {
-                    lufield = fieldName.replace(/Id$/gi,'');
-                } else {
-                    lufield = fieldName.replace(/__c$/gi,'__r');
-                }
-                fieldName = lufield + '_lookup';
-                typeAttributes = { label: { fieldName: lufield + '_name' }, target: '_blank' };
             }
 
             // Save the updated column definitions
