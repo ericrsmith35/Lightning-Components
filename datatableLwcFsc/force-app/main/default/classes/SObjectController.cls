@@ -26,6 +26,7 @@ public with sharing class SObjectController {
         List<String> lookupFieldList;
         List<String> percentFieldList;
         List<String> noEditFieldList;
+        list<String> timeFieldList;
         String objectName;
     }
 
@@ -54,6 +55,7 @@ public with sharing class SObjectController {
         List<String> lookupFields = new List<String>();
         List<String> percentFields = new List<String>();
         List<String> noEditFields = new List<String>();
+        List<String> timeFields = new List<String>();
 
         for (String fieldName : fields.split(',')) {
             System.debug('for field: ' + fieldName);
@@ -87,6 +89,9 @@ public with sharing class SObjectController {
                 when 'CURRENCY', 'DECIMAL', 'DOUBLE', 'INTEGER', 'LONG' {
                     // *** create scale attrib in datatableColumnFieldDescriptor and pass the getScale() values in that way. ***
                 }
+                when 'TIME' {
+                    timeFields.add(fieldName);
+                }
                 when else {
                 }
             }   
@@ -97,6 +102,7 @@ System.debug('noEditFields --- ' + noEditFields);
         curRR.lookupFieldList = lookupFields;
         curRR.percentFieldList = percentFields;
         curRR.noEditFieldList = noEditFields;
+        curRR.timeFieldList = timeFields;
         return curRR;
     }
 

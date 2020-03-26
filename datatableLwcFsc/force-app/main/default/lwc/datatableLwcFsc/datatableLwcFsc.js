@@ -14,6 +14,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api columnEdits = '';
     @api columnIcons = [];
     @api columnLabels = [];
+    @api columnOtherAttribs = [];
     @api columnTypeAttribs = [];
     @api columnWidths = [];
     @api keyField = 'Id';
@@ -48,6 +49,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api columnArray = [];
     @api percentFieldArray = [];
     @api noEditFieldArray = [];
+    @api timeFieldArray = [];
     @api edits = [];
     @api isEditAttribSet = false;
     @api editAttribType = 'none';
@@ -55,6 +57,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api cellAttribs = [];
     @api icons = [];
     @api labels = [];
+    @api otherAttribs = [];
     @api typeAttribs = [];
     @api widths = [];
     @api lookups = [];
@@ -132,6 +135,24 @@ export default class DatatableLwcFsc extends LightningElement {
             });
         });
         
+        // Parse Column Other Attributes attribute (Because multiple attributes use , these are separated by ;)
+        const parseOtherAttribs = (this.columnOtherAttribs.length > 0) ? this.columnOtherAttribs
+            .replace(', ', ',')
+            .replace(' ,', ',')
+            .replace(': ', ':')
+            .replace(' :', ':')
+            .replace('{ ', '{')
+            .replace(' {', '{')
+            .replace('} ', '}')
+            .replace(' }', '}')
+            .split(';') : [];
+            parseOtherAttribs.forEach(otherAttrib => {
+            this.otherAttribs.push({
+                column: this.columnReference(otherAttrib),
+                otherAttrib: this.columnValue(otherAttrib)
+            });
+        });
+         
         // Parse Column TypeAttribute attribute (Because multiple attributes use , these are separated by ;)
         const parseTypeAttribs = (this.columnTypeAttribs.length > 0) ? this.columnTypeAttribs
             .replace(', ', ',')
@@ -210,8 +231,9 @@ export default class DatatableLwcFsc extends LightningElement {
             this.recordData = [...returnResults.rowData];
             this.lookups = returnResults.lookupFieldList;
             this.percentFieldArray = (returnResults.percentFieldList.length > 0) ? returnResults.percentFieldList.toString().split(',') : [];
+            this.timeFieldArray = (returnResults.timeFieldList.length > 0) ? returnResults.timeFieldList.toString().split(',') : [];
             this.objectName = returnResults.objectName;
-            this.updateLookups();
+            this.updateDataRows();
 
             // Basic column info (label, fieldName, type) taken from the Schema in Apex
             this.dtableColumnFieldDescriptorString = '[' + returnResults.dtableColumnFieldDescriptorString + ']';
@@ -231,13 +253,20 @@ export default class DatatableLwcFsc extends LightningElement {
         });
     }
 
-    updateLookups() {
+    updateDataRows() {
         // Process Incoming Data Collection
         let data = (this.recordData) ? JSON.parse(JSON.stringify([...this.recordData])) : [];
         let lookupFields = this.lookups;
         let lufield = '';
+        let timeFields = this.timeFieldArray;
 
         data.forEach(record => {
+
+            // Prepend a date to the Time field so it can be displayed
+            timeFields.forEach(time => {
+                record[time] = "2020-05-12T" + record[time];
+            });
+
             // Flatten returned data
             lookupFields.forEach(lookup => {
                 if(lookup.toLowerCase().endsWith('id')) {
@@ -281,6 +310,9 @@ export default class DatatableLwcFsc extends LightningElement {
             let type = colDef['type'];
             let scale = colDef['scale'];
             let cellAttributes = {};
+            let otherAttributes = {};
+            let otherAttribName = null;
+            let otherAttribValue = null;
             let typeAttributes = {};
             let editAttrib = [];
 
@@ -382,26 +414,64 @@ export default class DatatableLwcFsc extends LightningElement {
                     .replace('} ', '}')
                     .replace(' }', '}')
                     .split(',');
-                cellAttribSplit.forEach(ta => {
-                    let subAttribPos = ta.search('{');
+                cellAttribSplit.forEach(ca => {
+                    let subAttribPos = ca.search('{');
                     if (subAttribPos != -1) {
                         // This attribute value has another attribute object definition {name: {name:value}}
                         let value = {};
-                        let name = ta.split(':')[0];
-                        let attrib = ta.slice(subAttribPos).slice(1,-1)
+                        let name = ca.split(':')[0];
+                        let attrib = ca.slice(subAttribPos).slice(1,-1)
                         let rightName = attrib.split(':')[0];
                         let rightValue = attrib.slice(attrib.search(':')+1);
                         value[rightName] = rightValue.replace(/["']{1}/gi,"");  // Remove single or double quotes
                         newAttribDef[name] = value;
                     } else {
                         // This is a standard attribute definition {name:value}
-                        let attrib = ta.split(':');
+                        let attrib = ca.split(':');
                         newAttribDef[attrib[0]] = attrib[1];                          
                     }
                 });
                 cellAttributes = newAttribDef;
             }
 
+            // Update Other Attributes attribute overrides by column
+            let colOtherAttrib = this.otherAttribs.find(i => i['column'] == columnNumber);
+            if (colOtherAttrib) {
+                let newAttribDef = otherAttributes;
+                let otherAttribSplit = colOtherAttrib.otherAttrib.slice(1,-1)
+                    .replace(', ', ',')
+                    .replace(' ,', ',')
+                    .replace(': ', ':')
+                    .replace(' :', ':')
+                    .replace('{ ', '{')
+                    .replace(' {', '{')
+                    .replace('} ', '}')
+                    .replace(' }', '}')
+                    .split(',');
+                otherAttribSplit.forEach(oa => {
+                    let subAttribPos = oa.search('{');
+                    if (subAttribPos != -1) {
+                        // This attribute value has another attribute object definition {name: {name:value}}
+                        let value = {};
+                        let name = oa.split(':')[0];
+                        let attrib = oa.slice(subAttribPos).slice(1,-1)
+                        let rightName = attrib.split(':')[0];
+                        let rightValue = attrib.slice(attrib.search(':')+1);
+                        value[rightName] = rightValue.replace(/["']{1}/gi,"");  // Remove single or double quotes
+                        newAttribDef[name] = value;
+                        otherAttribName = name;
+                        otherAttribValue = value;
+                    } else {
+                        // This is a standard attribute definition {name:value}
+                        let attrib = oa.split(':');
+                        newAttribDef[attrib[0]] = attrib[1];
+                        otherAttribName = attrib[0];
+                        otherAttribValue = attrib[1];                                               
+                    }
+                });
+                otherAttributes = newAttribDef;
+            }
+                
             // Update TypeAttribute attribute overrides by column
             let colTypeAttrib = this.typeAttribs.find(i => i['column'] == columnNumber);
             if (colTypeAttrib) {
@@ -448,6 +518,9 @@ export default class DatatableLwcFsc extends LightningElement {
                 sortable: 'true',
                 initialWidth: (widthAttrib) ? widthAttrib.width : null
             });
+            if (colOtherAttrib) {
+                cols[columnNumber][otherAttribName] = otherAttribValue;
+            }
 
             // Repeat for next column
             columnNumber += 1;
