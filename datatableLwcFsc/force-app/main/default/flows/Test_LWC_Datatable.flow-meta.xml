@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <name>Assign_Test_Parameters</name>
+        <label>Assign Test Parameters</label>
+        <locationX>303</locationX>
+        <locationY>331</locationY>
+        <assignmentItems>
+            <assignToReference>vFields</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Name,dt_Checkbox__c,dt_Currency__c,dt_Date__c,dt_Datetime__c,dt_Email__c,dt_Number__c,dt_Percent__c,dt_Phone__c</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vTypeAttributes</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>dt_Percent__c:{minimumFractionDigits:4,minimumIntegerDigits: 3}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vCellAttributes</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>dt_Date__c:{class: &#39;slds-theme_shade slds-theme_success slds-theme_alert-texture slds-border_left&#39;}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vFields2</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Name,dt_Picklist__c,dt_KillaBabySeal__c,dt_Text__c,dt_Text_Area__c,dt_Text_Area_Long__c,dt_Text_Area_Rich__c,dt_Text_Encrypted__c,dt_Time__c,dt_URL__c</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vCellAttributes2</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>dt_Text__c:{class: {fieldName: dt_Text__c}}</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Test_Field_Types_1</targetReference>
+        </connector>
+    </assignments>
     <interviewLabel>Test - LWC Datatable {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Test - LWC Datatable</label>
     <processMetadataValues>
@@ -22,30 +66,8 @@
         <locationY>151</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Pre_Accounts</targetReference>
+            <targetReference>Assign_Test_Parameters</targetReference>
         </connector>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>Account</object>
-        <sortField>Name</sortField>
-        <sortOrder>Asc</sortOrder>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_Pre_Accounts</name>
-        <label>Get Pre Accounts</label>
-        <locationX>201</locationX>
-        <locationY>299</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Datatable</targetReference>
-        </connector>
-        <filters>
-            <field>Name</field>
-            <operator>Contains</operator>
-            <value>
-                <stringValue>2</stringValue>
-            </value>
-        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Account</object>
         <sortField>Name</sortField>
@@ -53,10 +75,76 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <screens>
-        <name>Datatable</name>
-        <label>Datatable</label>
-        <locationX>386</locationX>
-        <locationY>299</locationY>
+        <name>Results</name>
+        <label>Show Selected &amp; Edited Results</label>
+        <locationX>592</locationX>
+        <locationY>499</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Test_Field_Types_2</targetReference>
+        </connector>
+        <fields>
+            <name>se</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Selected: {!colAccountSelected}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>sel</name>
+            <extensionName>c:datatableLwcFsc</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>columnFields</name>
+                <value>
+                    <stringValue>Name,AccountNumber,OwnerId,Type,dt_Percent__c</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>tableData</name>
+                <value>
+                    <elementReference>colAccountSelected</elementReference>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>DispRes</name>
+            <fieldText>&lt;p&gt;Edited: {!colAccountEdited}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>afteredit</name>
+            <extensionName>c:datatableLwcFsc</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>tableData</name>
+                <value>
+                    <elementReference>colAccountEdited</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnFields</name>
+                <value>
+                    <elementReference>vFields</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnTypeAttribs</name>
+                <value>
+                    <elementReference>vTypeAttributes</elementReference>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Test_Field_Types_1</name>
+        <label>Test Field Types #1</label>
+        <locationX>461</locationX>
+        <locationY>331</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -64,7 +152,7 @@
             <targetReference>Results</targetReference>
         </connector>
         <fields>
-            <name>lwc</name>
+            <name>Display1</name>
             <extensionName>c:datatableLwcFsc</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
@@ -74,39 +162,51 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>columnIcons</name>
-                <value>
-                    <stringValue>1:standard:account</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>preSelectedRows</name>
-                <value>
-                    <elementReference>Get_Pre_Accounts</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
                 <name>columnFields</name>
                 <value>
-                    <stringValue>Name,AccountNumber,OwnerId,Type</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>hideCheckboxColumn</name>
-                <value>
-                    <booleanValue>false</booleanValue>
+                    <elementReference>vFields</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
                 <name>singleRowSelection</name>
                 <value>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>suppressBottomBar</name>
+                <name>columnEdits</name>
                 <value>
-                    <booleanValue>false</booleanValue>
+                    <stringValue>All</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnIcons</name>
+                <value>
+                    <stringValue>Name:standard:account</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnTypeAttribs</name>
+                <value>
+                    <elementReference>vTypeAttributes</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnAlignments</name>
+                <value>
+                    <stringValue>2:center,4:center</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnCellAttribs</name>
+                <value>
+                    <elementReference>vCellAttributes</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnLabels</name>
+                <value>
+                    <stringValue>1:Full Account Name Label</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -123,35 +223,56 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Results</name>
-        <label>Results</label>
-        <locationX>574</locationX>
-        <locationY>351</locationY>
+        <name>Test_Field_Types_2</name>
+        <label>Test Field Types #2</label>
+        <locationX>697</locationX>
+        <locationY>334</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
-            <name>DispRes</name>
-            <fieldText>&lt;p&gt;Selected: {!colAccountSelected}&lt;/p&gt;&lt;p&gt;Edited: {!colAccountEdited}&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>afteredit</name>
+            <name>Display2</name>
             <extensionName>c:datatableLwcFsc</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
+                <name>columnEdits</name>
+                <value>
+                    <stringValue>All</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
                 <name>tableData</name>
                 <value>
-                    <elementReference>colAccountEdited</elementReference>
+                    <elementReference>Get_All_Accounts</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
                 <name>columnFields</name>
                 <value>
-                    <stringValue>Name,AccountNumber,OwnerId,Type</stringValue>
+                    <elementReference>vFields2</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnCellAttribs</name>
+                <value>
+                    <elementReference>vCellAttributes2</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnOtherAttribs</name>
+                <value>
+                    <stringValue>dt_Text_Area__c:{wrapText:true}</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>colAccountEdited</assignToReference>
+                <name>outputEditedRows</name>
+            </outputParameters>
+            <outputParameters>
+                <assignToReference>colAccountSelected</assignToReference>
+                <name>outputSelectedRows</name>
+            </outputParameters>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -179,5 +300,40 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>vCellAttributes</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>vCellAttributes2</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>vFields</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>vFields2</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>vTypeAttributes</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
 </Flow>
