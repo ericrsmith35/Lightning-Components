@@ -111,6 +111,15 @@ export default class DatatableLwcFsc extends LightningElement {
                 label: this.columnValue(label)
             });
         });
+        
+        // Parse Column Width attribute
+        const parseWidths = (this.columnWidths.length > 0) ? this.columnWidths.replace(/\s/g, '').split(',') : [];
+        parseWidths.forEach(width => {
+            this.widths.push({
+                column: this.columnReference(width),
+                width: parseInt(this.columnValue(width))
+            });
+        });
 
         // Parse Column CellAttribute attribute (Because multiple attributes use , these are separated by ;)
         const parseCellAttribs = (this.columnCellAttribs.length > 0) ? this.removeSpaces(this.columnCellAttribs).split(';') : [];
@@ -136,15 +145,6 @@ export default class DatatableLwcFsc extends LightningElement {
             this.typeAttribs.push({
                 column: this.columnReference(typeAttrib),
                 attribute: this.columnValue(typeAttrib)
-            });
-        });
-        
-        // Parse Column Width attribute
-        const parseWidths = (this.columnWidths.length > 0) ? this.columnWidths.replace(/\s/g, '').split(',') : [];
-        parseWidths.forEach(width => {
-            this.widths.push({
-                column: this.columnReference(width),
-                width: parseInt(this.columnValue(width))
             });
         });
 
