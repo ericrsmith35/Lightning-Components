@@ -21,7 +21,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api preSelectedRows = [];
     @api hideCheckboxColumn;
     @api singleRowSelection;
-    @api suppressBottomBar;
+    @api suppressBottomBar = false;
     @api outputSelectedRows = [];
     @api outputEditedRows = [];
 
@@ -467,6 +467,13 @@ export default class DatatableLwcFsc extends LightningElement {
         });
     }
 
+    handleCellChange(event) {
+        // If suppressBottomBar is false, wait for the Save or Cancel button
+        if (this.suppressBottomBar) {
+            this.handleSave(event);
+        }
+    }
+
     handleSave(event) {
         // Only used with inline editing
         const draftValues = event.detail.draftValues;
@@ -508,9 +515,9 @@ export default class DatatableLwcFsc extends LightningElement {
 
         this.savePreEditData = [...data];   // Resave the current table values
         this.mydata = [...data];            // Reset the current table values
-
-        // Force clearing of the edit highlights
-        this.columns = [...this.columns];
+        if (!this.suppressBottomBar) {
+            this.columns = [...this.columns];   // Force clearing of the edit highlights
+        }
     }
 
     cancelChanges(event) {
