@@ -214,7 +214,7 @@ export default class DatatableLwcFsc extends LightningElement {
         let colRef = Number(colDescriptor)-1;
         if (isNaN(colRef)) {
             colRef = this.columnArray.indexOf(colDescriptor);
-            colRef = (colRef != -1) ? colRef : 0;
+            colRef = (colRef != -1) ? colRef : 999; // If no match for the field name, set to non-existent column #
         }
         return colRef;
     }
@@ -250,11 +250,11 @@ export default class DatatableLwcFsc extends LightningElement {
 
             // Done processing the datatable
             this.showSpinner = false;
-        })
-        .catch(error => {
-            console.log('getReturnResults error is: ' + JSON.stringify(error));
-            this.errorApex = 'Apex Action error: ' + error.body.message;
-            return this.errorApex; 
+        // })
+        // .catch(error => {
+        //     console.log('getReturnResults error is: ' + JSON.stringify(error));
+        //     this.errorApex = 'Apex Action error: ' + error.body.message;
+        //     return this.errorApex; 
         });
     }
 
@@ -278,11 +278,13 @@ export default class DatatableLwcFsc extends LightningElement {
                     lufield = lookup.replace(/Id$/gi,'');
                 } else {
                     lufield = lookup.replace(/__c$/gi,'__r');
-                }                
-                record[lufield + '_name'] = record[lufield]['Name'];
-                record[lufield + '_id'] = record[lufield]['Id'];
-                // Add new column with correct Lookup urls
-                record[lufield + '_lookup'] = MYDOMAIN + '.lightning.force.com/lightning/r/' + this.objectName + '/' + record[lufield + '_id'] + '/view';
+                }
+                if (record[lufield]) {               
+                    record[lufield + '_name'] = record[lufield]['Name'];
+                    record[lufield + '_id'] = record[lufield]['Id'];
+                    // Add new column with correct Lookup urls
+                    record[lufield + '_lookup'] = MYDOMAIN + '.lightning.force.com/lightning/r/' + this.objectName + '/' + record[lufield + '_id'] + '/view';
+                }
             });                
 
             // If needed, add more fields to datatable records
