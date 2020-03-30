@@ -50,6 +50,8 @@
                 description="Set to True to hide the row selection column.  --  NOTE: The checkbox column will always display when inline editing is enabled."/>
             <property name="keyField" label="Key Field" type="String" default="Id" role="inputOnly"
                 description="This is normally the Id field, but you can specify a different field if all field values are unique."/>
+            <property name="maxNumberOfRows" label="Maximum Number of Records to Display" type="Integer" role="inputOnly"
+                description="Enter a number here if you want to restrict how many rows will be displayed in the datatable."/>                
             <property name="singleRowSelection" label="Single Row Selection (Radio Buttons)?" type="Boolean" default="false" role="inputOnly"
                 description="When set to True, Radio Buttons will be displayed and only a single row can be selected.  
                 The default (False) will display Checkboxes and allow multiple records to be selected."/>

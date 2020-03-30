@@ -45,6 +45,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api columnTypeAttribs = [];
     @api columnWidths = [];
     @api keyField = 'Id';
+    @api maxNumberOfRows;
     @api preSelectedRows = [];
     @api hideCheckboxColumn;
     @api singleRowSelection;
@@ -97,8 +98,9 @@ export default class DatatableLwcFsc extends LightningElement {
     connectedCallback() {
                    
         // Restrict the number of records handled by this component
-        if (this.tableData.length > MAXROWCOUNT) {
-            this.tableData = [...this.tableData].slice(0,MAXROWCOUNT);
+        let min = Math.min(MAXROWCOUNT, this.maxNumberOfRows);
+        if (this.tableData.length > min) {
+            this.tableData = [...this.tableData].slice(0,min);
         }
 
         // Get array of column field API names
