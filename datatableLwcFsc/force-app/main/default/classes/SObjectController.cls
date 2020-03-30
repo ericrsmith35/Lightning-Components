@@ -123,7 +123,7 @@ public with sharing class SObjectController {
             }
         }
 
-        // Lookup the Name field in the related object
+        // Lookup the Name field in the related object 
         Map<String, Map<Id, SObject>> dataMap = new Map<String, Map<Id, SObject>>();
         for(String obj : objIdMap.keySet()) {
             Set<Id> ids = objIdMap.get(obj);

@@ -27,12 +27,14 @@ import { LightningElement, api, track, wire } from 'lwc';
 // import { FlowAttributeChangeEvent, FlowNavigationNextEvent } from 'lightning/flowSupport';
 import getReturnResults from '@salesforce/apex/SObjectController.getReturnResults';
 
+const MAXROWCOUNT = 1000;   // Limit the total number of records to be handled by this component
+
 const MYDOMAIN = 'https://' + window.location.hostname.split('.')[0].replace('--c','');
 
 export default class DatatableLwcFsc extends LightningElement {
 
     // Component Input & Output Attributes
-    @api tableData;
+    @api tableData = [];
     @api columnFields = [];
     @api columnAlignments = [];
     @api columnCellAttribs = [];
@@ -93,6 +95,11 @@ export default class DatatableLwcFsc extends LightningElement {
     @track showSpinner = true;
 
     connectedCallback() {
+                   
+        // Restrict the number of records handled by this component
+        if (this.tableData.length > MAXROWCOUNT) {
+            this.tableData = [...this.tableData].slice(0,MAXROWCOUNT);
+        }
 
         // Get array of column field API names
         this.columnArray = (this.columnFields.length > 0) ? this.columnFields.replace(/\s/g, '').split(',') : [];
@@ -232,12 +239,14 @@ export default class DatatableLwcFsc extends LightningElement {
         .then(result => {
             let returnResults = JSON.parse(result);
 
-            // Update row data for lookup and percent fields
+            // Assign return results from the Apex callout
             this.recordData = [...returnResults.rowData];
             this.lookups = returnResults.lookupFieldList;
             this.percentFieldArray = (returnResults.percentFieldList.length > 0) ? returnResults.percentFieldList.toString().split(',') : [];
             this.timeFieldArray = (returnResults.timeFieldList.length > 0) ? returnResults.timeFieldList.toString().split(',') : [];
             this.objectName = returnResults.objectName;
+
+            // Update row data for lookup, time and percent fields
             this.updateDataRows();
 
             // Basic column info (label, fieldName, type) taken from the Schema in Apex
@@ -560,7 +569,7 @@ export default class DatatableLwcFsc extends LightningElement {
         this.outputSelectedRows = [...sdata]; // Set output attribute values
         console.log('outputSelectedRows',this.outputSelectedRows);
     }
-   
+
     updateColumnSorting(event) {
         // Handle column sorting
         console.log('Sort:',event.detail.fieldName,event.detail.sortDirection);
