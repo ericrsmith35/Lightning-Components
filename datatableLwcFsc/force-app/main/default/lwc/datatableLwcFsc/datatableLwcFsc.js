@@ -24,7 +24,6 @@
  **/
 
 import { LightningElement, api, track, wire } from 'lwc';
-// import { FlowAttributeChangeEvent, FlowNavigationNextEvent } from 'lightning/flowSupport';
 import getReturnResults from '@salesforce/apex/SObjectController.getReturnResults';
 
 const MAXROWCOUNT = 1000;   // Limit the total number of records to be handled by this component
@@ -277,11 +276,11 @@ export default class DatatableLwcFsc extends LightningElement {
 
             // Done processing the datatable
             this.showSpinner = false;
-        // })
-        // .catch(error => {
-        //     console.log('getReturnResults error is: ' + JSON.stringify(error));
-        //     this.errorApex = 'Apex Action error: ' + error.body.message;
-        //     return this.errorApex; 
+        })
+        .catch(error => {
+            console.log('getReturnResults error is: ' + JSON.stringify(error));
+            this.errorApex = 'Apex Action error: ' + error.body.message;
+            return this.errorApex; 
         });
     }
 
@@ -604,18 +603,5 @@ export default class DatatableLwcFsc extends LightningElement {
             (a,b)=>(a=fieldValue(a),b=fieldValue(b),reverse*((a>b)-(b>a)))
         )];
     }
-
-    // handleGoNext() {
-    //     console.log('gonext',this.selectedRows);
-    //     // Update values to be passed back to the Flow
-    //     const attributeChangeEvent = new FlowAttributeChangeEvent('outputSelectedRows', [...this.selectedRows]);
-    //     this.dispatchEvent(attributeChangeEvent);
-    //     // check if NEXT is allowed on this screen
-    //     if (this.availableActions.find(action => action === 'NEXT')) {
-    //         // navigate to the next screen
-    //         const navigateNextEvent = new FlowNavigationNextEvent();
-    //         this.dispatchEvent(navigateNextEvent);
-    //     }
-    // }
 
 }
