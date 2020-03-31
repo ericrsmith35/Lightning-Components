@@ -1,13 +1,40 @@
+/**
+ * Lightning Web Component for Flow Screens:       datatableLwcFsc
+ * 
+ * Copyright (c) 2020, Eric Smith
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided 
+ * that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer 
+ * in the documentation and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived 
+ * from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, 
+ * BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
+ * SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *  
+ **/
+
 import { LightningElement, api, track, wire } from 'lwc';
 // import { FlowAttributeChangeEvent, FlowNavigationNextEvent } from 'lightning/flowSupport';
 import getReturnResults from '@salesforce/apex/SObjectController.getReturnResults';
+
+const MAXROWCOUNT = 1000;   // Limit the total number of records to be handled by this component
 
 const MYDOMAIN = 'https://' + window.location.hostname.split('.')[0].replace('--c','');
 
 export default class DatatableLwcFsc extends LightningElement {
 
     // Component Input & Output Attributes
-    @api tableData;
+    @api tableData = [];
     @api columnFields = [];
     @api columnAlignments = [];
     @api columnCellAttribs = [];
@@ -18,10 +45,11 @@ export default class DatatableLwcFsc extends LightningElement {
     @api columnTypeAttribs = [];
     @api columnWidths = [];
     @api keyField = 'Id';
+    @api maxNumberOfRows;
     @api preSelectedRows = [];
     @api hideCheckboxColumn;
     @api singleRowSelection;
-    @api suppressBottomBar;
+    @api suppressBottomBar = false;
     @api outputSelectedRows = [];
     @api outputEditedRows = [];
 
@@ -55,22 +83,33 @@ export default class DatatableLwcFsc extends LightningElement {
     @api editAttribType = 'none';
     @api alignments = [];
     @api cellAttribs = [];
+    @api cellAttributes;
     @api icons = [];
     @api labels = [];
     @api otherAttribs = [];
     @api typeAttribs = [];
+    @api typeAttributes;
     @api widths = [];
     @api lookups = [];
+    @api cols = [];
+    @api attribCount = 0;
     @api recordData = [];
     @track showSpinner = true;
 
     connectedCallback() {
+                   
+        // Restrict the number of records handled by this component
+        let min = Math.min(MAXROWCOUNT, this.maxNumberOfRows);
+        if (this.tableData.length > min) {
+            this.tableData = [...this.tableData].slice(0,min);
+        }
 
         // Get array of column field API names
         this.columnArray = (this.columnFields.length > 0) ? this.columnFields.replace(/\s/g, '').split(',') : [];
 
         // Parse Column Alignment attribute
         const parseAlignments = (this.columnAlignments.length > 0) ? this.columnAlignments.replace(/\s/g, '').split(',') : [];
+        this.attribCount = (parseAlignments.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
         parseAlignments.forEach(align => {
             this.alignments.push({
                 column: this.columnReference(align),
@@ -81,6 +120,7 @@ export default class DatatableLwcFsc extends LightningElement {
         // Parse Column Edit attribute
         if (this.columnEdits.toLowerCase() != 'all') {
             const parseEdits = (this.columnEdits.length > 0) ? this.columnEdits.replace(/\s/g, '').split(',') : [];
+            this.attribCount = (parseEdits.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
             this.editAttribType = 'none';
             parseEdits.forEach(edit => {
                 let colEdit = (this.columnValue(edit).toLowerCase() == 'true') ? true : false;
@@ -96,6 +136,7 @@ export default class DatatableLwcFsc extends LightningElement {
 
         // Parse Column Icon attribute
         const parseIcons = (this.columnIcons.length > 0) ? this.columnIcons.replace(/\s/g, '').split(',') : [];
+        this.attribCount = (parseIcons.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
         parseIcons.forEach(icon => {
             this.icons.push({
                 column: this.columnReference(icon),
@@ -105,15 +146,27 @@ export default class DatatableLwcFsc extends LightningElement {
 
         // Parse Column Label attribute
         const parseLabels = (this.columnLabels.length > 0) ? this.removeSpaces(this.columnLabels).split(',') : [];
+        this.attribCount = (parseLabels.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
         parseLabels.forEach(label => {
             this.labels.push({
                 column: this.columnReference(label),
                 label: this.columnValue(label)
             });
         });
+        
+        // Parse Column Width attribute
+        const parseWidths = (this.columnWidths.length > 0) ? this.columnWidths.replace(/\s/g, '').split(',') : [];
+        this.attribCount = (parseWidths.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
+        parseWidths.forEach(width => {
+            this.widths.push({
+                column: this.columnReference(width),
+                width: parseInt(this.columnValue(width))
+            });
+        });
 
         // Parse Column CellAttribute attribute (Because multiple attributes use , these are separated by ;)
         const parseCellAttribs = (this.columnCellAttribs.length > 0) ? this.removeSpaces(this.columnCellAttribs).split(';') : [];
+        this.attribCount = 0;   // These attributes must specify a column number or field API name
         parseCellAttribs.forEach(cellAttrib => {
             this.cellAttribs.push({
                 column: this.columnReference(cellAttrib),
@@ -123,7 +176,8 @@ export default class DatatableLwcFsc extends LightningElement {
         
         // Parse Column Other Attributes attribute (Because multiple attributes use , these are separated by ;)
         const parseOtherAttribs = (this.columnOtherAttribs.length > 0) ? this.removeSpaces(this.columnOtherAttribs).split(';') : [];
-            parseOtherAttribs.forEach(otherAttrib => {
+        this.attribCount = 0;   // These attributes must specify a column number or field API name
+        parseOtherAttribs.forEach(otherAttrib => {
             this.otherAttribs.push({
                 column: this.columnReference(otherAttrib),
                 attribute: this.columnValue(otherAttrib)
@@ -132,19 +186,11 @@ export default class DatatableLwcFsc extends LightningElement {
          
         // Parse Column TypeAttribute attribute (Because multiple attributes use , these are separated by ;)
         const parseTypeAttribs = (this.columnTypeAttribs.length > 0) ? this.removeSpaces(this.columnTypeAttribs).split(';') : [];
+        this.attribCount = 0;   // These attributes must specify a column number or field API name
         parseTypeAttribs.forEach(typeAttrib => {
             this.typeAttribs.push({
                 column: this.columnReference(typeAttrib),
                 attribute: this.columnValue(typeAttrib)
-            });
-        });
-        
-        // Parse Column Width attribute
-        const parseWidths = (this.columnWidths.length > 0) ? this.columnWidths.replace(/\s/g, '').split(',') : [];
-        parseWidths.forEach(width => {
-            this.widths.push({
-                column: this.columnReference(width),
-                width: parseInt(this.columnValue(width))
             });
         });
 
@@ -172,24 +218,28 @@ export default class DatatableLwcFsc extends LightningElement {
 
     removeSpaces(string) {
         return string
-            .replace(', ', ',')
-            .replace(' ,', ',')
-            .replace(': ', ':')
-            .replace(' :', ':')
-            .replace('{ ', '{')
-            .replace(' {', '{')
-            .replace('} ', '}')
-            .replace(' }', '}');
+            .replace(/, | ,/g,',')
+            .replace(/: | :/g,':')
+            .replace(/{ | {/g,'{')
+            .replace(/} | }/g,'}')
+            .replace(/; | ;/g,';');
     }
 
     columnReference(attrib) {
         // The column reference can be either the field API name or the column sequence number (1,2,3 ...)
+        // If no column reference is specified, the values are assigned to columns in order (There must be a value provided for each column)
         // Return the actual column # (0,1,2 ...)
-        let colDescriptor = attrib.split(':')[0];
-        let colRef = Number(colDescriptor)-1;
-        if (isNaN(colRef)) {
-            colRef = this.columnArray.indexOf(colDescriptor);
-            colRef = (colRef != -1) ? colRef : 0;
+        let colRef = 0;
+        if (this.attribCount == 0) {
+            let colDescriptor = attrib.split(':')[0];
+            colRef = Number(colDescriptor)-1;
+            if (isNaN(colRef)) {
+                colRef = this.columnArray.indexOf(colDescriptor);
+                colRef = (colRef != -1) ? colRef : 999; // If no match for the field name, set to non-existent column #
+            }
+        } else {
+            colRef = this.attribCount-1;
+            this.attribCount += 1;
         }
         return colRef;
     }
@@ -207,12 +257,14 @@ export default class DatatableLwcFsc extends LightningElement {
         .then(result => {
             let returnResults = JSON.parse(result);
 
-            // Update row data for lookup and percent fields
+            // Assign return results from the Apex callout
             this.recordData = [...returnResults.rowData];
             this.lookups = returnResults.lookupFieldList;
             this.percentFieldArray = (returnResults.percentFieldList.length > 0) ? returnResults.percentFieldList.toString().split(',') : [];
             this.timeFieldArray = (returnResults.timeFieldList.length > 0) ? returnResults.timeFieldList.toString().split(',') : [];
             this.objectName = returnResults.objectName;
+
+            // Update row data for lookup, time and percent fields
             this.updateDataRows();
 
             // Basic column info (label, fieldName, type) taken from the Schema in Apex
@@ -225,11 +277,11 @@ export default class DatatableLwcFsc extends LightningElement {
 
             // Done processing the datatable
             this.showSpinner = false;
-        })
-        .catch(error => {
-            console.log('getReturnResults error is: ' + JSON.stringify(error));
-            this.errorApex = 'Apex Action error: ' + error.body.message;
-            return this.errorApex; 
+        // })
+        // .catch(error => {
+        //     console.log('getReturnResults error is: ' + JSON.stringify(error));
+        //     this.errorApex = 'Apex Action error: ' + error.body.message;
+        //     return this.errorApex; 
         });
     }
 
@@ -253,11 +305,13 @@ export default class DatatableLwcFsc extends LightningElement {
                     lufield = lookup.replace(/Id$/gi,'');
                 } else {
                     lufield = lookup.replace(/__c$/gi,'__r');
-                }                
-                record[lufield + '_name'] = record[lufield]['Name'];
-                record[lufield + '_id'] = record[lufield]['Id'];
-                // Add new column with correct Lookup urls
-                record[lufield + '_lookup'] = MYDOMAIN + '.lightning.force.com/lightning/r/' + this.objectName + '/' + record[lufield + '_id'] + '/view';
+                }
+                if (record[lufield]) {               
+                    record[lufield + '_name'] = record[lufield]['Name'];
+                    record[lufield + '_id'] = record[lufield]['Id'];
+                    // Add new column with correct Lookup urls
+                    record[lufield + '_lookup'] = MYDOMAIN + '.lightning.force.com/lightning/r/' + this.objectName + '/' + record[lufield + '_id'] + '/view';
+                }
             });                
 
             // If needed, add more fields to datatable records
@@ -278,8 +332,8 @@ export default class DatatableLwcFsc extends LightningElement {
 
     updateColumns() {
         // Parse column definitions
+        this.cols = [];
         let columnNumber = 0;
-        const cols = [];
         let lufield = '';
 
         this.basicColumns.forEach(colDef => {
@@ -289,11 +343,8 @@ export default class DatatableLwcFsc extends LightningElement {
             let fieldName = colDef['fieldName'];
             let type = colDef['type'];
             let scale = colDef['scale'];
-            let cellAttributes = {};
-            let otherAttributes = {};
-            let otherAttribName = null;
-            let otherAttribValue = null;
-            let typeAttributes = {};
+            this.cellAttributes = {};
+            this.typeAttributes = {};
             let editAttrib = [];
 
             // Update Alignment attribute overrides by column
@@ -308,7 +359,7 @@ export default class DatatableLwcFsc extends LightningElement {
                     default:
                         alignment = 'left';
                 }
-                cellAttributes = { alignment:alignment };
+                this.cellAttributes = { alignment:alignment };
             }
 
             // Update Edit attribute overrides by column
@@ -350,20 +401,20 @@ export default class DatatableLwcFsc extends LightningElement {
             // Set default typeAttributes based on data type
             switch(type) {
                 case 'date':
-                    typeAttributes = { year:'numeric', month:'numeric', day:'numeric' }
+                    this.typeAttributes = { year:'numeric', month:'numeric', day:'numeric' }
                     break;
                 case 'datetime':
                     type = 'date';
-                    typeAttributes = { year:'numeric', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', timeZoneName:'short' };
+                    this.typeAttributes = { year:'numeric', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', timeZoneName:'short' };
                     break;           
                 case 'time':
                     type = 'date';
-                    typeAttributes = { hour:'2-digit', minute:'2-digit', timeZoneName:'short' };
+                    this.typeAttributes = { hour:'2-digit', minute:'2-digit', timeZoneName:'short' };
                     break;
                 case 'currency':
                 case 'number':
                 case 'percent':
-                    typeAttributes = { minimumFractionDigits:scale };   // Show the number of decimal places defined for the field
+                    this.typeAttributes = { minimumFractionDigits:scale };   // Show the number of decimal places defined for the field
                     break;
                 default:
             }
@@ -377,51 +428,43 @@ export default class DatatableLwcFsc extends LightningElement {
                     lufield = fieldName.replace(/__c$/gi,'__r');
                 }
                 fieldName = lufield + '_lookup';
-                typeAttributes = { label: { fieldName: lufield + '_name' }, target: '_blank' };
+                this.typeAttributes = { label: { fieldName: lufield + '_name' }, target: '_blank' };
             }
 
             // Update CellAttribute attribute overrides by column
-            let cellResults = this.parseAttributes(this.cellAttribs, cellAttributes, columnNumber);
-            cellAttributes = cellResults['attribute'];
+            this.parseAttributes('cell',this.cellAttribs,columnNumber);
 
-            // Update Other Attributes attribute overrides by column
-            let otherResults = this.parseAttributes(this.otherAttribs, otherAttributes, columnNumber);
-            otherAttribName = otherResults['name'];
-            otherAttribValue = otherResults['value'];
-                
             // Update TypeAttribute attribute overrides by column
-            let typeResults = this.parseAttributes(this.typeAttribs, typeAttributes, columnNumber);
-            typeAttributes = typeResults['attribute'];
+            this.parseAttributes('type',this.typeAttribs,columnNumber);
 
             // Save the updated column definitions
-            cols.push({
+            this.cols.push({
                 label: (labelAttrib) ? labelAttrib.label : label,
                 iconName: (iconAttrib) ? iconAttrib.icon : null,
                 fieldName: fieldName,
                 type: type,
-                cellAttributes, cellAttributes,
-                typeAttributes: typeAttributes,
+                cellAttributes: this.cellAttributes,
+                typeAttributes: this.typeAttributes,
                 editable: (editAttrib) ? editAttrib.edit : false,
                 sortable: 'true',
                 initialWidth: (widthAttrib) ? widthAttrib.width : null
             });
-            if (otherResults) {
-                cols[columnNumber][otherAttribName] = otherAttribValue;
-            }
+
+            // Update Other Attributes attribute overrides by column
+            this.parseAttributes('other',this.otherAttribs,columnNumber);
 
             // Repeat for next column
             columnNumber += 1;
         });
-        this.columns = cols;
+        this.columns = this.cols;
         console.log('columns:',this.columns);
     }
 
-    parseAttributes(inputAttributes, outputAttributes, columnNumber) {
+    parseAttributes(propertyType,inputAttributes,columnNumber) {
         // Parse regular and nested name:value attribute pairs
         let result = [];
         let fullAttrib = inputAttributes.find(i => i['column'] == columnNumber);
         if (fullAttrib) {
-            let newAttribDef = outputAttributes;
             let attribSplit = this.removeSpaces(fullAttrib.attribute.slice(1,-1)).split(',');
             attribSplit.forEach(ca => {
                 let subAttribPos = ca.search('{');
@@ -429,24 +472,31 @@ export default class DatatableLwcFsc extends LightningElement {
                     // This attribute value has another attribute object definition {name: {name:value}}
                     let value = {};
                     let name = ca.split(':')[0];
-                    let attrib = ca.slice(subAttribPos).slice(1,-1)
+                    let attrib = ca.slice(subAttribPos).slice(1,-1);
                     let rightName = attrib.split(':')[0];
                     let rightValue = attrib.slice(attrib.search(':')+1);
                     value[rightName] = rightValue.replace(/["']{1}/gi,"");  // Remove single or double quotes
-                    newAttribDef[name] = value;
                     result['name'] = name;
                     result['value'] = value;
                 } else {
                     // This is a standard attribute definition {name:value}
                     let attrib = ca.split(':');
-                    newAttribDef[attrib[0]] = attrib[1]; 
                     result['name'] = attrib[0];
-                    result['value'] = attrib[1];                           
+                    result['value'] = attrib[1].replace(/["']{1}/gi,"");  // Remove single or double quotes;                           
+                }
+
+                switch(propertyType) {
+                    case 'cell':
+                        this.cellAttributes[result['name']] = result['value'];
+                        break;
+                    case 'type':
+                        this.typeAttributes[result['name']] = result['value'];
+                        break;
+                    default: // 'other'
+                        this.cols[columnNumber][result['name']] = result['value'];
                 }
             });
-            result['attribute'] = newAttribDef;
-        }
-        return result;        
+        }    
     }
 
     handleRowAction(event) {
@@ -465,6 +515,13 @@ export default class DatatableLwcFsc extends LightningElement {
             }
             return rowData;
         });
+    }
+
+    handleCellChange(event) {
+        // If suppressBottomBar is false, wait for the Save or Cancel button
+        if (this.suppressBottomBar) {
+            this.handleSave(event);
+        }
     }
 
     handleSave(event) {
@@ -508,9 +565,9 @@ export default class DatatableLwcFsc extends LightningElement {
 
         this.savePreEditData = [...data];   // Resave the current table values
         this.mydata = [...data];            // Reset the current table values
-
-        // Force clearing of the edit highlights
-        this.columns = [...this.columns];
+        if (!this.suppressBottomBar) {
+            this.columns = [...this.columns];   // Force clearing of the edit highlights
+        }
     }
 
     cancelChanges(event) {
@@ -530,7 +587,7 @@ export default class DatatableLwcFsc extends LightningElement {
         this.outputSelectedRows = [...sdata]; // Set output attribute values
         console.log('outputSelectedRows',this.outputSelectedRows);
     }
-   
+
     updateColumnSorting(event) {
         // Handle column sorting
         console.log('Sort:',event.detail.fieldName,event.detail.sortDirection);
