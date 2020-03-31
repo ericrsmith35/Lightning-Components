@@ -92,6 +92,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api widths = [];
     @api lookups = [];
     @api cols = [];
+    @api attribCount = 0;
     @api recordData = [];
     @track showSpinner = true;
 
@@ -108,6 +109,7 @@ export default class DatatableLwcFsc extends LightningElement {
 
         // Parse Column Alignment attribute
         const parseAlignments = (this.columnAlignments.length > 0) ? this.columnAlignments.replace(/\s/g, '').split(',') : [];
+        this.attribCount = (parseAlignments.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
         parseAlignments.forEach(align => {
             this.alignments.push({
                 column: this.columnReference(align),
@@ -118,6 +120,7 @@ export default class DatatableLwcFsc extends LightningElement {
         // Parse Column Edit attribute
         if (this.columnEdits.toLowerCase() != 'all') {
             const parseEdits = (this.columnEdits.length > 0) ? this.columnEdits.replace(/\s/g, '').split(',') : [];
+            this.attribCount = (parseEdits.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
             this.editAttribType = 'none';
             parseEdits.forEach(edit => {
                 let colEdit = (this.columnValue(edit).toLowerCase() == 'true') ? true : false;
@@ -133,6 +136,7 @@ export default class DatatableLwcFsc extends LightningElement {
 
         // Parse Column Icon attribute
         const parseIcons = (this.columnIcons.length > 0) ? this.columnIcons.replace(/\s/g, '').split(',') : [];
+        this.attribCount = (parseIcons.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
         parseIcons.forEach(icon => {
             this.icons.push({
                 column: this.columnReference(icon),
@@ -142,6 +146,7 @@ export default class DatatableLwcFsc extends LightningElement {
 
         // Parse Column Label attribute
         const parseLabels = (this.columnLabels.length > 0) ? this.removeSpaces(this.columnLabels).split(',') : [];
+        this.attribCount = (parseLabels.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
         parseLabels.forEach(label => {
             this.labels.push({
                 column: this.columnReference(label),
@@ -151,6 +156,7 @@ export default class DatatableLwcFsc extends LightningElement {
         
         // Parse Column Width attribute
         const parseWidths = (this.columnWidths.length > 0) ? this.columnWidths.replace(/\s/g, '').split(',') : [];
+        this.attribCount = (parseWidths.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
         parseWidths.forEach(width => {
             this.widths.push({
                 column: this.columnReference(width),
@@ -160,6 +166,7 @@ export default class DatatableLwcFsc extends LightningElement {
 
         // Parse Column CellAttribute attribute (Because multiple attributes use , these are separated by ;)
         const parseCellAttribs = (this.columnCellAttribs.length > 0) ? this.removeSpaces(this.columnCellAttribs).split(';') : [];
+        this.attribCount = 0;   // These attributes must specify a column number or field API name
         parseCellAttribs.forEach(cellAttrib => {
             this.cellAttribs.push({
                 column: this.columnReference(cellAttrib),
@@ -169,7 +176,8 @@ export default class DatatableLwcFsc extends LightningElement {
         
         // Parse Column Other Attributes attribute (Because multiple attributes use , these are separated by ;)
         const parseOtherAttribs = (this.columnOtherAttribs.length > 0) ? this.removeSpaces(this.columnOtherAttribs).split(';') : [];
-            parseOtherAttribs.forEach(otherAttrib => {
+        this.attribCount = 0;   // These attributes must specify a column number or field API name
+        parseOtherAttribs.forEach(otherAttrib => {
             this.otherAttribs.push({
                 column: this.columnReference(otherAttrib),
                 attribute: this.columnValue(otherAttrib)
@@ -178,6 +186,7 @@ export default class DatatableLwcFsc extends LightningElement {
          
         // Parse Column TypeAttribute attribute (Because multiple attributes use , these are separated by ;)
         const parseTypeAttribs = (this.columnTypeAttribs.length > 0) ? this.removeSpaces(this.columnTypeAttribs).split(';') : [];
+        this.attribCount = 0;   // These attributes must specify a column number or field API name
         parseTypeAttribs.forEach(typeAttrib => {
             this.typeAttribs.push({
                 column: this.columnReference(typeAttrib),
@@ -218,12 +227,19 @@ export default class DatatableLwcFsc extends LightningElement {
 
     columnReference(attrib) {
         // The column reference can be either the field API name or the column sequence number (1,2,3 ...)
+        // If no column reference is specified, the values are assigned to columns in order (There must be a value provided for each column)
         // Return the actual column # (0,1,2 ...)
-        let colDescriptor = attrib.split(':')[0];
-        let colRef = Number(colDescriptor)-1;
-        if (isNaN(colRef)) {
-            colRef = this.columnArray.indexOf(colDescriptor);
-            colRef = (colRef != -1) ? colRef : 999; // If no match for the field name, set to non-existent column #
+        let colRef = 0;
+        if (this.attribCount == 0) {
+            let colDescriptor = attrib.split(':')[0];
+            colRef = Number(colDescriptor)-1;
+            if (isNaN(colRef)) {
+                colRef = this.columnArray.indexOf(colDescriptor);
+                colRef = (colRef != -1) ? colRef : 999; // If no match for the field name, set to non-existent column #
+            }
+        } else {
+            colRef = this.attribCount-1;
+            this.attribCount += 1;
         }
         return colRef;
     }

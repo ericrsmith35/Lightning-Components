@@ -15,7 +15,7 @@ Features:
 * Inline editing is supported with changed values passed back to the flow
 * Unlike the original datatable component, only the edited records will be passed back to the flow
 * The maximum number of rows to display can be set by the user
-* Optional attribute overrides are supported and can be specified by column # or by field name, including:
+* Optional attribute overrides are supported and can be specified by list, column # or by field name, including:
   * Alignment
   * Custom Cell Attributes with nested values {name: {name:value}}
   * Editable
