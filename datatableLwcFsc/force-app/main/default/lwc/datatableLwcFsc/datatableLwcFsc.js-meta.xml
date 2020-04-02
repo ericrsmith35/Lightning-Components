@@ -39,7 +39,7 @@
                 description="Comma separated list of ColID:Icon Identifier  --  EXAMPLE: 1:standard:account (Display the first column with the Account icon)  
                   --  NOTE: ColIDs can be either the column number or the field API Name"/>
             <property name="columnLabels" label="- Column Labels (Col#:label,...)" type="String" role="inputOnly"
-                description="Comma separated list of ColID:Label (These are only needed if you want a label that is different from the field's defined label.  
+                description="Comma separated list of ColID:Label (These are only needed if you want a label that is different from the field's defined label)  
                   --  NOTE: ColIDs can be either the column number or the field API Name"/>
             <property name="columnWidths" label="- Column Widths (Col#:width,...)" type="String" role="inputOnly"
                 description="Comma separated list of ColID:Width (in pixels).  
