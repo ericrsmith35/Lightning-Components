@@ -35,7 +35,7 @@ Features:
   * Other Custom Column Attributes with nested values {name: {name:value}}
 
 
-04/xx/20 -  Eric Smith -    Version 1.1
+04/14/20 -  Eric Smith -    Version 1.1
 
 Additions:  New Column Attribute to support column filtering
 
