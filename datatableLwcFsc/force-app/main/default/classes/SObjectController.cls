@@ -14,6 +14,7 @@
  *              records that now include both the Id and Name for each lookup.
  * 
  * 04/01/20 -   Eric Smith -    Version 1.0
+ * 04/14/20 -   Eric Smith -    Version 1.1     Cleaned up some error handling
  * 
  **/
 
