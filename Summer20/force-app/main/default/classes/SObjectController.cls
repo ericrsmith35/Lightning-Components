@@ -33,6 +33,9 @@ public with sharing class SObjectController {
 
     @AuraEnabled
     public static string getReturnResults(List<SObject> records, String fieldNames){
+System.debug('records' + records);
+        if (records.isEmpty())
+            throw new MyApexException ('The datatable record collection is empty');
         String objName = records[0].getSObjectType().getDescribe().getName();
         ReturnResults curRR = new ReturnResults();
         curRR = getColumnData(curRR, fieldNames, objName);
