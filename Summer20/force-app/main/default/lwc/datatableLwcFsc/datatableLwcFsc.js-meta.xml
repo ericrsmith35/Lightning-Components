@@ -12,16 +12,16 @@
         <targetConfig targets="lightning__FlowScreen">
 
             <!-- New in Summer '20' - Support for Dynamic SObject Selection -->
-            <propertyType name="T" extends="SObject[]" label="Object API Name"
+            <propertyType name="T" extends="SObject" label="Object API Name"
                 description="Select the API Name of the SObject to use in the Datatable"/>
-            <property name="tableData" label="_ Datatable Record Collection" type="{T}" role="inputOnly"
+            <property name="tableData" label="_ Datatable Record Collection" type="{T[]}" role="inputOnly"
                 description="REQUIRED: Record Collection variable containing the records to display in the datatable."/>
-            <property name="preSelectedRows" label="Pre-Selected Rows" type="{T}" role="inputOnly"
+            <property name="preSelectedRows" label="Pre-Selected Rows" type="{T[]}" role="inputOnly"
                 description="Record Collection variable containing the records to show as pre-selected in the datatable."/>
-            <property name="outputSelectedRows" label="Output Selected Rows" type="{T}" role="outputOnly"
+            <property name="outputSelectedRows" label="Output Selected Rows" type="{T[]}" role="outputOnly"
                 description="Record Collection variable to contain only the records that were selected in the datatable. 
                   --  NOTE: These records may not contain all of the edited values."/>
-            <property name="outputEditedRows" label="Output Edited Rows" type="{T}" role="outputOnly"
+            <property name="outputEditedRows" label="Output Edited Rows" type="{T[]}" role="outputOnly"
                 description="Record Collection variable to contain only the records that were edited in the datatable. 
                   --  NOTE: To write these edits back to the Object, you will need to do a Record Update in the Flow."/>
 
