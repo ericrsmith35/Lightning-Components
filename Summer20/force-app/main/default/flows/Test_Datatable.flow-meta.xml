@@ -104,18 +104,6 @@
                 <typeName>T</typeName>
                 <typeValue>Account</typeValue>
             </dataTypeMappings>
-            <dataTypeMappings>
-                <typeName>U</typeName>
-                <typeValue>Account</typeValue>
-            </dataTypeMappings>
-            <dataTypeMappings>
-                <typeName>V</typeName>
-                <typeValue>Account</typeValue>
-            </dataTypeMappings>
-            <dataTypeMappings>
-                <typeName>W</typeName>
-                <typeValue>Account</typeValue>
-            </dataTypeMappings>
             <extensionName>c:datatableLwcFsc</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
@@ -160,18 +148,6 @@
             <name>ResultsTable</name>
             <dataTypeMappings>
                 <typeName>T</typeName>
-                <typeValue>Account</typeValue>
-            </dataTypeMappings>
-            <dataTypeMappings>
-                <typeName>U</typeName>
-                <typeValue>Account</typeValue>
-            </dataTypeMappings>
-            <dataTypeMappings>
-                <typeName>V</typeName>
-                <typeValue>Account</typeValue>
-            </dataTypeMappings>
-            <dataTypeMappings>
-                <typeName>W</typeName>
                 <typeValue>Account</typeValue>
             </dataTypeMappings>
             <extensionName>c:datatableLwcFsc</extensionName>
