@@ -35,7 +35,7 @@
         <name>Get_All_Accounts</name>
         <label>Get All Accounts</label>
         <locationX>361</locationX>
-        <locationY>211</locationY>
+        <locationY>208</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Pre_Selected_Accounts</targetReference>
@@ -67,7 +67,7 @@
     <screens>
         <name>Account_Selection</name>
         <label>Account Selection</label>
-        <locationX>648</locationX>
+        <locationX>651</locationX>
         <locationY>353</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -115,8 +115,8 @@
     </screens>
     <screens>
         <name>ResultsScreen</name>
-        <label>ResultsScreen</label>
-        <locationX>786</locationX>
+        <label>Results Screen</label>
+        <locationX>796</locationX>
         <locationY>353</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -205,15 +205,7 @@
     </start>
     <status>Draft</status>
     <variables>
-        <name>colEdited</name>
-        <dataType>SObject</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Account</objectType>
-    </variables>
-    <variables>
-        <name>colSelected</name>
+        <name>colEmpty</name>
         <dataType>SObject</dataType>
         <isCollection>true</isCollection>
         <isInput>false</isInput>
