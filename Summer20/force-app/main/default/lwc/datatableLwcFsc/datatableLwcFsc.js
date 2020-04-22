@@ -319,12 +319,12 @@ export default class DatatableLwcFsc extends LightningElement {
 
             // Done processing the datatable
             this.showSpinner = false;
-        // })
-        // .catch(error => {
-        //     console.log('getReturnResults error is: ' + JSON.stringify(error));
-        //     this.errorApex = 'Apex Action error: ' + error.body.message;
-        //     alert(this.errorApex + '\n'  + error.body.stackTrace);  // Present the error to the user
-        //     return this.errorApex; 
+        })
+        .catch(error => {
+            console.log('getReturnResults error is: ' + JSON.stringify(error));
+            this.errorApex = 'Apex Action error: ' + error.body.message;
+            alert(this.errorApex + '\n'  + error.body.stackTrace);  // Present the error to the user
+            return this.errorApex; 
         });
     }
 
