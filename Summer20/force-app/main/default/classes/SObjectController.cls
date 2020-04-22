@@ -13,8 +13,9 @@
  *              of the Name fields in the corresponding records. Return the
  *              records that now include both the Id and Name for each lookup.
  * 
- * 04/01/20 -   Eric Smith -    Version 1.0
+ * 04/22/20 -   Eric Smith -    Version 2.0     Handle being passed an empty record collection
  * 04/14/20 -   Eric Smith -    Version 1.1     Cleaned up some error handling
+ * 04/01/20 -   Eric Smith -    Version 1.0
  * 
  **/
 
