@@ -1,4 +1,5 @@
 import { LightningElement, api, track, wire } from 'lwc';
+import { FlowAttributeChangeEvent } from 'lightning/flowSupport';
 
 export default class TestDynamicSObject extends LightningElement {
 
@@ -18,7 +19,7 @@ export default class TestDynamicSObject extends LightningElement {
 
     handleClick(event) {
         console.log('CLICK-ENTER - Current Output Record Count:',this.output.length);
-        this.output = this.input;
+        this.dispatchEvent(new FlowAttributeChangeEvent('output', this.input));
         this.displayOutputCount = this.output.length;
         this.displayOutputRec1 = this.output[0].Name;
         console.log('CLICK-EXIT - New Output Record Count:',this.displayOutputCount);

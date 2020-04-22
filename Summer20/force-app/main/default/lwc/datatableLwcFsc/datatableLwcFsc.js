@@ -25,6 +25,7 @@
 
 import { LightningElement, api, track, wire } from 'lwc';
 import getReturnResults from '@salesforce/apex/SObjectController.getReturnResults';
+import { FlowAttributeChangeEvent } from 'lightning/flowSupport';
 
 const MAXROWCOUNT = 1000;   // Limit the total number of records to be handled by this component
 
@@ -249,6 +250,7 @@ export default class DatatableLwcFsc extends LightningElement {
 
         // Handle pre-selected records
         this.outputSelectedRows = this.preSelectedRows;
+        this.dispatchEvent(new FlowAttributeChangeEvent('outputSelectedRows', this.outputSelectedRows));
         const selected = JSON.parse(JSON.stringify([...this.preSelectedRows]));
         selected.forEach(record => {
             this.selectedRows.push(record[this.keyField]);            
@@ -632,6 +634,7 @@ export default class DatatableLwcFsc extends LightningElement {
                     efieldNames.forEach(ef => orecord[ef] = edraft[ef]);    // Change existing output record
                 } else {
                     this.outputEditedRows.push(eitem);  // Add to output attribute collection
+                    this.dispatchEvent(new FlowAttributeChangeEvent('outputEditedRows', this.outputEditedRows));
                 }
             }
             return eitem;
@@ -659,6 +662,7 @@ export default class DatatableLwcFsc extends LightningElement {
             sdata.push(selData);
         });
         this.outputSelectedRows = [...sdata]; // Set output attribute values
+        this.dispatchEvent(new FlowAttributeChangeEvent('outputSelectedRows', this.outputSelectedRows));
         console.log('outputSelectedRows',this.outputSelectedRows);
     }
 

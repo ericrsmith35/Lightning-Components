@@ -14,16 +14,14 @@
             <propertyType name="U" extends="SObject" label="Output-Object API Name"/>
             <property name="input" label="Input Data" type="{T[]}" role="inputOnly"/>
             <property name="output" label="Output Data" type="{U[]}" role="outputOnly"/> -->
-
-            <!-- The output is empty in the Flow -->
-<!--             
+            
             <propertyType name="T" extends="SObject" label="Object API Name"/>
             <property name="input" label="Input Data" type="{T[]}" role="inputOnly"/>
-            <property name="output" label="Output Data" type="{T[]}" role="outputOnly"/> -->
-
+            <property name="output" label="Output Data" type="{T[]}" role="outputOnly"/>
+<!-- 
             <propertyType name="T" extends="SObject" label="Object API Name"/>
             <property name="input" label="Input Data" type="{T[]}" role="inputOnly"/>
-            <property name="output" label="Output Data" type="{T[]}"/>
+            <property name="output" label="Output Data" type="{T[]}"/> -->
 
         </targetConfig>
     </targetConfigs>

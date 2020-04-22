@@ -1,32 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <assignments>
-        <name>Get_Results</name>
-        <label>Get Results</label>
-        <locationX>759</locationX>
-        <locationY>529</locationY>
-        <assignmentItems>
-            <assignToReference>colSelected</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>DisplayTable.outputSelectedRows</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>colEdited</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>DisplayTable.outputEditedRows</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>ResultsScreen</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Set_Attributes</name>
         <label>Set Attributes</label>
-        <locationX>543</locationX>
+        <locationX>506</locationX>
         <locationY>353</locationY>
         <assignmentItems>
             <assignToReference>vFields</assignToReference>
@@ -90,13 +67,13 @@
     <screens>
         <name>Account_Selection</name>
         <label>Account Selection</label>
-        <locationX>685</locationX>
+        <locationX>648</locationX>
         <locationY>353</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Get_Results</targetReference>
+            <targetReference>ResultsScreen</targetReference>
         </connector>
         <fields>
             <name>DisplayTable</name>
@@ -139,11 +116,16 @@
     <screens>
         <name>ResultsScreen</name>
         <label>ResultsScreen</label>
-        <locationX>844</locationX>
-        <locationY>354</locationY>
+        <locationX>786</locationX>
+        <locationY>353</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
+        <fields>
+            <name>Selected</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;Selected&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <fields>
             <name>ResultsTable</name>
             <dataTypeMappings>
@@ -161,7 +143,45 @@
             <inputParameters>
                 <name>tableData</name>
                 <value>
-                    <elementReference>colSelected</elementReference>
+                    <elementReference>DisplayTable.outputSelectedRows</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>hideCheckboxColumn</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>blank</name>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Edited</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Edited&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>DisplayEdited</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>Account</typeValue>
+            </dataTypeMappings>
+            <extensionName>c:datatableLwcFsc</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>columnFields</name>
+                <value>
+                    <elementReference>vFields</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>tableData</name>
+                <value>
+                    <elementReference>DisplayTable.outputEditedRows</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
