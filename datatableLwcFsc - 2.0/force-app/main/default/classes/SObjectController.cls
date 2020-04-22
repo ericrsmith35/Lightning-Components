@@ -33,23 +33,11 @@ public with sharing class SObjectController {
 
     @AuraEnabled
     public static string getReturnResults(List<SObject> records, String fieldNames){
+        String objName = records[0].getSObjectType().getDescribe().getName();
         ReturnResults curRR = new ReturnResults();
-        if (records.isEmpty()) {
-            // throw new MyApexException ('The datatable record collection is empty');
-            List<String> emptyList = new List<String>();
-            curRR.dtableColumnFieldDescriptorString = '{"label":"Empty Table", "fieldName":"Id", "type":"text"}';
-            curRR.lookupFieldList = emptyList;
-            curRR.percentFieldList = emptyList;
-            curRR.noEditFieldList = emptyList;
-            curRR.timeFieldList = emptyList;
-            curRR.rowData = records;
-            curRR.objectName = 'EmptyCollection';
-        } else {           
-            String objName = records[0].getSObjectType().getDescribe().getName();
-            curRR = getColumnData(curRR, fieldNames, objName);
-            curRR.rowData = getRowData(records, curRR.lookupFieldList, curRR.percentFieldList);
-            curRR.objectName = objName;
-        }
+        curRR = getColumnData(curRR, fieldNames, objName);
+        curRR.rowData = getRowData(records, curRR.lookupFieldList, curRR.percentFieldList);
+        curRR.objectName = objName;
         return JSON.serialize(curRR);  
     }
 

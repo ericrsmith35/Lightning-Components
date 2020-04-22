@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
 
-    <masterLabel>datatable_v2.0</masterLabel>
+    <masterLabel>datatable_Account_v1.1</masterLabel>     <!-- Change the Object name here to identify the component in the Custom Screen Component List -->
+
     <description>This component allows the user to configure and display a datatable in a Flow screen.</description>
-    <apiVersion>49.0</apiVersion>
+    <apiVersion>48.0</apiVersion>
     <isExposed>true</isExposed>    
     <targets>
         <target>lightning__FlowScreen</target>
@@ -11,23 +12,21 @@
     <targetConfigs>
         <targetConfig targets="lightning__FlowScreen">
 
-            <!-- New in Summer '20' - Support for Dynamic SObject Selection -->
-            <propertyType name="T" extends="SObject" label="Datatable Object API Name"
-                description="Select the API Name of the SObject to use in the Datatable"/>
-            
-            <property name="tableData" label="_ Datatable Record Collection" type="{T[]}" role="inputOnly" required="true" default="colSObject"
+<!-- ========================== Change the Object name in the next 4 rows to support a different Object ========================== -->
+            <property name="tableData" label="_ Datatable Record Collection" type="@salesforce/schema/Account[]" role="inputOnly"
                 description="REQUIRED: Record Collection variable containing the records to display in the datatable."/>
-            <property name="preSelectedRows" label="Pre-Selected Rows" type="{T[]}" role="inputOnly"
+            <property name="preSelectedRows" label="Pre-Selected Rows" type="@salesforce/schema/Account[]" role="inputOnly"
                 description="Record Collection variable containing the records to show as pre-selected in the datatable."/>
-            <property name="outputEditedRows" label="Output Edited Rows" type="{T[]}" role="outputOnly"
-                description="Record Collection variable to contain only the records that were edited in the datatable. 
-                  --  NOTE: To write these edits back to the Object, you will need to do a Record Update in the Flow."/>
-            <property name="outputSelectedRows" label="Output Selected Rows" type="{T[]}" role="outputOnly"
+            <property name="outputSelectedRows" label="Output Selected Rows" type="@salesforce/schema/Account[]" role="outputOnly"
                 description="Record Collection variable to contain only the records that were selected in the datatable. 
                   --  NOTE: These records may not contain all of the edited values."/>
+            <property name="outputEditedRows" label="Output Edited Rows" type="@salesforce/schema/Account[]" role="outputOnly"
+                description="Record Collection variable to contain only the records that were edited in the datatable. 
+                  --  NOTE: To write these edits back to the Object, you will need to do a Record Update in the Flow."/>
+<!-- ============================================================================================================================- -->
 
              <!-- Forcing sort order of parameters with special characters _(1) -(2) .(3) -->
-            <property name="columnFields" label="_ Column Fields" type="String" role="inputOnly" required="true" default="Name, Id"
+            <property name="columnFields" label="_ Column Fields" type="String" role="inputOnly"
                 description="REQUIRED: Comma separated list of field API Names to display in the datatable."/>
             <property name="columnAlignments" label="- Column Alignments (Col#:alignment,...)" type="String" role="inputOnly"
                 description="Comma separated list of ColID:Alignment Value (left,center,right).  
