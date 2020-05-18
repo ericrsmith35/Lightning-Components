@@ -645,7 +645,7 @@ export default class DatatableLwcFsc extends LightningElement {
                 if (orecord) {
                     efieldNames.forEach(ef => orecord[ef] = edraft[ef]);    // Change existing output record
                 } else {
-                    this.outputEditedRows.push(eitem);  // Add to output attribute collection
+                    this.outputEditedRows = [...this.outputEditedRows,eitem];     // Add to output attribute collection
                     this.dispatchEvent(new FlowAttributeChangeEvent('outputEditedRows', this.outputEditedRows));
                 }
             }

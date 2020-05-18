@@ -755,7 +755,7 @@ console.log('this.lookups',this.lookups);
                 if (orecord) {
                     efieldNames.forEach(ef => orecord[ef] = edraft[ef]);    // Change existing output record
                 } else {
-                    this.outputEditedRows.push(eitem);  // Add to output attribute collection
+                    this.outputEditedRows = [...this.outputEditedRows,eitem];     // Add to output attribute collection
                     this.outputEditedRowsString = JSON.stringify(this.outputEditedRows);                                        //JSON Version
                     // this.dispatchEvent(new FlowAttributeChangeEvent('outputEditedRows', this.outputEditedRows));             //JSON Version
                     this.dispatchEvent(new FlowAttributeChangeEvent('outputEditedRowsString', this.outputEditedRowsString));    //JSON Version
