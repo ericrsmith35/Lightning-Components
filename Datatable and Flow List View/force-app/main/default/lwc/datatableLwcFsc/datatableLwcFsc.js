@@ -34,7 +34,7 @@ const FILTER_ACTION = 0;    // Column Action Attribute Number
 const CLEAR_ACTION = 1;     // Column Action Attribute Number
 
 export default class DatatableLwcFsc extends LightningElement {
-
+    
     // Component Input & Output Attributes
     @api tableData = [];
     @api columnFields = [];
@@ -57,6 +57,19 @@ export default class DatatableLwcFsc extends LightningElement {
     @api outputSelectedRows = [];
     @api outputEditedRows = [];
 
+    // JSON Version Attributes (User Defined Object)
+    @api isUserDefinedObject = false;
+    @api tableDataString = [];
+    @api preSelectedRowsString = [];
+    @api outputSelectedRowsString = '';
+    @api outputEditedRowsString = '';
+    @api columnScales = [];
+    @api columnTypes = [];
+    
+    // JSON Version Variables
+    @api scales = [];
+    @api types = [];
+        
     // Other Datatable attributes
     @api sortedBy;
     @api sortDirection; 
@@ -118,7 +131,22 @@ export default class DatatableLwcFsc extends LightningElement {
     @track showSpinner = true;
 
     connectedCallback() {
-                  
+
+console.log('START');
+        // JSON input attributes
+        if (this.isUserDefinedObject) {
+    console.log('tableDataString - ',this.tableDataString);
+            if (this.tableDataString.length == 0) {
+                this.tableDataString = '[{"'+this.keyField+'":"(empty table)"}]';
+                this.columnFields = this.keyField;
+                this.columnTypes = [];
+                this.columnScales = [];
+            }
+            this.tableData = JSON.parse(this.tableDataString);
+    console.log('tableData - ',this.tableData);    
+            this.preSelectedRows = (this.preSelectedRowsString.length > 0) ? JSON.parse(this.preSelectedRowsString) : [];  
+        }
+
         // Restrict the number of records handled by this component
         let min = Math.min(MAXROWCOUNT, this.maxNumberOfRows);
         if (this.tableData.length > min) {
@@ -127,6 +155,19 @@ export default class DatatableLwcFsc extends LightningElement {
 
         // Get array of column field API names
         this.columnArray = (this.columnFields.length > 0) ? this.columnFields.replace(/\s/g, '').split(',') : [];
+console.log('columnArray - ',this.columnArray);    
+        // JSON Version - Build basicColumns default values
+        if (this.isUserDefinedObject) {
+            this.columnArray.forEach(field => {
+                this.basicColumns.push({
+                    label: field,
+                    fieldName: field,
+                    type: 'text',
+                    scale: 0
+                });
+            })
+        }
+console.log('basicColumns - ',this.basicColumns); 
 
         // Parse Column Alignment attribute
         const parseAlignments = (this.columnAlignments.length > 0) ? this.columnAlignments.replace(/\s/g, '').split(',') : [];
@@ -196,7 +237,28 @@ export default class DatatableLwcFsc extends LightningElement {
                 label: this.columnValue(label)
             });
         });
-        
+
+        if (this.isUserDefinedObject) {
+            // JSON Version - Parse Column Scale attribute
+            const parseScales = (this.columnScales.length > 0) ? this.removeSpaces(this.columnScales).split(',') : [];
+            this.attribCount = (parseScales.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
+            parseScales.forEach(scale => {
+                this.scales.push({
+                    column: this.columnReference(scale),
+                    scale: this.columnValue(scale)
+                });
+            });
+            // JSON Version - Parse Column Type attribute
+            const parseTypes = (this.columnTypes.length > 0) ? this.removeSpaces(this.columnTypes).split(',') : [];
+            this.attribCount = (parseTypes.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
+            parseTypes.forEach(type => {
+                this.types.push({
+                    column: this.columnReference(type),
+                    type: this.columnValue(type)
+                });
+            });
+        }
+
         // Parse Column Width attribute
         const parseWidths = (this.columnWidths.length > 0) ? this.columnWidths.replace(/\s/g, '').split(',') : [];
         this.attribCount = (parseWidths.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
@@ -252,7 +314,12 @@ export default class DatatableLwcFsc extends LightningElement {
 
         // Handle pre-selected records
         this.outputSelectedRows = this.preSelectedRows;
-        this.dispatchEvent(new FlowAttributeChangeEvent('outputSelectedRows', this.outputSelectedRows));
+        if (this.isUserDefinedObject) {
+            this.outputSelectedRowsString = JSON.stringify(this.outputSelectedRows);                                        //JSON Version
+            this.dispatchEvent(new FlowAttributeChangeEvent('outputSelectedRowsString', this.outputSelectedRowsString));    //JSON Version
+        } else {
+            this.dispatchEvent(new FlowAttributeChangeEvent('outputSelectedRows', this.outputSelectedRows));
+        }    
         const selected = JSON.parse(JSON.stringify([...this.preSelectedRows]));
         selected.forEach(record => {
             this.selectedRows.push(record[this.keyField]);            
@@ -294,41 +361,83 @@ export default class DatatableLwcFsc extends LightningElement {
     }
 
     processDatatable() {
-        // Call Apex Controller and get Column Definitions and update Row Data
-        let data = (this.tableData) ? JSON.parse(JSON.stringify([...this.tableData])) : [];
-        let fieldList = this.columnFields.replace(/\s/g, ''); // Remove spaces
-        getReturnResults({ records: data, fieldNames: fieldList })
-        .then(result => {
-            let returnResults = JSON.parse(result);
+        if (this.isUserDefinedObject) {
 
-            // Assign return results from the Apex callout
-            this.recordData = [...returnResults.rowData];
-            this.lookups = returnResults.lookupFieldList;
-            this.percentFieldArray = (returnResults.percentFieldList.length > 0) ? returnResults.percentFieldList.toString().split(',') : [];
-            this.timeFieldArray = (returnResults.timeFieldList.length > 0) ? returnResults.timeFieldList.toString().split(',') : [];
-            this.objectName = returnResults.objectName;
-            this.lookupFieldArray = JSON.parse('[' + returnResults.lookupFieldData + ']');
+            // JSON Version set recordData
+            this.recordData = [...this.tableData];
+
+            // JSON Version Special Field Types
+            this.types.forEach(t => {
+console.log('*** types',this.types,'xxx',t);
+                switch(t.type) {
+                    case 'percent':
+                        this.percentFieldArray.push(this.basicColumns[t.column].fieldName);
+                        this.basicColumns[t.column].type = 'percent';
+                        break;
+                    case 'time':
+                        this.timeFieldArray.push(this.basicColumns[t.column].fieldName);
+                        this.basicColumns[t.column].type = 'time';
+                        break;
+                    case 'lookup':
+                        this.lookupFieldArray.push(this.basicColumns[t.column].fieldName);
+                        this.lookups.push(this.basicColumns[t.column].fieldName); 
+                        this.basicColumns[t.column].type = 'lookup';                 
+                }
+            });
 
             // Update row data for lookup, time and percent fields
             this.updateDataRows();
 
-            // Basic column info (label, fieldName, type) taken from the Schema in Apex
-            this.dtableColumnFieldDescriptorString = '[' + returnResults.dtableColumnFieldDescriptorString + ']';
-            this.basicColumns = JSON.parse(this.dtableColumnFieldDescriptorString);
-
             // Custom column processing
-            this.noEditFieldArray = (returnResults.noEditFieldList.length > 0) ? returnResults.noEditFieldList.toString().split(',') : [];
             this.updateColumns();
 
-            // Done processing the datatable
-            this.showSpinner = false;
-        })
-        .catch(error => {
-            console.log('getReturnResults error is: ' + JSON.stringify(error));
-            this.errorApex = 'Apex Action error: ' + error.body.message;
-            alert(this.errorApex + '\n'  + error.body.stackTrace);  // Present the error to the user
-            return this.errorApex; 
-        });
+console.log('cols ',this.cols);
+            if(this.cols[0].fieldName.endsWith('_lookup')) {
+                this.sortedBy = this.cols[0].fieldName;
+                this.doSort(this.sortedBy, 'asc');
+            }
+
+        } else {
+
+            // Call Apex Controller and get Column Definitions and update Row Data
+            let data = (this.tableData) ? JSON.parse(JSON.stringify([...this.tableData])) : [];
+            let fieldList = this.columnFields.replace(/\s/g, ''); // Remove spaces
+            getReturnResults({ records: data, fieldNames: fieldList })
+            .then(result => {
+                let returnResults = JSON.parse(result);
+
+                // Assign return results from the Apex callout
+                this.recordData = [...returnResults.rowData];
+                this.lookups = returnResults.lookupFieldList;
+                this.percentFieldArray = (returnResults.percentFieldList.length > 0) ? returnResults.percentFieldList.toString().split(',') : [];
+                this.timeFieldArray = (returnResults.timeFieldList.length > 0) ? returnResults.timeFieldList.toString().split(',') : [];
+                this.objectName = returnResults.objectName;
+                this.lookupFieldArray = JSON.parse('[' + returnResults.lookupFieldData + ']');
+
+                // Basic column info (label, fieldName, type) taken from the Schema in Apex
+                this.dtableColumnFieldDescriptorString = '[' + returnResults.dtableColumnFieldDescriptorString + ']';
+                this.basicColumns = JSON.parse(this.dtableColumnFieldDescriptorString);
+console.log('dtableColumnFieldDescriptorString',this.dtableColumnFieldDescriptorString,this.basicColumns);
+                this.noEditFieldArray = (returnResults.noEditFieldList.length > 0) ? returnResults.noEditFieldList.toString().split(',') : [];
+                
+                // Update row data for lookup, time and percent fields
+                this.updateDataRows();
+
+                // Custom column processing
+                this.updateColumns();
+
+            })
+            .catch(error => {
+                console.log('getReturnResults error is: ' + JSON.stringify(error));
+                this.errorApex = 'Apex Action error: ' + error.body.message;
+                alert(this.errorApex + '\n'  + error.body.stackTrace);  // Present the error to the user
+                return this.errorApex; 
+            });
+
+        }
+        
+        // Done processing the datatable
+        this.showSpinner = false;
     }
 
     updateDataRows() {
@@ -348,20 +457,25 @@ export default class DatatableLwcFsc extends LightningElement {
 
             // Flatten returned data
             lookupFields.forEach(lookup => {
-                if(lookup.toLowerCase().endsWith('id')) {
-                    lufield = lookup.replace(/Id$/gi,'');
+                if (this.isUserDefinedObject) {
+	                lufield = lookup;
+                    record[lufield + '_lookup'] = MYDOMAIN + record[lufield + '_lookup'];                    
                 } else {
-                    lufield = lookup.replace(/__c$/gi,'__r');
-                }
+                    if(lookup.toLowerCase().endsWith('id')) {
+                        lufield = lookup.replace(/Id$/gi,'');
+                    } else {
+                        lufield = lookup.replace(/__c$/gi,'__r');
+                    }
 
-                // Get the lookup field details
-                lookupFieldObject = this.lookupFieldArray.filter(obj => Object.keys(obj).some(key => obj[key].includes(lufield)))[0];
+                    // Get the lookup field details
+                    lookupFieldObject = this.lookupFieldArray.filter(obj => Object.keys(obj).some(key => obj[key].includes(lufield)))[0];
 
-                if (record[lufield]) {               
-                    record[lufield + '_name'] = record[lufield][lookupFieldObject['nameField']];
-                    record[lufield + '_id'] = record[lufield]['Id'];
-                    // Add new column with correct Lookup urls
-                    record[lufield + '_lookup'] = MYDOMAIN + '.lightning.force.com/lightning/r/' + lookupFieldObject['object'] + '/' + record[lufield + '_id'] + '/view';
+                    if (record[lufield]) {               
+                        record[lufield + '_name'] = record[lufield][lookupFieldObject['nameField']];
+                        record[lufield + '_id'] = record[lufield]['Id'];
+                        // Add new column with correct Lookup urls
+                        record[lufield + '_lookup'] = MYDOMAIN + '.lightning.force.com/lightning/r/' + lookupFieldObject['object'] + '/' + record[lufield + '_id'] + '/view';
+                    }
                 }
             });                
 
@@ -388,7 +502,7 @@ export default class DatatableLwcFsc extends LightningElement {
         let lufield = '';
 
         this.basicColumns.forEach(colDef => {
-
+console.log('basicColumns',this.basicColumns,colDef);
             // Standard parameters
             let label = colDef['label'];
             let fieldName = colDef['fieldName'];
@@ -398,6 +512,13 @@ export default class DatatableLwcFsc extends LightningElement {
             this.typeAttributes = {};
             let editAttrib = [];
             let filterAttrib = [];
+            let widthAttrib = [];
+            let typeAttrib = [];    // JSON Version
+            if (this.isUserDefinedObject) {
+                typeAttrib.type = 'text';
+            } else {
+                typeAttrib.type = type;
+            }            
 
             // Update Alignment attribute overrides by column
             let alignmentAttrib = this.alignments.find(i => i['column'] == columnNumber);
@@ -478,8 +599,22 @@ export default class DatatableLwcFsc extends LightningElement {
             // Update Label attribute overrides by column
             let labelAttrib = this.labels.find(i => i['column'] == columnNumber);
 
+            if (this.isUserDefinedObject) {
+	            // JSON Version - Update Scale attribute overrides by column
+                let scaleAttrib = this.scales.find(i => i['column'] == columnNumber);
+
+                // JSON Version - Update Type attribute overrides by column
+                if(type != 'lookup') {
+                    typeAttrib = this.types.find(i => i['column'] == columnNumber);
+                    if (!typeAttrib) {
+                        typeAttrib = [];
+                        typeAttrib.type = type;
+                    }
+                }
+            }
+
             // Update Width attribute overrides by column
-            let widthAttrib = this.widths.find(i => i['column'] == columnNumber);
+            widthAttrib = this.widths.find(i => i['column'] == columnNumber);
 
             // Set default typeAttributes based on data type
             switch(type) {
@@ -497,15 +632,20 @@ export default class DatatableLwcFsc extends LightningElement {
                 case 'currency':
                 case 'number':
                 case 'percent':
-                    this.typeAttributes = { minimumFractionDigits:scale };   // Show the number of decimal places defined for the field
+                    if (this.isUserDefinedObject) {
+                        this.typeAttributes = { minimumFractionDigits: (scaleAttrib) ? scaleAttrib.scale : scale };      // JSON Version
+                    } else {
+                        this.typeAttributes = { minimumFractionDigits:scale };   // Show the number of decimal places defined for the field
+                    }
                     break;
                 default:
             }
 
             // Change lookup to url and reference the new fields that will be added to the datatable object
             if(type == 'lookup') {
+console.log('*** lookup',typeAttrib);
                 if(this.lookups.includes(fieldName)) {
-                    type = 'url';
+                    typeAttrib.type = 'url';
                     if(fieldName.toLowerCase().endsWith('id')) {
                         lufield = fieldName.replace(/Id$/gi,'');
                     } else {
@@ -514,7 +654,7 @@ export default class DatatableLwcFsc extends LightningElement {
                     fieldName = lufield + '_lookup';
                     this.typeAttributes = { label: { fieldName: lufield + '_name' }, target: '_blank' };
                 } else {
-                    type = 'text';      // Non reparentable Master-Detail fields are not supported
+                    typeAttrib.type = 'text';      // Non reparentable Master-Detail fields are not supported
                 }
             }
 
@@ -523,13 +663,21 @@ export default class DatatableLwcFsc extends LightningElement {
 
             // Update TypeAttribute attribute overrides by column
             this.parseAttributes('type',this.typeAttribs,columnNumber);
-
+console.log('labelAttrib',labelAttrib);
+console.log('iconAttrib',iconAttrib);
+console.log('fieldName',fieldName);
+console.log('typeAttrib',typeAttrib);
+console.log('cellAttributes',this.cellAttributes);
+console.log('typeAttributes',this.typeAttributes);
+console.log('editAttrib',labelAttrib);
+console.log('filterAttrib',filterAttrib);
+console.log('widthAttrib',widthAttrib);
             // Save the updated column definitions
             this.cols.push({
                 label: (labelAttrib) ? labelAttrib.label : label,
                 iconName: (iconAttrib) ? iconAttrib.icon : null,
                 fieldName: fieldName,
-                type: type,
+                type: typeAttrib.type,
                 cellAttributes: this.cellAttributes,
                 typeAttributes: this.typeAttributes,
                 editable: (editAttrib) ? editAttrib.edit : false,
@@ -537,7 +685,7 @@ export default class DatatableLwcFsc extends LightningElement {
                 sortable: 'true',
                 initialWidth: (widthAttrib) ? widthAttrib.width : null
             });
-
+console.log('this.cols',this.cols);
             // Update Other Attributes attribute overrides by column
             this.parseAttributes('other',this.otherAttribs,columnNumber);
 
@@ -646,7 +794,12 @@ export default class DatatableLwcFsc extends LightningElement {
                     efieldNames.forEach(ef => orecord[ef] = edraft[ef]);    // Change existing output record
                 } else {
                     this.outputEditedRows = [...this.outputEditedRows,eitem];     // Add to output attribute collection
-                    this.dispatchEvent(new FlowAttributeChangeEvent('outputEditedRows', this.outputEditedRows));
+                    if (this.isUserDefinedObject) {
+                        this.outputEditedRowsString = JSON.stringify(this.outputEditedRows);                                        //JSON Version
+                        this.dispatchEvent(new FlowAttributeChangeEvent('outputEditedRowsString', this.outputEditedRowsString));    //JSON Version
+                    } else {
+                        this.dispatchEvent(new FlowAttributeChangeEvent('outputEditedRows', this.outputEditedRows));
+                    }
                 }
             }
             return eitem;
@@ -674,7 +827,12 @@ export default class DatatableLwcFsc extends LightningElement {
             sdata.push(selData);
         });
         this.outputSelectedRows = [...sdata]; // Set output attribute values
-        this.dispatchEvent(new FlowAttributeChangeEvent('outputSelectedRows', this.outputSelectedRows));
+        if (this.isUserDefinedObject) {
+            this.outputSelectedRowsString = JSON.stringify(this.outputSelectedRows);                                        //JSON Version
+            this.dispatchEvent(new FlowAttributeChangeEvent('outputSelectedRowsString', this.outputSelectedRowsString));    //JSON Version             
+        } else {
+            this.dispatchEvent(new FlowAttributeChangeEvent('outputSelectedRows', this.outputSelectedRows));
+        }
         console.log('outputSelectedRows',this.outputSelectedRows);
     }
 
@@ -682,17 +840,22 @@ export default class DatatableLwcFsc extends LightningElement {
         // Handle column sorting
         console.log('Sort:',event.detail.fieldName,event.detail.sortDirection);
         this.sortedBy = event.detail.fieldName;
-        let sortField = this.sortedBy;
+        this.sortedDirection = event.detail.sortDirection;
+        this.doSort(this.sortedBy, this.sortedDirection);
+    }
+    doSort(sortField, sortDirection) {
+console.log('START SORT',this.sortedBy,this.sortedDirection);
         // Change sort field from Id to Name for lookups
         if (sortField.endsWith('_lookup')) {
             sortField = sortField.slice(0,sortField.lastIndexOf('_lookup')) + '_name';   
         }
-        this.sortedDirection = event.detail.sortDirection;
+        
         let fieldValue = row => row[sortField] || '';
-        let reverse = this.sortedDirection === 'asc'? 1: -1;
+        let reverse = sortDirection === 'asc'? 1: -1;
         this.mydata = [...this.mydata.sort(
             (a,b)=>(a=fieldValue(a),b=fieldValue(b),reverse*((a>b)-(b>a)))
         )];
+console.log('DONE SORT',this.sortedBy,this.sortedDirection);
     }
     
     handleHeaderAction(event) {
@@ -726,6 +889,7 @@ export default class DatatableLwcFsc extends LightningElement {
                 this.filterColumnData();
 
                 this.filterColumns[this.columnNumber].actions[CLEAR_ACTION].disabled = true;
+                this.doSort(this.sortedBy, this.sortedDirection);       // Re-Sort the data
                 break;
 
             default:

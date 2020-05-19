@@ -10,12 +10,17 @@ Additional components packaged with this LWC:
 
                     Apex Classes:               SObjectController 
                                                 SObjectControllerTest
+                                               
 
 04/22/20 -  Eric Smith -    Version 2.0 
 
 Enhancements:   
             Summer '20 New Feature - Dynamic Object Type
             One version of the component now supports ALL Standard & Custom SObjects
+
+05/23/20 -  Eric Smith -    Version 1.3
+Updates:    Added support for a serialized JSON string of records of a user defined object
+            Bug Fix - Fixed error when editing multiple rows            
 
 05/06/20 -  Eric Smith -    Version 1.2
 Updates:    Handle lookup Objects without a Name field & 
@@ -95,25 +100,27 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVE
         </template>
 
         <!-- DATATABLE -->
-        <lightning-datatable
-            data={mydata}
-            columns={columns}
-            key-field={keyField}
-            sorted-by={sortedBy}
-            sorted-direction={sortedDirection}
-            max-row-selection={maxRowSelection}
-            selected-rows={selectedRows}
-            hide-checkbox-column={hideCheckboxColumn}
-            suppress-bottom-bar={suppressBottomBar}
-            onsort={updateColumnSorting}
-            oncellchange={handleCellChange}
-            onsave={handleSave}
-            oncancel={cancelChanges}
-            onheaderaction={handleHeaderAction}
-            onrowselection={handleRowSelection}
-            onrowaction={handleRowAction}
-        >
-        </lightning-datatable>
+        <div style="height:calc(100vh - 100px)">
+            <lightning-datatable
+                data={mydata}
+                columns={columns}
+                key-field={keyField}
+                sorted-by={sortedBy}
+                sorted-direction={sortedDirection}
+                max-row-selection={maxRowSelection}
+                selected-rows={selectedRows}
+                hide-checkbox-column={hideCheckboxColumn}
+                suppress-bottom-bar={suppressBottomBar}
+                onsort={updateColumnSorting}
+                oncellchange={handleCellChange}
+                onsave={handleSave}
+                oncancel={cancelChanges}
+                onheaderaction={handleHeaderAction}
+                onrowselection={handleRowSelection}
+                onrowaction={handleRowAction}
+            >
+            </lightning-datatable>
+        </div>
     </template>
 
     <!-- Spinner -->
