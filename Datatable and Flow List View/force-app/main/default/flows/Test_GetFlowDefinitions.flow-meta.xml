@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Get_Flow_Definitions</name>
-        <label>Get Flow Definitions</label>
-        <locationX>484</locationX>
+        <name>Get_Flow_Details</name>
+        <label>Get Flow Details</label>
+        <locationX>489</locationX>
         <locationY>186</locationY>
-        <actionName>FlowDefinitionController</actionName>
+        <actionName>GetFlowInfoAdvanced</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Display_Datatable</targetReference>
@@ -34,10 +34,7 @@
                 <elementReference>Flow_Type</elementReference>
             </value>
         </inputParameters>
-        <outputParameters>
-            <assignToReference>vFlowVersionsResult</assignToReference>
-            <name>FlowVersionRecords</name>
-        </outputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <choices>
         <name>Active</name>
@@ -125,7 +122,7 @@
     <screens>
         <name>Display_Datatable</name>
         <label>Display Datatable</label>
-        <locationX>634</locationX>
+        <locationX>635</locationX>
         <locationY>186</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -134,8 +131,8 @@
             <targetReference>Display_Selected_Rows</targetReference>
         </connector>
         <fields>
-            <name>JSON</name>
-            <extensionName>c:datatableJSON</extensionName>
+            <name>NewLWC</name>
+            <extensionName>c:datatableLwcFsc</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
                 <name>columnFields</name>
@@ -146,13 +143,19 @@
             <inputParameters>
                 <name>tableDataString</name>
                 <value>
-                    <elementReference>vFlowVersionsResult</elementReference>
+                    <elementReference>Get_Flow_Details.FlowVersionRecords</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>keyField</name>
+                <name>isUserDefinedObject</name>
                 <value>
-                    <stringValue>DurableId</stringValue>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnAlignments</name>
+                <value>
+                    <stringValue>VersionNumber:center,IsTemplate:center</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -180,9 +183,9 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>columnAlignments</name>
+                <name>columnCellAttribs</name>
                 <value>
-                    <stringValue>VersionNumber:center,IsTemplate:center</stringValue>
+                    <elementReference>fColumnCellAttributes</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -192,16 +195,13 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>columnCellAttribs</name>
+                <name>keyField</name>
                 <value>
-                    <elementReference>fColumnCellAttributes</elementReference>
+                    <stringValue>DurableId</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
-            <outputParameters>
-                <assignToReference>vSelectedRows</assignToReference>
-                <name>outputSelectedRowsString</name>
-            </outputParameters>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -215,9 +215,21 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
-            <name>JSON_0_0</name>
-            <extensionName>c:datatableJSON</extensionName>
+            <name>LWC_Edited</name>
+            <extensionName>c:datatableLwcFsc</extensionName>
             <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>isUserDefinedObject</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>tableDataString</name>
+                <value>
+                    <elementReference>LWC_Selected.outputEditedRowsString</elementReference>
+                </value>
+            </inputParameters>
             <inputParameters>
                 <name>columnFields</name>
                 <value>
@@ -225,15 +237,9 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>tableDataString</name>
+                <name>columnAlignments</name>
                 <value>
-                    <elementReference>vEditedRows</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>keyField</name>
-                <value>
-                    <stringValue>DurableId</stringValue>
+                    <stringValue>VersionNumber:center,IsTemplate:center</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -261,9 +267,9 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>columnAlignments</name>
+                <name>columnCellAttribs</name>
                 <value>
-                    <stringValue>VersionNumber:center,IsTemplate:center</stringValue>
+                    <elementReference>fColumnCellAttributes</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -273,9 +279,9 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>columnCellAttribs</name>
+                <name>keyField</name>
                 <value>
-                    <elementReference>fColumnCellAttributes</elementReference>
+                    <stringValue>DurableId</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -296,9 +302,15 @@
             <targetReference>Display_Edited_Rows</targetReference>
         </connector>
         <fields>
-            <name>JSON_0</name>
-            <extensionName>c:datatableJSON</extensionName>
+            <name>LWC_Selected</name>
+            <extensionName>c:datatableLwcFsc</extensionName>
             <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>isUserDefinedObject</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
             <inputParameters>
                 <name>columnFields</name>
                 <value>
@@ -306,25 +318,13 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>tableDataString</name>
+                <name>columnAlignments</name>
                 <value>
-                    <elementReference>vSelectedRows</elementReference>
+                    <stringValue>VersionNumber:center,IsTemplate:center</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>keyField</name>
-                <value>
-                    <stringValue>DurableId</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnTypes</name>
-                <value>
-                    <stringValue>Label:lookup,VersionNumber:number,IsTemplate:boolean</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnFilters</name>
+                <name>columnEdits</name>
                 <value>
                     <stringValue>All</stringValue>
                 </value>
@@ -342,9 +342,9 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>columnAlignments</name>
+                <name>columnCellAttribs</name>
                 <value>
-                    <stringValue>VersionNumber:center,IsTemplate:center</stringValue>
+                    <elementReference>fColumnCellAttributes</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -354,28 +354,31 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>columnCellAttribs</name>
+                <name>keyField</name>
                 <value>
-                    <elementReference>fColumnCellAttributes</elementReference>
+                    <stringValue>DurableId</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnTypes</name>
+                <value>
+                    <stringValue>Label:lookup,VersionNumber:number,IsTemplate:boolean</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
                 <name>preSelectedRowsString</name>
                 <value>
-                    <elementReference>vSelectedRows</elementReference>
+                    <elementReference>NewLWC.outputSelectedRowsString</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>columnEdits</name>
+                <name>tableDataString</name>
                 <value>
-                    <stringValue>All</stringValue>
+                    <elementReference>NewLWC.outputSelectedRowsString</elementReference>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
-            <outputParameters>
-                <assignToReference>vEditedRows</assignToReference>
-                <name>outputEditedRowsString</name>
-            </outputParameters>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -389,7 +392,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Get_Flow_Definitions</targetReference>
+            <targetReference>Get_Flow_Details</targetReference>
         </connector>
         <fields>
             <name>Title</name>
@@ -479,25 +482,4 @@
         </connector>
     </start>
     <status>Draft</status>
-    <variables>
-        <name>vEditedRows</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>vFlowVersionsResult</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>vSelectedRows</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
 </Flow>

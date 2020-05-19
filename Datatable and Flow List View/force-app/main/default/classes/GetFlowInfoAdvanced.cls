@@ -1,14 +1,16 @@
 /**
      * Get Flow details from the FlowDefinitionView, FlowVersionView and FlowVariableView objects
      * 
+     * This component also adds additional fields used in a Custom Object datatable in my Flow List View Flows 
+     * 
      * 05/09/20 -   Eric Smith -    Version 1.0
      * 
      */
 
-public with sharing class FlowDefinitionController {
+public with sharing class GetFlowInfoAdvanced {
 
-    Static Final Integer QUERY_LIMIT = 20;        // Batch size for reading FlowDefinitionView records
-    Static Final String ACTIVE_THEME = 'slds-theme_shade';    // DIsplay theme for Active Flows when displaying both Active & Inactive
+    Static Final Integer QUERY_LIMIT = 20;                  // Batch size for reading FlowDefinitionView records
+    Static Final String ACTIVE_THEME = 'slds-theme_shade';  // DIsplay theme for Active Flows when displaying both Active & Inactive
 
     public class Requests {
 
