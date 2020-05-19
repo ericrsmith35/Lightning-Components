@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <masterLabel>datatable_Account_v1.2</masterLabel>
-    <!-- Change the Object name here to identify the component in the Custom Screen Component List --><description>This component allows the user to configure and display a datatable in a Flow screen.</description>
+    <!-- Change the Object name here to identify the component in the Custom Screen Component List -->
+    <description>This component allows the user to configure and display a datatable in a Flow screen.</description>
     <apiVersion>48.0</apiVersion>
     <isExposed>true</isExposed>
     <targets>
@@ -9,13 +10,27 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__FlowScreen">
-            <!-- ========================== Change the Object name in the next 4 rows to support a different Object ========================== --><property name="tableData" label="_ Datatable Record Collection" type="@salesforce/schema/Account[]" role="inputOnly" description="REQUIRED: Record Collection variable containing the records to display in the datatable."/>
+
+            <!-- ========================== Change the Object name in the next 4 rows to support a different Object ========================== -->
+            <property name="tableData" label="_ Datatable Record Collection" type="@salesforce/schema/Account[]" role="inputOnly" description="REQUIRED: Record Collection variable containing the records to display in the datatable."/>
             <property name="preSelectedRows" label="Pre-Selected Rows" type="@salesforce/schema/Account[]" role="inputOnly" description="Record Collection variable containing the records to show as pre-selected in the datatable."/>
             <property name="outputSelectedRows" label="Output Selected Rows" type="@salesforce/schema/Account[]" role="outputOnly" description="Record Collection variable to contain only the records that were selected in the datatable. 
                   --  NOTE: These records may not contain all of the edited values."/>
             <property name="outputEditedRows" label="Output Edited Rows" type="@salesforce/schema/Account[]" role="outputOnly" description="Record Collection variable to contain only the records that were edited in the datatable. 
                   --  NOTE: To write these edits back to the Object, you will need to do a Record Update in the Flow."/>
-            <!-- ============================================================================================================================- --><!-- Forcing sort order of parameters with special characters _(1) -(2) .(3) --><property name="columnFields" label="_ Column Fields" type="String" role="inputOnly" description="REQUIRED: Comma separated list of field API Names to display in the datatable."/>
+            <!-- ============================================================================================================================- -->
+
+            <!-- These parameters are used when providing a User Defined object rather than a Salesforce SObject -->
+            <property name="isUserDefinedObject" label="_ (User Defined)  Display User Defined Object?" type="Boolean" default="false" role="inputOnly" description="Set to True if you are providing a User Defined object rather than a Salesforce SObject."/>
+            <property name="tableDataString" label="_ Datatable Record String (User Defined)" type="String" role="inputOnly" description="REQUIRED: Object Collection string variable containing the records to display in the datatable."/>
+            <property name="preSelectedRowsString" label="Pre-Selected Rows (User Defined)" type="String" role="inputOnly" description="Object Collection string variable containing the records to show as pre-selected in the datatable."/>
+            <property name="outputSelectedRowsString" label="Output Selected Rows (User Defined)" type="String" role="outputOnly" description="Object Collection string variable to contain only the records that were selected in the datatable. 
+                  --  NOTE: These records may not contain all of the edited values."/>
+            <property name="outputEditedRowsString" label="Output Edited Rows (User Defined)" type="String" role="outputOnly" description="Object Collection string variable to contain only the records that were edited in the datatable."/>
+            <!-- ============================================================================================================================- -->
+
+            <!-- Forcing sort order of parameters with special characters _(1) -(2) .(3) -->
+            <property name="columnFields" label="_ Column Fields" type="String" role="inputOnly" description="REQUIRED: Comma separated list of field API Names to display in the datatable."/>
             <property name="columnAlignments" label="- Column Alignments (Col#:alignment,...)" type="String" role="inputOnly" description="Comma separated list of ColID:Alignment Value (left,center,right).  
                   --  NOTE: ColIDs can be either the column number or the field API Name"/>
             <property name="columnEdits" label="- Column Edits (Col#:true,...) or All" type="String" role="inputOnly" description="'All' or a Comma separated list of ColID:True or False  
@@ -27,6 +42,10 @@
             <property name="columnIcons" label="- Column Icons (Col#:icon,...)" type="String" role="inputOnly" description="Comma separated list of ColID:Icon Identifier  --  EXAMPLE: 1:standard:account (Display the first column with the Account icon)  
                   --  NOTE: ColIDs can be either the column number or the field API Name"/>
             <property name="columnLabels" label="- Column Labels (Col#:label,...)" type="String" role="inputOnly" description="Comma separated list of ColID:Label (These are only needed if you want a label that is different from the field's defined label)  
+                  --  NOTE: ColIDs can be either the column number or the field API Name"/>
+            <property name="columnScales" label="- Column Scale Values (Col#:scale,...) (User Defined)" type="String" role="inputOnly" description="Comma separated list of ColID:Scale (The number of digits to display to the right of the decimal point in currency, number and percent fields (default = 0))  
+                  --  NOTE: ColIDs can be either the column number or the field API Name"/>
+            <property name="columnTypes" label="- Column Field Types (Col#:type,...) (User Defined)" type="String" role="inputOnly" description="Comma separated list of ColID:FieldType (boolean, currency, date, datetime, number, email, id, location, percent, phone, time, url, text(default))  
                   --  NOTE: ColIDs can be either the column number or the field API Name"/>
             <property name="columnWidths" label="- Column Widths (Col#:width,...)" type="String" role="inputOnly" description="Comma separated list of ColID:Width (in pixels).  
                   --  NOTE: ColIDs can be either the column number or the field API Name"/>
