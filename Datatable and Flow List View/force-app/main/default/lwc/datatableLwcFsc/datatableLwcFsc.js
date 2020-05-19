@@ -54,6 +54,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api hideCheckboxColumn;
     @api singleRowSelection;
     @api suppressBottomBar = false;
+    @api tableHeight = '30rem';
     @api outputSelectedRows = [];
     @api outputEditedRows = [];
 
@@ -299,6 +300,9 @@ console.log('basicColumns - ',this.basicColumns);
             });
         });
 
+        // Set table height
+        this.tableHeight = 'height:' + this.tableHeight;
+console.log('tableHeight',this.tableHeight);      
         // Generate datatable
         if (this.tableData) {
 
