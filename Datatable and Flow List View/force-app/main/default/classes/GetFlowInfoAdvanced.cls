@@ -33,19 +33,8 @@ public with sharing class GetFlowInfoAdvanced {
         public String FlowVersionRecords;
     }
 
-    // Fields in FlowDefinitionView Object
-    public class FlowDefInfo {
-        String DurableId;
-        String Label;
-        String Description;
-        String ApiName;
-        String ProcessType;
-        String LastModifiedBy;
-        Datetime LastModifiedDate;
-        String TriggerType;
-    }
-
-    // Fields in FlowVersionView Object
+    // Fields in FlowVersionView Object 
+    // (These records get Stringified and Passed to the datatable component)
     public class FlowVerInfo {
         String DurableId;
         String Description;
@@ -66,14 +55,25 @@ public with sharing class GetFlowInfoAdvanced {
         String WorkflowObject;      // Process Builder
 
         //Additional Fields
-        String LastModifiedDateString;
         String FlowTypeIcon;
         String FlowStatusIcon;
         String RowShadeValue;
         String Label_name;
         String Label_lookup;
     }
-    
+   
+    // Fields in FlowDefinitionView Object
+    public class FlowDefInfo {
+        String DurableId;
+        String Label;
+        String Description;
+        String ApiName;
+        String ProcessType;
+        String LastModifiedBy;
+        Datetime LastModifiedDate;
+        String TriggerType;
+    }
+   
     // Fields in FlowVariableView Object
     public class FlowVarInfo {
         String ApiName;
@@ -208,8 +208,7 @@ System.Debug('fdvBatch - '+fdvBatch);
                         fvi.Label_lookup = (pbTypeList.contains(fv.ProcessType)) 
                             ? '.lightning.force.com/processui/processui.app' 
                             : '.lightning.force.com/builder_platform_interaction/flowBuilder.app?flowId='+fv.DurableId;
-                        fvi.LastModifiedDateString = String.valueOf(fv.LastModifiedDate);       
-                        fvi.LastModifiedDate = Datetime.valueOf(fvi.LastModifiedDateString);
+                        fvi.LastModifiedDate = fv.LastModifiedDate;
                         fvi.ProcessType = fv.ProcessType;
                         fvi.Status = fv.Status;
                         fvi.VersionNumber = fv.VersionNumber;

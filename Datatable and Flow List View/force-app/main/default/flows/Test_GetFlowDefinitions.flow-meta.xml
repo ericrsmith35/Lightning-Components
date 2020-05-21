@@ -94,15 +94,15 @@
         <name>fColumnFields</name>
         <dataType>String</dataType>
         <expression>IF({!IncludeDescription.value},
-&quot;Label,ProcessType,Status,VersionNumber,Description,LastModifiedBy,LastModifiedDateString,WorkflowObject,TriggerType,IsTemplate&quot;,
-&quot;Label,ProcessType,Status,VersionNumber,LastModifiedBy,LastModifiedDateString,WorkflowObject,TriggerType,IsTemplate&quot;)</expression>
+&quot;Label,ProcessType,Status,VersionNumber,Description,LastModifiedBy,LastModifiedDate,WorkflowObject,TriggerType,IsTemplate&quot;,
+&quot;Label,ProcessType,Status,VersionNumber,LastModifiedBy,LastModifiedDate,WorkflowObject,TriggerType,IsTemplate&quot;)</expression>
     </formulas>
     <formulas>
         <name>fColumnWidths</name>
         <dataType>String</dataType>
         <expression>IF({!IncludeDescription.value},
-&quot;350,180,120,80,300,150,160,180,120,100&quot;,
-&quot;350,180,120,80,150,160,180,120,100&quot;)</expression>
+&quot;350,180,120,80,300,150,185,180,120,100&quot;,
+&quot;350,180,120,80,150,185,180,120,100&quot;)</expression>
     </formulas>
     <interviewLabel>Test GetFlowDefinitions {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Test GetFlowDefinitions</label>
@@ -161,7 +161,7 @@
             <inputParameters>
                 <name>columnTypes</name>
                 <value>
-                    <stringValue>Label:lookup,VersionNumber:number,IsTemplate:boolean</stringValue>
+                    <stringValue>Label:lookup,VersionNumber:number,LastModifiedDate:datetime,IsTemplate:boolean</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -198,6 +198,12 @@
                 <name>keyField</name>
                 <value>
                     <stringValue>DurableId</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>tableHeight</name>
+                <value>
+                    <stringValue>calc(100vh - 100px)</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -245,7 +251,7 @@
             <inputParameters>
                 <name>columnTypes</name>
                 <value>
-                    <stringValue>Label:lookup,VersionNumber:number,IsTemplate:boolean</stringValue>
+                    <stringValue>Label:lookup,VersionNumber:number,LastModifiedDate:datetime,IsTemplate:boolean</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -362,7 +368,7 @@
             <inputParameters>
                 <name>columnTypes</name>
                 <value>
-                    <stringValue>Label:lookup,VersionNumber:number,IsTemplate:boolean</stringValue>
+                    <stringValue>Label:lookup,VersionNumber:number,LastModifiedDate:datetime,IsTemplate:boolean</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
