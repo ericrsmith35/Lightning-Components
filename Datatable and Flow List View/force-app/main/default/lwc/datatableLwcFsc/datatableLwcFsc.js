@@ -525,12 +525,12 @@ console.log('basicColumns',this.basicColumns,colDef);
             let editAttrib = [];
             let filterAttrib = [];
             let widthAttrib = [];
-            // let this.typeAttrib = [];    // JSON Version
-            // if (this.isUserDefinedObject) {
-                // this.typeAttrib.type = 'text';
-            // } else {
-                this.typeAttrib.type = type;
-            // }            
+// let this.typeAttrib = [];    // JSON Version
+// if (this.isUserDefinedObject) {
+    // this.typeAttrib.type = 'text';
+// } else {
+            this.typeAttrib.type = type;
+// }            
 
             // Update Alignment attribute overrides by column
             let alignmentAttrib = this.alignments.find(i => i['column'] == columnNumber);

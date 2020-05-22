@@ -10,7 +10,7 @@
 public with sharing class GetFlowInfoAdvanced {
 
     Static Final Integer QUERY_LIMIT = 20;                  // Batch size for reading FlowDefinitionView records
-    Static Final String ACTIVE_THEME = 'slds-theme_shade';  // DIsplay theme for Active Flows when displaying both Active & Inactive
+    Static Final String ACTIVE_THEME = 'slds-theme_shade';  // Display theme for Active Flows when displaying both Active & Inactive
 
     public class Requests {
 
@@ -25,6 +25,9 @@ public with sharing class GetFlowInfoAdvanced {
         
         @InvocableVariable(label='Select API Names less than or equal to this value')
         public String upperBoundary;
+
+        @InvocableVariable(label='Specify slds-theme for the Active Flow rows (default: shade)')
+        public String activeRowTheme;
     }
 
     public class Results {
@@ -98,6 +101,14 @@ public with sharing class GetFlowInfoAdvanced {
             String statusSelection = req.statusSelection;
             String lowerBoundary = req.lowerBoundary;
             String upperBoundary = req.upperBoundary;
+            String activeRowTheme = req.activeRowTheme;
+                    
+            if (activeRowTheme.length() < 1) {
+                activeRowTheme = ACTIVE_THEME;
+            }
+            if (!activeRowTheme.startsWith('slds-theme_')) {
+                activeRowTheme = 'slds-theme_' + activeRowTheme;
+            }
 
             FlowDefInfo fdi = new FlowDefInfo();
             FlowVerInfo fvi = new FlowVerInfo();
@@ -227,7 +238,7 @@ System.Debug('fdvBatch - '+fdvBatch);
                         // FlowVariableView Fields
                         saveRowShadeValue = 'slds-theme_default';
                         if(lastDefinitionView != fv.FlowDefinitionViewId) {   
-                            saveRowShadeValue = (statusSelection == 'Both' && fv.Status == 'Active') ? ACTIVE_THEME : 'slds-theme_default' ;
+                            saveRowShadeValue = (statusSelection == 'Both' && fv.Status == 'Active') ? activeRowTheme : 'slds-theme_default' ;
                             switch on fv.ProcessType {
                                 when 'CustomEvent', 'InvocableProcess', 'Workflow' {    //Process Builder
                                     saveIconType = 'utility:process';
