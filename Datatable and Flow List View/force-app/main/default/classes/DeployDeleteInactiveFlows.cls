@@ -57,10 +57,13 @@ public with sharing class DeployDeleteInactiveFlows {
             MetadataService.AsyncResult deployResult= service.deploy(zippedFile, getDeployOptions());
 
             String jobId = deployResult.id;
-            MetadataService.DeployResult result = service.checkDeployStatus(jobId,true);
-            System.debug('deploy status is: ' + result.status + ' ' + result.stateDetail); 
-
-            response.completedMessage = 'Done';
+            String status = 'InProgress';
+            do {
+                MetadataService.DeployResult result = service.checkDeployStatus(jobId,true);
+                System.debug('deploy status is: ' + result.status + ' ' + result.stateDetail);
+                status = result.status;
+            } while (status == 'InProgress');
+            response.completedMessage = 'Deletion result is: ' + status;
             responseWrapper.add(response);
         }
         return responseWrapper;
