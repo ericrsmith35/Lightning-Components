@@ -1,27 +1,77 @@
 public with sharing class DeployDeleteInactiveFlows {
 
-    public static void DeployDeleteInactiveFlows(List<String> flowNames, String testLevel) {
+    public class FlowVerInfo {
+        String DurableId;
+        String Description;
+        String FlowDefinitionViewId;
+        Boolean IsTemplate;
+        String Label;
+        Datetime LastModifiedDate;
+        String ProcessType;
+        String Status;
+        Integer VersionNumber;
 
-        MetadataService.MetadataPort service = new MetadataService.MetadataPort();
-        service.SessionHeader = new MetadataService.SessionHeader_element();
-        service.SessionHeader.sessionId = UserInfo.getSessionId();
-        if (String.isEmpty(testLevel))
-            testLevel = 'NoTestRun';
+        //From FlowDefInfo
+        String ApiName;
+        String LastModifiedBy;
+        String TriggerType;
 
-        String zippedFile = generateZipfile(flowNames);
-        MetadataService.AsyncResult deployResult= service.deploy(zippedFile, getDeployOptions());
+        //From FlowVarInfo
+        String WorkflowObject;      // Process Builder
 
-        String jobId = deployResult.id;
-        MetadataService.DeployResult result = service.checkDeployStatus(jobId,true);
-        System.debug('deploy status is: ' + result.status + ' ' + result.stateDetail); 
+        //Additional Fields
+        String FlowTypeIcon;
+        String FlowStatusIcon;
+        String RowShadeValue;
+        String Label_name;
+        String Label_lookup;
+    }
+
+    public class Requests {
+
+        @InvocableVariable(label='Flow Records Selected for Deletion')
+        public String flowRecordString;
+
+    }
+
+    public class Results {
+
+        @InvocableVariable
+        public String completedMessage;
+    }
+
+    @InvocableMethod
+    public static List<Results> DeployDeleteInactiveFlows(List<Requests> requestList) {
+
+        Results response = new Results();
+        List<Results> responseWrapper = new List<Results>();
+
+        for (Requests req : requestList) {
+            String flowRecordString = req.flowRecordString;
+            MetadataService.MetadataPort service = new MetadataService.MetadataPort();
+            service.SessionHeader = new MetadataService.SessionHeader_element();
+            service.SessionHeader.sessionId = UserInfo.getSessionId();
+            String testLevel = 'NoTestRun';
+
+            String zippedFile = generateZipfile(flowRecordString);
+            MetadataService.AsyncResult deployResult= service.deploy(zippedFile, getDeployOptions());
+
+            String jobId = deployResult.id;
+            MetadataService.DeployResult result = service.checkDeployStatus(jobId,true);
+            System.debug('deploy status is: ' + result.status + ' ' + result.stateDetail); 
+
+            response.completedMessage = 'Done';
+            responseWrapper.add(response);
+        }
+        return responseWrapper;
 
     }   
 
-    public static String generateZipfile(List<String> flowNames) {
+    public static String generateZipfile(String flowRecordString) {
         Zippex sampleZip = new Zippex();
         Blob fileData = Blob.valueOf(getPackageXml());
         sampleZip.addFile('package.xml', fileData, null);
-        fileData = Blob.valueOf(getDestructiveChangesXml(flowNames));
+        fileData = Blob.valueOf(getDestructiveChangesXml(flowRecordString));
         sampleZip.addFile('destructiveChanges.xml', fileData, null);
         return EncodingUtil.base64Encode(sampleZip.getZipArchive());
     }
@@ -38,7 +88,7 @@ public with sharing class DeployDeleteInactiveFlows {
         lvDeployOption.rollbackOnError = true;
         lvDeployOption.runTests = new String[]{};
         lvDeployOption.singlePackage = true;
-        // lvDeployOption.testLevel = 'NoTestRun';
+        lvDeployOption.testLevel = 'NoTestRun';
             
         return lvDeployOption;
     }
@@ -50,21 +100,26 @@ public with sharing class DeployDeleteInactiveFlows {
                 '</Package>';	
     }
     
-    public static String getDestructiveChangesXml(List<String> flowNames) {
+    public static String getDestructiveChangesXml(String flowRecordString) {
+System.debug('flowRecordString - '+flowRecordString);
+        List<FlowVerInfo> flowRecords = (List<FlowVerInfo>)System.JSON.deserialize(flowRecordString, List<FlowVerInfo>.class);
+System.debug('flowRecords '+flowRecords);
         String retFile;
         retFile =   '<?xml version="1.0" encoding="UTF-8"?>' +
                     '<Package xmlns="http://soap.sforce.com/2006/04/metadata">' +
                         '<types>';
         
-        for (String fn:flowNames) {
-            retFile = retFile + '<members>'+fn+'</members>';
+        for (FlowVerInfo fn : flowRecords) {
+            if (fn.Status != 'Active') {
+                retFile = retFile + '<members>'+fn.ApiName+'-'+String.valueOf(fn.VersionNumber)+'</members>';
+            }
         }
 
         retFile = retFile +
                             '<name>Flow</name>' + 
                         '</types>' + 
                     '</Package>';
-        
+System.debug('retFile - '+retFile);        
         return retFile;
     }
 
