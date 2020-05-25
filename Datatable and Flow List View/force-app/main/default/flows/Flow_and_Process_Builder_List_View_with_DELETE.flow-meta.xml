@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
+        <name>Delete_Flows</name>
+        <label>Delete Flows</label>
+        <locationX>915</locationX>
+        <locationY>440</locationY>
+        <actionName>DeployDeleteInactiveFlows</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Deletion_Result_Status</targetReference>
+        </connector>
+        <inputParameters>
+            <name>flowRecordString</name>
+            <value>
+                <elementReference>LWC_Selected.outputSelectedRowsString</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>waitForCompletion</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
         <name>Get_Flow_Details</name>
         <label>Get Flow Details</label>
         <locationX>489</locationX>
@@ -154,6 +178,31 @@
             <stringValue>warning</stringValue>
         </value>
     </choices>
+    <decisions>
+        <name>Make_Sure</name>
+        <label>Make Sure</label>
+        <locationX>613</locationX>
+        <locationY>443</locationY>
+        <defaultConnector>
+            <targetReference>Flow_List_View_Options</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Do Not Delete</defaultConnectorLabel>
+        <rules>
+            <name>DELETE</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AYSToggle.value</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Delete_Flows</targetReference>
+            </connector>
+            <label>DELETE</label>
+        </rules>
+    </decisions>
     <description>Display a List View or Flows and/or Process Builders that can be Filtered and Sorted.  Allow the selection and batch deletion of Inactive Flows and Process Builders.
 Created By: Eric Smith, May 2020 
 https://trailblazer.me/id/ericsmith
@@ -188,6 +237,19 @@ https://ericsplayground.wordpress.com/blog/</description>
 &quot;350,180,120,80,300,150,185,180,120,100&quot;,
 &quot;350,180,120,80,150,185,180,120,100&quot;)</expression>
     </formulas>
+    <formulas>
+        <name>fListViewHeader</name>
+        <dataType>String</dataType>
+        <expression>CASE({!Flow_Type},
+{!Flow}, &quot;Flow&quot;,
+{!ProcessBuilder}, &quot;Process Builder&quot;,
+&quot;Process Builder &amp; Flow&quot;) &amp;
+&quot; List View&quot; &amp; 
+CASE({!Status},
+{!Active}, &quot; (Active Only)&quot;,
+{!Inactive}, &quot; (Inactive Only)&quot;,
+&quot;&quot;)</expression>
+    </formulas>
     <interviewLabel>Flow and Process Builder List View with DELETE {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Flow and Process Builder List View with DELETE</label>
     <processMetadataValues>
@@ -204,6 +266,22 @@ https://ericsplayground.wordpress.com/blog/</description>
     </processMetadataValues>
     <processType>Flow</processType>
     <screens>
+        <name>Deletion_Result_Status</name>
+        <label>Deletion Result Status</label>
+        <locationX>1076</locationX>
+        <locationY>440</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>result</name>
+            <fieldText>&lt;p&gt;{!Delete_Flows.completedMessage}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>Display_Datatable</name>
         <label>Display Datatable</label>
         <locationX>635</locationX>
@@ -214,6 +292,26 @@ https://ericsplayground.wordpress.com/blog/</description>
         <connector>
             <targetReference>Display_Selected_Rows</targetReference>
         </connector>
+        <fields>
+            <name>ListViewHeader</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;{!fListViewHeader}&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>DeleteMessage</name>
+            <fieldText>&lt;p&gt;&lt;i style=&quot;color: rgb(255, 0, 0);&quot;&gt;Select the inactive Process Builders and/or Flows you want to &lt;/i&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;DELETE&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; &lt;/span&gt;&lt;i style=&quot;color: rgb(255, 0, 0);&quot;&gt;and select Next.&lt;/i&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Status</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <elementReference>Active</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
         <fields>
             <name>NewLWC</name>
             <extensionName>c:datatableLwcFsc</extensionName>
@@ -227,7 +325,7 @@ https://ericsplayground.wordpress.com/blog/</description>
             <inputParameters>
                 <name>tableDataString</name>
                 <value>
-                    <elementReference>Get_Flow_Details.FlowVersionRecords</elementReference>
+                    <elementReference>Get_Flow_Details.flowVersionRecords</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -287,7 +385,7 @@ https://ericsplayground.wordpress.com/blog/</description>
             <inputParameters>
                 <name>tableHeight</name>
                 <value>
-                    <stringValue>calc(100vh - 100px)</stringValue>
+                    <stringValue>calc(100vh - 180px)</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -299,11 +397,50 @@ https://ericsplayground.wordpress.com/blog/</description>
     <screens>
         <name>Display_Selected_Rows</name>
         <label>Display Selected Rows</label>
-        <locationX>788</locationX>
+        <locationX>787</locationX>
         <locationY>186</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Make_Sure</targetReference>
+        </connector>
+        <fields>
+            <name>AreYouSure</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;These inactive Flows and/or Process Builders have been selected for &lt;/span&gt;&lt;b style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;DELETION&lt;/b&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>AYSToggle</name>
+            <extensionName>flowruntime:toggle</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>ARE YOU SURE?</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>messageToggleActive</name>
+                <value>
+                    <stringValue>DELETE</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>messageToggleInactive</name>
+                <value>
+                    <stringValue>Do Not Delete</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>value</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
         <fields>
             <name>LWC_Selected</name>
             <extensionName>c:datatableLwcFsc</extensionName>
@@ -378,6 +515,12 @@ https://ericsplayground.wordpress.com/blog/</description>
                 <name>singleRowSelection</name>
                 <value>
                     <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>tableHeight</name>
+                <value>
+                    <stringValue>calc(100vh - 135px)</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>

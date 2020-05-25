@@ -1,5 +1,8 @@
 public with sharing class DeployDeleteInactiveFlows {
 
+    Static final Integer SLEEP_MULTIPLIER = 1;
+    Static final Integer SLEEP_START_SECONDS = 5;
+    
     public class FlowVerInfo {
         String DurableId;
         String Description;
@@ -32,6 +35,9 @@ public with sharing class DeployDeleteInactiveFlows {
         @InvocableVariable(label='Flow Records Selected for Deletion')
         public String flowRecordString;
 
+        @InvocableVariable(label='Wait for Deletions to Complete?')
+        public Boolean waitForCompletion;
+
     }
 
     public class Results {
@@ -48,6 +54,8 @@ public with sharing class DeployDeleteInactiveFlows {
 
         for (Requests req : requestList) {
             String flowRecordString = req.flowRecordString;
+            Boolean waitForCompletion = req.waitForCompletion;
+
             MetadataService.MetadataPort service = new MetadataService.MetadataPort();
             service.SessionHeader = new MetadataService.SessionHeader_element();
             service.SessionHeader.sessionId = UserInfo.getSessionId();
@@ -58,11 +66,21 @@ public with sharing class DeployDeleteInactiveFlows {
 
             String jobId = deployResult.id;
             String status = 'InProgress';
+            Integer counter = 0;
+            Integer sleepTimer = 0;
+            Integer delayInMilliseconds = 1000; // One-second delay
+            Long startingTime;
             do {
                 MetadataService.DeployResult result = service.checkDeployStatus(jobId,true);
-                System.debug('deploy status is: ' + result.status + ' ' + result.stateDetail);
+                System.debug('deploy status is: ' + result.status + ' ' + result.stateDetail + ' Sleep Timer: ' + sleepTimer);
                 status = result.status;
-            } while (status == 'InProgress');
+                counter += 1;
+                sleepTimer = (SLEEP_START_SECONDS + (counter * SLEEP_MULTIPLIER)) * delayInMilliseconds;
+                startingTime = System.now().getTime(); // Num milliseconds since Jan 1 1970
+                while (System.now().getTime() - startingTime < sleepTimer)  {
+                    // Do nothing until desired delay has passed
+                }
+            } while (status == 'InProgress' && waitForCompletion);
             response.completedMessage = 'Deletion result is: ' + status;
             responseWrapper.add(response);
         }
