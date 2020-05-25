@@ -54,6 +54,7 @@ export default class DatatableLwcFsc extends LightningElement {
     @api hideCheckboxColumn;
     @api singleRowSelection;
     @api suppressBottomBar = false;
+    @api tableHeight = '30rem';
     @api outputSelectedRows = [];
     @api outputEditedRows = [];
 
@@ -65,6 +66,8 @@ export default class DatatableLwcFsc extends LightningElement {
     @api outputEditedRowsString = '';
     @api columnScales = [];
     @api columnTypes = [];
+    @api scaleAttrib = [];
+    @api typeAttrib = [];
     
     // JSON Version Variables
     @api scales = [];
@@ -247,6 +250,7 @@ console.log('basicColumns - ',this.basicColumns);
                     column: this.columnReference(scale),
                     scale: this.columnValue(scale)
                 });
+                this.basicColumns[this.columnReference(scale)].scale = this.columnValue(scale);
             });
             // JSON Version - Parse Column Type attribute
             const parseTypes = (this.columnTypes.length > 0) ? this.removeSpaces(this.columnTypes).split(',') : [];
@@ -256,6 +260,8 @@ console.log('basicColumns - ',this.basicColumns);
                     column: this.columnReference(type),
                     type: this.columnValue(type)
                 });
+console.log('*** type',type);
+                this.basicColumns[this.columnReference(type)].type = this.columnValue(type);
             });
         }
 
@@ -292,13 +298,16 @@ console.log('basicColumns - ',this.basicColumns);
         // Parse Column TypeAttribute attribute (Because multiple attributes use , these are separated by ;)
         const parseTypeAttribs = (this.columnTypeAttribs.length > 0) ? this.removeSpaces(this.columnTypeAttribs).split(';') : [];
         this.attribCount = 0;   // These attributes must specify a column number or field API name
-        parseTypeAttribs.forEach(typeAttrib => {
+        parseTypeAttribs.forEach(ta => {
             this.typeAttribs.push({
-                column: this.columnReference(typeAttrib),
-                attribute: this.columnValue(typeAttrib)
+                column: this.columnReference(ta),
+                attribute: this.columnValue(ta)
             });
         });
 
+        // Set table height
+        this.tableHeight = 'height:' + this.tableHeight;
+console.log('tableHeight',this.tableHeight);      
         // Generate datatable
         if (this.tableData) {
 
@@ -381,7 +390,10 @@ console.log('*** types',this.types,'xxx',t);
                     case 'lookup':
                         this.lookupFieldArray.push(this.basicColumns[t.column].fieldName);
                         this.lookups.push(this.basicColumns[t.column].fieldName); 
-                        this.basicColumns[t.column].type = 'lookup';                 
+                        this.basicColumns[t.column].type = 'lookup';
+//     break;
+// default:
+//     this.basicColumns[t.column].type = t.type;                 
                 }
             });
 
@@ -513,12 +525,12 @@ console.log('basicColumns',this.basicColumns,colDef);
             let editAttrib = [];
             let filterAttrib = [];
             let widthAttrib = [];
-            let typeAttrib = [];    // JSON Version
-            if (this.isUserDefinedObject) {
-                typeAttrib.type = 'text';
-            } else {
-                typeAttrib.type = type;
-            }            
+// let this.typeAttrib = [];    // JSON Version
+// if (this.isUserDefinedObject) {
+    // this.typeAttrib.type = 'text';
+// } else {
+            this.typeAttrib.type = type;
+// }            
 
             // Update Alignment attribute overrides by column
             let alignmentAttrib = this.alignments.find(i => i['column'] == columnNumber);
@@ -600,15 +612,19 @@ console.log('basicColumns',this.basicColumns,colDef);
             let labelAttrib = this.labels.find(i => i['column'] == columnNumber);
 
             if (this.isUserDefinedObject) {
-	            // JSON Version - Update Scale attribute overrides by column
-                let scaleAttrib = this.scales.find(i => i['column'] == columnNumber);
-
+                // JSON Version - Update Scale attribute overrides by column
+                this.scaleAttrib = this.scales.find(i => i['column'] == columnNumber);
+                if (!this.scaleAttrib) {
+                    this.scaleAttrib = [];
+                    this.scaleAttrib.scale = scale;
+                }
+console.log('*** scaleAttrib',this.scaleAttrib);
                 // JSON Version - Update Type attribute overrides by column
                 if(type != 'lookup') {
-                    typeAttrib = this.types.find(i => i['column'] == columnNumber);
-                    if (!typeAttrib) {
-                        typeAttrib = [];
-                        typeAttrib.type = type;
+                    this.typeAttrib = this.types.find(i => i['column'] == columnNumber);
+                    if (!this.typeAttrib) {
+                        this.typeAttrib = [];
+                        this.typeAttrib.type = type;
                     }
                 }
             }
@@ -623,17 +639,20 @@ console.log('basicColumns',this.basicColumns,colDef);
                     break;
                 case 'datetime':
                     type = 'date';
+                    this.typeAttrib.type = type;
                     this.typeAttributes = { year:'numeric', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', timeZoneName:'short' };
                     break;           
                 case 'time':
                     type = 'date';
+                    this.typeAttrib.type = type;
                     this.typeAttributes = { hour:'2-digit', minute:'2-digit', timeZoneName:'short' };
                     break;
                 case 'currency':
                 case 'number':
                 case 'percent':
                     if (this.isUserDefinedObject) {
-                        this.typeAttributes = { minimumFractionDigits: (scaleAttrib) ? scaleAttrib.scale : scale };      // JSON Version
+                        let minDigits = (this.scaleAttrib) ? this.scaleAttrib.scale : scale;
+                        this.typeAttributes = { minimumFractionDigits: minDigits };      // JSON Version
                     } else {
                         this.typeAttributes = { minimumFractionDigits:scale };   // Show the number of decimal places defined for the field
                     }
@@ -643,9 +662,9 @@ console.log('basicColumns',this.basicColumns,colDef);
 
             // Change lookup to url and reference the new fields that will be added to the datatable object
             if(type == 'lookup') {
-console.log('*** lookup',typeAttrib);
+console.log('*** lookup',this.typeAttrib);
                 if(this.lookups.includes(fieldName)) {
-                    typeAttrib.type = 'url';
+                    this.typeAttrib.type = 'url';
                     if(fieldName.toLowerCase().endsWith('id')) {
                         lufield = fieldName.replace(/Id$/gi,'');
                     } else {
@@ -654,7 +673,7 @@ console.log('*** lookup',typeAttrib);
                     fieldName = lufield + '_lookup';
                     this.typeAttributes = { label: { fieldName: lufield + '_name' }, target: '_blank' };
                 } else {
-                    typeAttrib.type = 'text';      // Non reparentable Master-Detail fields are not supported
+                    this.typeAttrib.type = 'text';      // Non reparentable Master-Detail fields are not supported
                 }
             }
 
@@ -666,7 +685,7 @@ console.log('*** lookup',typeAttrib);
 console.log('labelAttrib',labelAttrib);
 console.log('iconAttrib',iconAttrib);
 console.log('fieldName',fieldName);
-console.log('typeAttrib',typeAttrib);
+console.log('typeAttrib',this.typeAttrib);
 console.log('cellAttributes',this.cellAttributes);
 console.log('typeAttributes',this.typeAttributes);
 console.log('editAttrib',labelAttrib);
@@ -677,7 +696,7 @@ console.log('widthAttrib',widthAttrib);
                 label: (labelAttrib) ? labelAttrib.label : label,
                 iconName: (iconAttrib) ? iconAttrib.icon : null,
                 fieldName: fieldName,
-                type: typeAttrib.type,
+                type: this.typeAttrib.type,
                 cellAttributes: this.cellAttributes,
                 typeAttributes: this.typeAttributes,
                 editable: (editAttrib) ? editAttrib.edit : false,
