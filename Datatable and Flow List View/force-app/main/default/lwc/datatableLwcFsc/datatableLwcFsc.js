@@ -37,7 +37,7 @@ export default class DatatableLwcFsc extends LightningElement {
     
     // Component Input & Output Attributes
     @api tableData = [];
-    @api columnFields = [];
+    @api columnFields;
     @api columnAlignments = [];
     @api columnCellAttribs = [];
     @api columnEdits = '';
