@@ -1,18 +1,6 @@
 @isTest
 public with sharing class GetFlowInfoAdvancedTest {
 
-    // public class Requests {
-    //     public String typeSelection;
-    //     public String statusSelection;
-    //     public String lowerBoundary; 
-    //     public String upperBoundary;
-    //     public String activeRowTheme;
-    // }
-
-    // public class Results {
-    //     public String FlowVersionRecords;
-    // }
-
     static testMethod void test() {
 
         GetFlowInfoAdvanced.Requests testRequest = new GetFlowInfoAdvanced.Requests();

@@ -4,6 +4,9 @@
      * This component also adds additional fields used in a Custom Object datatable in my Flow List View Flows 
      * 
      * 05/09/20 -   Eric Smith -    Version 1.0
+     * 05/29/20 -   Eric Smith -    Version 1.1     Created an Apex-Defined Descriptor Class for the Flow Information
+     * 
+     * Apex-Defined Variable Descriptor Class:      FlowDatatableDesscriptor.cls
      * 
      */
 
@@ -11,7 +14,8 @@
 
         Static Final Integer QUERY_LIMIT = 20;                  // Batch size for reading FlowDefinitionView records
         Static Final String ACTIVE_THEME = 'slds-theme_shade';  // Display theme for Active Flows when displaying both Active & Inactive
-    
+ 
+        // Attributes passed in from the Flow
         public class Requests {
     
             @InvocableVariable(label='Type: "Flow", "ProcessBuilder" or "Both"')
@@ -29,43 +33,15 @@
             @InvocableVariable(label='Specify slds-theme for the Active Flow rows (default: shade)')
             public String activeRowTheme;
         }
-    
+
+        // Attributes passed back to the Flow
         public class Results {
     
             @InvocableVariable
             public String flowVersionRecords;
     
-            // @InvocableVariable
-            // public List<FlowVerInfo> recordList;
-        }
-    
-        // Fields in FlowVersionView Object 
-        // (These records get Stringified and Passed to the datatable component)
-        public class FlowVerInfo {
-            String DurableId;
-            String Description;
-            String FlowDefinitionViewId;
-            Boolean IsTemplate;
-            String Label;
-            Datetime LastModifiedDate;
-            String ProcessType;
-            String Status;
-            Integer VersionNumber;
-    
-            //From FlowDefInfo
-            String ApiName;
-            String LastModifiedBy;
-            String TriggerType;
-    
-            //From FlowVarInfo
-            String WorkflowObject;      // Process Builder
-    
-            //Additional Fields
-            String FlowTypeIcon;
-            String FlowStatusIcon;
-            String RowShadeValue;
-            String Label_name;
-            String Label_lookup;
+            @InvocableVariable
+            public List<FlowDatatableDescriptor> recordCollection;
         }
        
         // Fields in FlowDefinitionView Object
@@ -95,17 +71,26 @@
     
         @InvocableMethod
         public static List<Results> getFlowDetails(List<Requests> requestList) {
-    
+
+            // Instantiate the record variable & collection
+            FlowDatatableDescriptor fvi = new FlowDatatableDescriptor();
+            List<FlowDatatableDescriptor> fvRecords = new List<FlowDatatableDescriptor>();
+  
+            // Prepare the response to send back to the Flow
             Results response = new Results();
             List<Results> responseWrapper = new List<Results>();
-    
+
+            // Bulkify proccessing of multiple requests
             for (Requests req : requestList) {
+
+                // Get Input Value(s)
                 String typeSelection = req.typeSelection;
                 String statusSelection = req.statusSelection;
                 String lowerBoundary = req.lowerBoundary;
                 String upperBoundary = req.upperBoundary;
                 String activeRowTheme = req.activeRowTheme;
-                        
+                
+                // BEGIN APEX ACTION PROCESSING LOGIC
                 if (activeRowTheme.length() < 1) {
                     activeRowTheme = ACTIVE_THEME;
                 }
@@ -114,11 +99,9 @@
                 }
     
                 FlowDefInfo fdi = new FlowDefInfo();
-                FlowVerInfo fvi = new FlowVerInfo();
                 FlowVarInfo fvv = new FlowVarInfo();
                 String lastDefinitionView;
                 List<FlowDefInfo> fdRecords = new List<FlowDefInfo>();
-                List<FlowVerInfo> fvRecords = new List<FlowVerInfo>();
                 List<String> pbTypes = new List<String>();
                 pbTypes.add('CustomEvent');
                 pbTypes.add('InvocableProcess');
@@ -138,15 +121,13 @@
                     upperBoundary = 'Z'.repeat(255);
                 }
     
-                // Set batch size for FLowDefinitionView Query
+                // Set batch size for FlowDefinitionView Query
                 Integer recordCount = [SELECT count() FROM FlowDefinitionView];
                 Integer sizeBlock = recordCount/QUERY_LIMIT + (math.mod(recordCount,QUERY_LIMIT)!=0?1:0);
-    System.Debug('rc,sb: '+recordCount+', '+sizeBlock);
                 Set<Id> fdvids = new Set<Id>();     // Store all FlowDefinitionView Ids
                 Set<Id> fdvBatch = new Set<Id>();   // Store only current iteration of FlowDefinitionView Ids
     
                 for(Integer i=0;i<sizeBlock;i++){
-    System.Debug('i - '+i);
                     for(FlowDefinitionView fd : [
                         SELECT  DurableId,
                                 ActiveVersionId,
@@ -170,7 +151,6 @@
                         ORDER BY Label ASC 
                         LIMIT   :QUERY_LIMIT]) {
                         try{
-    System.Debug('L-A-U: ['+lowerBoundary+']'+fd.ApiName+'['+upperBoundary+']');   
                             fdvids.add(fd.DurableId);            
                             if (lowerBoundary <= fd.ApiName && fd.ApiName <= upperBoundary) {
                                 fdvBatch.add(fd.DurableId); 
@@ -185,7 +165,6 @@
                             System.Debug('Exception('+fd.DurableId+') '+e); 
                         }
                     }
-    System.Debug('fdvBatch - '+fdvBatch);
                     lastDefinitionView = '';
     
                     for(FlowVersionView fv : [
@@ -265,19 +244,21 @@
                             fvi.FlowTypeIcon = saveIconType;
                             fvi.RowShadeValue = saveRowShadeValue;
                             fvRecords.add(fvi);
-                            fvi = new FlowVerInfo();
+                            fvi = new FlowDatatableDescriptor();
                             lastDefinitionView = fv.FlowDefinitionViewId;
                         }
                     }
                     fdvBatch = new Set<Id>();
                     fdRecords = new List<FlowDefInfo>();
-    System.Debug('fvRecords: '+fvRecords);
                 }
-    System.Debug('response: '+response);
+                // END APEX ACTION PROCESSING LOGIC
+
+                // Set Output Values
                 response.flowVersionRecords = JSON.serialize(fvRecords);
-                // response.recordList = fvRecords;
+                response.recordCollection = fvRecords;
                 responseWrapper.add(response);
             }
+            // Return values back to the Flow
             return responseWrapper;
         }
     

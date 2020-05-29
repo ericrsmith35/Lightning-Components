@@ -25,7 +25,7 @@
 
 public with sharing class SObjectController {
 
-    //this is just a convenient way to return multiple unique pieces of data to the component
+    // this is just a convenient way to return multiple unique pieces of data to the component
     public class ReturnResults {
         List<SObject> rowData;
         String dtableColumnFieldDescriptorString;
