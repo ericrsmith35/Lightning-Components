@@ -1,3 +1,14 @@
+/**
+ * Apex-Defined Object Variable Descriptor Class for my Flow List View and Delete
+ * 
+ * 05/29/20 -   Eric Smith -    Version 1.0
+ * 
+ * Used By:     GetFlowInfoAdvanced.cls
+ *              DeployDeleteInactiveFlows.cls
+ *              TranslateFlowRecords.cls
+ * 
+ */ 
+
 public with sharing class FlowDatatableDescriptor {
     
     //From FlowVersionView
@@ -83,5 +94,8 @@ public with sharing class FlowDatatableDescriptor {
         this.Label_name = Label_name;
         this.Label_lookup = Label_lookup;
     }
+
+    // Required no-argument constructor
+    public FlowDatatableDescriptor() {}
 
 }
