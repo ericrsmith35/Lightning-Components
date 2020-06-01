@@ -5,7 +5,7 @@
      * 05/09/20 -   Eric Smith -    Version 1.0
      * 05/29/20 -   Eric Smith -    Version 1.1     Created an Apex-Defined Descriptor Class for the Flow Information
      * 
-     * Apex-Defined Variable Descriptor Class:      FlowDatatableDesscriptor.cls
+     * Apex-Defined Variable Descriptor Class:      FlowDatatableDescriptor.cls
      * 
      */
 

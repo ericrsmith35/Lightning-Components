@@ -13,7 +13,7 @@
     public with sharing class GetFlowInfoAdvanced {
 
         Static Final Integer QUERY_LIMIT = 20;                  // Batch size for reading FlowDefinitionView records
-        Static Final String ACTIVE_THEME = 'slds-theme_shade';  // Display theme for Active Flows when displaying both Active & Inactive
+        Static Final String ACTIVE_THEME = 'slds-theme_info';  // Display theme for Active Flows when displaying both Active & Inactive
  
         // Attributes passed in from the Flow
         public class Requests {
@@ -91,7 +91,7 @@
                 String activeRowTheme = req.activeRowTheme;
                 
                 // BEGIN APEX ACTION PROCESSING LOGIC
-                if (activeRowTheme.length() < 1) {
+                if (activeRowTheme == null || activeRowTheme.length() < 1) {
                     activeRowTheme = ACTIVE_THEME;
                 }
                 if (!activeRowTheme.startsWith('slds-theme_')) {
