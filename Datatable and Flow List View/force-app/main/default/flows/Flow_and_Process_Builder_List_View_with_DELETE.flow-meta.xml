@@ -1,38 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Delete_Flows</name>
-        <label>Delete Flows</label>
-        <locationX>915</locationX>
-        <locationY>440</locationY>
-        <actionName>DeployDeleteInactiveFlows</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Deletion_Result_Status</targetReference>
-        </connector>
-        <inputParameters>
-            <name>flowRecordString</name>
-            <value>
-                <elementReference>LWC_Selected.outputSelectedRowsString</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>waitForCompletion</name>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputParameters>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </actionCalls>
-    <actionCalls>
         <name>Get_Flow_Details</name>
         <label>Get Flow Details</label>
-        <locationX>489</locationX>
-        <locationY>186</locationY>
+        <locationX>580</locationX>
+        <locationY>241</locationY>
         <actionName>GetFlowInfoAdvanced</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Display_Datatable</targetReference>
+            <targetReference>List_View_and_Delete</targetReference>
         </connector>
         <inputParameters>
             <name>lowerBoundary</name>
@@ -178,31 +154,6 @@
             <stringValue>warning</stringValue>
         </value>
     </choices>
-    <decisions>
-        <name>Make_Sure</name>
-        <label>Make Sure</label>
-        <locationX>613</locationX>
-        <locationY>443</locationY>
-        <defaultConnector>
-            <targetReference>Flow_List_View_Options</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Do Not Delete</defaultConnectorLabel>
-        <rules>
-            <name>DELETE</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>AYSToggle.value</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Delete_Flows</targetReference>
-            </connector>
-            <label>DELETE</label>
-        </rules>
-    </decisions>
     <description>Display a List View or Flows and/or Process Builders that can be Filtered and Sorted.  Allow the selection and batch deletion of Inactive Flows and Process Builders.
 Created By: Eric Smith, May 2020 
 https://trailblazer.me/id/ericsmith
@@ -266,283 +217,19 @@ CASE({!Status},
     </processMetadataValues>
     <processType>Flow</processType>
     <screens>
-        <name>Deletion_Result_Status</name>
-        <label>Deletion Result Status</label>
-        <locationX>1076</locationX>
-        <locationY>440</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <fields>
-            <name>result</name>
-            <fieldText>&lt;p&gt;{!Delete_Flows.completedMessage}&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>Display_Datatable</name>
-        <label>Display Datatable</label>
-        <locationX>635</locationX>
-        <locationY>186</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>Display_Selected_Rows</targetReference>
-        </connector>
-        <fields>
-            <name>ListViewHeader</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;{!fListViewHeader}&lt;/b&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>DeleteMessage</name>
-            <fieldText>&lt;p&gt;&lt;i style=&quot;color: rgb(255, 0, 0);&quot;&gt;Select the inactive Process Builders and/or Flows you want to &lt;/i&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;DELETE&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; &lt;/span&gt;&lt;i style=&quot;color: rgb(255, 0, 0);&quot;&gt;and select Next.&lt;/i&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Status</leftValueReference>
-                    <operator>NotEqualTo</operator>
-                    <rightValue>
-                        <elementReference>Active</elementReference>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>NewLWC</name>
-            <extensionName>c:datatableLwcFsc</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>columnFields</name>
-                <value>
-                    <elementReference>fColumnFields</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>tableDataString</name>
-                <value>
-                    <elementReference>Get_Flow_Details.flowVersionRecords</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>isUserDefinedObject</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnAlignments</name>
-                <value>
-                    <stringValue>VersionNumber:center,IsTemplate:center</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnTypes</name>
-                <value>
-                    <stringValue>Label:lookup,VersionNumber:number,LastModifiedDate:datetime,IsTemplate:boolean</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnFilters</name>
-                <value>
-                    <stringValue>All</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnLabels</name>
-                <value>
-                    <stringValue>IsTemplate:Template?,LastModifiedBy:Last Modified By,LastModifiedDateString:Last Modified Date,VersionNumber:Version,WorkflowObject:PB Object</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnWidths</name>
-                <value>
-                    <elementReference>fColumnWidths</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnCellAttribs</name>
-                <value>
-                    <elementReference>fColumnCellAttributes</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnOtherAttribs</name>
-                <value>
-                    <stringValue>Description:{wrapText:true,wrapTextMaxLines:8}</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>keyField</name>
-                <value>
-                    <stringValue>DurableId</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>tableHeight</name>
-                <value>
-                    <stringValue>calc(100vh - 180px)</stringValue>
-                </value>
-            </inputParameters>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
-        <name>Display_Selected_Rows</name>
-        <label>Display Selected Rows</label>
-        <locationX>787</locationX>
-        <locationY>186</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>Make_Sure</targetReference>
-        </connector>
-        <fields>
-            <name>AreYouSure</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;These inactive Flows and/or Process Builders have been selected for &lt;/span&gt;&lt;b style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;DELETION&lt;/b&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>AYSToggle</name>
-            <extensionName>flowruntime:toggle</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>label</name>
-                <value>
-                    <stringValue>ARE YOU SURE?</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>messageToggleActive</name>
-                <value>
-                    <stringValue>DELETE</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>messageToggleInactive</name>
-                <value>
-                    <stringValue>Do Not Delete</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>value</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </inputParameters>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-        </fields>
-        <fields>
-            <name>LWC_Selected</name>
-            <extensionName>c:datatableLwcFsc</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>isUserDefinedObject</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnFields</name>
-                <value>
-                    <elementReference>fColumnFields</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnAlignments</name>
-                <value>
-                    <stringValue>VersionNumber:center,IsTemplate:center</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnLabels</name>
-                <value>
-                    <stringValue>IsTemplate:Template?,LastModifiedBy:Last Modified By,LastModifiedDateString:Last Modified Date,VersionNumber:Version,WorkflowObject:PB Object</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnWidths</name>
-                <value>
-                    <elementReference>fColumnWidths</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnCellAttribs</name>
-                <value>
-                    <elementReference>fColumnCellAttributes</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnOtherAttribs</name>
-                <value>
-                    <stringValue>Description:{wrapText:true,wrapTextMaxLines:8}</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>keyField</name>
-                <value>
-                    <stringValue>DurableId</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>columnTypes</name>
-                <value>
-                    <stringValue>Label:lookup,VersionNumber:number,LastModifiedDate:datetime,IsTemplate:boolean</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>preSelectedRowsString</name>
-                <value>
-                    <elementReference>NewLWC.outputSelectedRowsString</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>tableDataString</name>
-                <value>
-                    <elementReference>NewLWC.outputSelectedRowsString</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>singleRowSelection</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>tableHeight</name>
-                <value>
-                    <stringValue>calc(100vh - 135px)</stringValue>
-                </value>
-            </inputParameters>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
         <name>Flow_List_View_Options</name>
         <label>Flow List View Options</label>
-        <locationX>339</locationX>
-        <locationY>186</locationY>
+        <locationX>419</locationX>
+        <locationY>241</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
             <targetReference>Get_Flow_Details</targetReference>
         </connector>
         <fields>
             <name>Title</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Generate List Views for Flows and Process Builders&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Generate List Views for Flows and Process Builders with &lt;/b&gt;&lt;b style=&quot;font-size: 16px; color: rgb(255, 0, 0);&quot;&gt;DELETE &lt;/b&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Option&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -678,11 +365,76 @@ CASE({!Status},
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>65</locationX>
-        <locationY>78</locationY>
+        <locationX>50</locationX>
+        <locationY>109</locationY>
         <connector>
             <targetReference>Flow_List_View_Options</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
+    <subflows>
+        <name>List_View_and_Delete</name>
+        <label>List View and Delete</label>
+        <locationX>746</locationX>
+        <locationY>241</locationY>
+        <flowName>Flow_and_Process_Builder_Display_Datatable_and_DELETE</flowName>
+        <inputAssignments>
+            <name>vFlowType</name>
+            <value>
+                <elementReference>Flow_Type</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>vIncludeDescription</name>
+            <value>
+                <elementReference>IncludeDescription.value</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>vRecordString</name>
+            <value>
+                <elementReference>Get_Flow_Details.flowVersionRecords</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>vStatus</name>
+            <value>
+                <elementReference>Status</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <variables>
+        <name>acolFlowInfos</name>
+        <apexClass>FlowDatatableDescriptor</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>acolInactiveFlows</name>
+        <apexClass>FlowDatatableDescriptor</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>aFlowInfo</name>
+        <apexClass>FlowDatatableDescriptor</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>vAnySelected</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
 </Flow>

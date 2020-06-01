@@ -220,20 +220,30 @@ CASE({!Status},
     <screens>
         <name>Display_Datatable</name>
         <label>Display Datatable</label>
-        <locationX>635</locationX>
+        <locationX>645</locationX>
         <locationY>186</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <fields>
             <name>ListViewHeader</name>
             <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;{!fListViewHeader}&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>NewLWC</name>
-            <extensionName>c:datatableLwcFsc</extensionName>
+            <name>DisplayDatatableV2</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>Account</typeValue>
+            </dataTypeMappings>
+            <extensionName>c:datatableV2</extensionName>
             <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>isUserDefinedObject</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
             <inputParameters>
                 <name>columnFields</name>
                 <value>
@@ -243,13 +253,7 @@ CASE({!Status},
             <inputParameters>
                 <name>tableDataString</name>
                 <value>
-                    <elementReference>Get_Flow_Details.FlowVersionRecords</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>isUserDefinedObject</name>
-                <value>
-                    <booleanValue>true</booleanValue>
+                    <elementReference>Get_Flow_Details.flowVersionRecords</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -303,7 +307,7 @@ CASE({!Status},
             <inputParameters>
                 <name>tableHeight</name>
                 <value>
-                    <stringValue>calc(100vh - 100px)</stringValue>
+                    <stringValue>calc(100vh - 130px)</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -315,11 +319,11 @@ CASE({!Status},
     <screens>
         <name>Flow_List_View_Options</name>
         <label>Flow List View Options</label>
-        <locationX>339</locationX>
+        <locationX>338</locationX>
         <locationY>186</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
             <targetReference>Get_Flow_Details</targetReference>
         </connector>
@@ -461,11 +465,11 @@ CASE({!Status},
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>65</locationX>
-        <locationY>78</locationY>
+        <locationX>36</locationX>
+        <locationY>56</locationY>
         <connector>
             <targetReference>Flow_List_View_Options</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
 </Flow>
