@@ -54,9 +54,10 @@ export default class DatatableV2 extends LightningElement {
     @api hideCheckboxColumn;
     @api singleRowSelection;
     @api suppressBottomBar = false;
-    @api tableHeight = '30rem';
+    @api tableHeight = 'calc(50vh - 100px)';    //Default value from the js-meta.xml file
     @api outputSelectedRows = [];
     @api outputEditedRows = [];
+    @api tableBorder;
 
     // JSON Version Attributes (User Defined Object)
     @api isUserDefinedObject = false;
@@ -132,6 +133,7 @@ export default class DatatableV2 extends LightningElement {
     @api attribCount = 0;
     @api recordData = [];
     @track showSpinner = true;
+    @track borderClass;
 
     connectedCallback() {
 
@@ -307,7 +309,11 @@ console.log('*** type',type);
 
         // Set table height
         this.tableHeight = 'height:' + this.tableHeight;
-console.log('tableHeight',this.tableHeight);      
+console.log('tableHeight',this.tableHeight);
+
+        // Set table border display
+        this.borderClass = (this.tableBorder != false) ? 'slds-box' : '';
+console.log('border',this.tableBorder,'[',this.borderClass,']');
         // Generate datatable
         if (this.tableData) {
 
@@ -438,18 +444,20 @@ console.log('dtableColumnFieldDescriptorString',this.dtableColumnFieldDescriptor
                 // Custom column processing
                 this.updateColumns();
 
+                // Done processing the datatable
+                this.showSpinner = false;
+
             })
             .catch(error => {
                 console.log('getReturnResults error is: ' + JSON.stringify(error));
                 this.errorApex = 'Apex Action error: ' + error.body.message;
                 alert(this.errorApex + '\n'  + error.body.stackTrace);  // Present the error to the user
+                this.showSpinner = false;
                 return this.errorApex; 
             });
 
         }
         
-        // Done processing the datatable
-        this.showSpinner = false;
     }
 
     updateDataRows() {

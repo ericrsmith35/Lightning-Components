@@ -59,7 +59,8 @@
                 The default (False) will display Checkboxes and allow multiple records to be selected."/>
             <property name="suppressBottomBar" label="Suppress Cancel/Save Buttons during Edit Mode?" type="Boolean" default="false" role="inputOnly" description="Cancel/Save buttons will appear by default at the very bottom of the table once a field is edited.  
                 When hiding these buttons, field updates will be applied as soon as the user Tabs out or selects a different field."/>
-            <property name="tableHeight" label="Table Height" type="String" default="calc(50vh - 100px)" role="inputOnly" description="CSS specification for the height of the datatable (Example: 30rem)"/>
-        </targetConfig>
+            <property name="tableHeight" label="Table Height" type="String" default="calc(50vh - 100px)" role="inputOnly" description="CSS specification for the height of the datatable (Example: 30rem.  If you leave this blank, the datatable will expand to display all records.)"/>
+            <property name="tableBorder" label="Table Border" type="Boolean" default="true" role="inputOnly" description="Display a border around the datatable."/>   
+      </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
