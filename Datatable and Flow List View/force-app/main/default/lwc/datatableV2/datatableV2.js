@@ -728,7 +728,8 @@ export default class DatatableV2 extends LightningElement {
                     // This is a standard attribute definition {name:value}
                     let attrib = ca.split(':');
                     result['name'] = attrib[0];
-                    result['value'] = attrib[1].replace(/["']{1}/gi,"");  // Remove single or double quotes;                           
+                    attrib.shift();
+                    result['value'] = attrib.join(':').replace(/["']{1}/gi,"");  // Remove single or double quotes;                           
                 }
 
                 switch(propertyType) {
