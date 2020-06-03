@@ -137,10 +137,9 @@ export default class DatatableV2 extends LightningElement {
 
     connectedCallback() {
 
-console.log('START');
         // JSON input attributes
         if (this.isUserDefinedObject) {
-    console.log('tableDataString - ',this.tableDataString);
+            console.log('tableDataString - ',this.tableDataString);
             if (this.tableDataString.length == 0) {
                 this.tableDataString = '[{"'+this.keyField+'":"(empty table)"}]';
                 this.columnFields = this.keyField;
@@ -148,7 +147,7 @@ console.log('START');
                 this.columnScales = [];
             }
             this.tableData = JSON.parse(this.tableDataString);
-    console.log('tableData - ',this.tableData);    
+            console.log('tableData - ',this.tableData);    
             this.preSelectedRows = (this.preSelectedRowsString.length > 0) ? JSON.parse(this.preSelectedRowsString) : [];  
         }
 
@@ -160,7 +159,8 @@ console.log('START');
 
         // Get array of column field API names
         this.columnArray = (this.columnFields.length > 0) ? this.columnFields.replace(/\s/g, '').split(',') : [];
-console.log('columnArray - ',this.columnArray);    
+        console.log('columnArray - ',this.columnArray);  
+
         // JSON Version - Build basicColumns default values
         if (this.isUserDefinedObject) {
             this.columnArray.forEach(field => {
@@ -172,7 +172,6 @@ console.log('columnArray - ',this.columnArray);
                 });
             })
         }
-console.log('basicColumns - ',this.basicColumns); 
 
         // Parse Column Alignment attribute
         const parseAlignments = (this.columnAlignments.length > 0) ? this.columnAlignments.replace(/\s/g, '').split(',') : [];
@@ -244,6 +243,7 @@ console.log('basicColumns - ',this.basicColumns);
         });
 
         if (this.isUserDefinedObject) {
+
             // JSON Version - Parse Column Scale attribute
             const parseScales = (this.columnScales.length > 0) ? this.removeSpaces(this.columnScales).split(',') : [];
             this.attribCount = (parseScales.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
@@ -254,6 +254,7 @@ console.log('basicColumns - ',this.basicColumns);
                 });
                 this.basicColumns[this.columnReference(scale)].scale = this.columnValue(scale);
             });
+
             // JSON Version - Parse Column Type attribute
             const parseTypes = (this.columnTypes.length > 0) ? this.removeSpaces(this.columnTypes).split(',') : [];
             this.attribCount = (parseTypes.findIndex(f => f.search(':') != -1) != -1) ? 0 : 1;
@@ -262,7 +263,7 @@ console.log('basicColumns - ',this.basicColumns);
                     column: this.columnReference(type),
                     type: this.columnValue(type)
                 });
-console.log('*** type',type);
+                console.log('*UD type',type);
                 this.basicColumns[this.columnReference(type)].type = this.columnValue(type);
             });
         }
@@ -309,11 +310,11 @@ console.log('*** type',type);
 
         // Set table height
         this.tableHeight = 'height:' + this.tableHeight;
-console.log('tableHeight',this.tableHeight);
+        console.log('tableHeight',this.tableHeight);
 
         // Set table border display
         this.borderClass = (this.tableBorder != false) ? 'slds-box' : '';
-console.log('border',this.tableBorder,'[',this.borderClass,']');
+
         // Generate datatable
         if (this.tableData) {
 
@@ -383,7 +384,6 @@ console.log('border',this.tableBorder,'[',this.borderClass,']');
 
             // JSON Version Special Field Types
             this.types.forEach(t => {
-console.log('*** types',this.types,'xxx',t);
                 switch(t.type) {
                     case 'percent':
                         this.percentFieldArray.push(this.basicColumns[t.column].fieldName);
@@ -396,10 +396,7 @@ console.log('*** types',this.types,'xxx',t);
                     case 'lookup':
                         this.lookupFieldArray.push(this.basicColumns[t.column].fieldName);
                         this.lookups.push(this.basicColumns[t.column].fieldName); 
-                        this.basicColumns[t.column].type = 'lookup';
-//     break;
-// default:
-//     this.basicColumns[t.column].type = t.type;                 
+                        this.basicColumns[t.column].type = 'lookup';         
                 }
             });
 
@@ -409,7 +406,6 @@ console.log('*** types',this.types,'xxx',t);
             // Custom column processing
             this.updateColumns();
 
-console.log('cols ',this.cols);
             if(this.cols[0].fieldName.endsWith('_lookup')) {
                 this.sortedBy = this.cols[0].fieldName;
                 this.doSort(this.sortedBy, 'asc');
@@ -435,7 +431,7 @@ console.log('cols ',this.cols);
                 // Basic column info (label, fieldName, type) taken from the Schema in Apex
                 this.dtableColumnFieldDescriptorString = '[' + returnResults.dtableColumnFieldDescriptorString + ']';
                 this.basicColumns = JSON.parse(this.dtableColumnFieldDescriptorString);
-console.log('dtableColumnFieldDescriptorString',this.dtableColumnFieldDescriptorString,this.basicColumns);
+                console.log('dtableColumnFieldDescriptorString',this.dtableColumnFieldDescriptorString,this.basicColumns);
                 this.noEditFieldArray = (returnResults.noEditFieldList.length > 0) ? returnResults.noEditFieldList.toString().split(',') : [];
                 
                 // Update row data for lookup, time and percent fields
@@ -522,7 +518,7 @@ console.log('dtableColumnFieldDescriptorString',this.dtableColumnFieldDescriptor
         let lufield = '';
 
         this.basicColumns.forEach(colDef => {
-console.log('basicColumns',this.basicColumns,colDef);
+
             // Standard parameters
             let label = colDef['label'];
             let fieldName = colDef['fieldName'];
@@ -533,12 +529,7 @@ console.log('basicColumns',this.basicColumns,colDef);
             let editAttrib = [];
             let filterAttrib = [];
             let widthAttrib = [];
-// let this.typeAttrib = [];    // JSON Version
-// if (this.isUserDefinedObject) {
-    // this.typeAttrib.type = 'text';
-// } else {
-            this.typeAttrib.type = type;
-// }            
+            this.typeAttrib.type = type;          
 
             // Update Alignment attribute overrides by column
             let alignmentAttrib = this.alignments.find(i => i['column'] == columnNumber);
@@ -626,7 +617,7 @@ console.log('basicColumns',this.basicColumns,colDef);
                     this.scaleAttrib = [];
                     this.scaleAttrib.scale = scale;
                 }
-console.log('*** scaleAttrib',this.scaleAttrib);
+
                 // JSON Version - Update Type attribute overrides by column
                 if(type != 'lookup') {
                     this.typeAttrib = this.types.find(i => i['column'] == columnNumber);
@@ -670,7 +661,6 @@ console.log('*** scaleAttrib',this.scaleAttrib);
 
             // Change lookup to url and reference the new fields that will be added to the datatable object
             if(type == 'lookup') {
-console.log('*** lookup',this.typeAttrib);
                 if(this.lookups.includes(fieldName)) {
                     this.typeAttrib.type = 'url';
                     if(fieldName.toLowerCase().endsWith('id')) {
@@ -690,15 +680,7 @@ console.log('*** lookup',this.typeAttrib);
 
             // Update TypeAttribute attribute overrides by column
             this.parseAttributes('type',this.typeAttribs,columnNumber);
-console.log('labelAttrib',labelAttrib);
-console.log('iconAttrib',iconAttrib);
-console.log('fieldName',fieldName);
-console.log('typeAttrib',this.typeAttrib);
-console.log('cellAttributes',this.cellAttributes);
-console.log('typeAttributes',this.typeAttributes);
-console.log('editAttrib',labelAttrib);
-console.log('filterAttrib',filterAttrib);
-console.log('widthAttrib',widthAttrib);
+
             // Save the updated column definitions
             this.cols.push({
                 label: (labelAttrib) ? labelAttrib.label : label,
@@ -712,7 +694,8 @@ console.log('widthAttrib',widthAttrib);
                 sortable: 'true',
                 initialWidth: (widthAttrib) ? widthAttrib.width : null
             });
-console.log('this.cols',this.cols);
+            console.log('this.cols',this.cols);
+
             // Update Other Attributes attribute overrides by column
             this.parseAttributes('other',this.otherAttribs,columnNumber);
 
@@ -720,7 +703,7 @@ console.log('this.cols',this.cols);
             columnNumber += 1;
         });
         this.columns = this.cols;
-        console.log('columns:',this.columns);
+
     }
 
     parseAttributes(propertyType,inputAttributes,columnNumber) {
@@ -871,18 +854,15 @@ console.log('this.cols',this.cols);
         this.doSort(this.sortedBy, this.sortedDirection);
     }
     doSort(sortField, sortDirection) {
-console.log('START SORT',this.sortedBy,this.sortedDirection);
         // Change sort field from Id to Name for lookups
         if (sortField.endsWith('_lookup')) {
             sortField = sortField.slice(0,sortField.lastIndexOf('_lookup')) + '_name';   
-        }
-        
+        }       
         let fieldValue = row => row[sortField] || '';
         let reverse = sortDirection === 'asc'? 1: -1;
         this.mydata = [...this.mydata.sort(
             (a,b)=>(a=fieldValue(a),b=fieldValue(b),reverse*((a>b)-(b>a)))
         )];
-console.log('DONE SORT',this.sortedBy,this.sortedDirection);
     }
     
     handleHeaderAction(event) {
