@@ -24,7 +24,7 @@
  **/
 
 import { LightningElement, api, track, wire } from 'lwc';
-import getReturnResults from '@salesforce/apex/SObjectController.getReturnResults';
+import getReturnResults from '@salesforce/apex/SObjectController2.getReturnResults';
 import { FlowAttributeChangeEvent } from 'lightning/flowSupport';
 
 const MAXROWCOUNT = 1000;   // Limit the total number of records to be handled by this component
@@ -410,6 +410,9 @@ export default class DatatableV2 extends LightningElement {
                 this.sortedBy = this.cols[0].fieldName;
                 this.doSort(this.sortedBy, 'asc');
             }
+
+            // Done processing the datatable
+            this.showSpinner = false;
 
         } else {
 
@@ -897,7 +900,9 @@ export default class DatatableV2 extends LightningElement {
                 this.filterColumnData();
 
                 this.filterColumns[this.columnNumber].actions[CLEAR_ACTION].disabled = true;
-                this.doSort(this.sortedBy, this.sortedDirection);       // Re-Sort the data
+                if (this.sortedBy != undefined) {
+                    this.doSort(this.sortedBy, this.sortedDirection);       // Re-Sort the data
+                }
                 break;
 
             default:
