@@ -1,0 +1,8 @@
+<design:component label="Custom Template for the Flow List View Appe">
+    <flexipage:template >
+        <flexipage:region name="header" defaultWidth="Xlarge" />
+        <flexipage:region name="leftColumn" defaultWidth="Xlarge" />
+        <flexipage:region name="rightColumn" defaultWidth="small" />
+        <flexipage:region name="footer" defaultWidth="Xlarge" />
+    </flexipage:template>
+</design:component>

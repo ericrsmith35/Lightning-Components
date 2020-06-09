@@ -1,0 +1,31 @@
+<aura:component implements="lightning:appHomeTemplate" description="Custom Template for the Flow List View App">
+    <aura:attribute name="header" type="Aura.Component[]" />
+    <aura:attribute name="leftColumn" type="Aura.Component[]" />
+    <aura:attribute name="rightColumn" type="Aura.Component[]" />
+    <aura:attribute name="footer" type="Aura.Component[]" />
+    
+    <div>
+        <lightning:layout horizontalAlign="spread">
+            <lightning:layoutItem padding="slds-col" size="12">
+                {!v.header}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    <div>
+        <lightning:layout horizontalAlign="spread">
+            <lightning:layoutItem padding="slds-col" size="10" class="slds-m-right_small">
+                {!v.leftColumn}
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="slds-col" size="2" class="slds-m-right_small">
+                {!v.rightColumn}
+            </lightning:layoutItem>            
+        </lightning:layout>        
+    </div> 
+    <div>
+        <lightning:layout horizontalAlign="spread">
+            <lightning:layoutItem padding="slds-col" size="12">
+                {!v.footer}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>   
+</aura:component>
