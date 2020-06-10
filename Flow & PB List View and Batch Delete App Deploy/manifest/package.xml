@@ -60,6 +60,7 @@
     <types>
         <members>BulkDeleteImage</members>
         <members>DeleteTrash</members>
+        <members>OneViewBanner</members>
         <name>StaticResource</name>
     </types>
     <version>49.0</version>
