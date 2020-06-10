@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+    <testsuite name="force.apex" timestamp="2020-05-29T16:20:09-04:00" hostname="https://gwi--ersmith.my.salesforce.com" tests="1" failures="1"  errors="0"  time="1.04">
+        <properties>
+            <property name="outcome" value="Failed"/>
+            <property name="testsRan" value="1"/>
+            <property name="passing" value="0"/>
+            <property name="failing" value="1"/>
+            <property name="skipped" value="0"/>
+            <property name="passRate" value="0%"/>
+            <property name="failRate" value="100%"/>
+            <property name="testStartTime" value="May 29, 2020 4:20 PM"/>
+            <property name="testExecutionTime" value="1.04 s"/>
+            <property name="testTotalTime" value="1.04 s"/>
+            <property name="commandTime" value="13.5 s"/>
+            <property name="hostname" value="https://gwi--ersmith.my.salesforce.com"/>
+            <property name="orgId" value="00D6C0000008oXLUAY"/>
+            <property name="username" value="ericrsmith@staff.gwi.net.ersmith"/>
+            <property name="testRunId" value="7076C00000vov3E"/>
+            <property name="userId" value="005600000019cXWAAY"/>
+            <property name="testRunCoverage" value="13%"/>
+            <property name="orgWideCoverage" value="4%"/>
+        </properties>
+        <testcase name="test" classname="DeployDeleteInactiveFlowsTest" time="1.04">
+            <failure message="Methods defined as TestMethod do not support Web service callouts"></failure>
+        </testcase>
+    </testsuite>
+</testsuites>

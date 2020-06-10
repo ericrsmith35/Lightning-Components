@@ -1,0 +1,31 @@
+{
+  "status": 0,
+  "result": [
+    {
+      "createdById": "005600000019cXWAAY",
+      "createdByName": "Eric Smith",
+      "createdDate": "1970-01-01T00:00:00.000Z",
+      "fileName": "appMenus/Salesforce1.appMenu",
+      "fullName": "Salesforce1",
+      "id": "",
+      "lastModifiedById": "005600000019cXWAAY",
+      "lastModifiedByName": "Eric Smith",
+      "lastModifiedDate": "1970-01-01T00:00:00.000Z",
+      "namespacePrefix": "",
+      "type": "AppMenu"
+    },
+    {
+      "createdById": "005600000019cXWAAY",
+      "createdByName": "Eric Smith",
+      "createdDate": "1970-01-01T00:00:00.000Z",
+      "fileName": "appMenus/AppSwitcher.appMenu",
+      "fullName": "AppSwitcher",
+      "id": "",
+      "lastModifiedById": "005600000019cXWAAY",
+      "lastModifiedByName": "Eric Smith",
+      "lastModifiedDate": "1970-01-01T00:00:00.000Z",
+      "namespacePrefix": "",
+      "type": "AppMenu"
+    }
+  ]
+}

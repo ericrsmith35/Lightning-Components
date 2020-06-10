@@ -1,0 +1,77 @@
+{
+  "status": 0,
+  "result": [
+    {
+      "createdById": "005600000019z0VAAQ",
+      "createdByName": "Automated Process",
+      "createdDate": "2017-06-10T06:00:00.000Z",
+      "fileName": "audience/Default.audience",
+      "fullName": "Default",
+      "id": "6Au320000000006CAA",
+      "lastModifiedById": "005600000019z0VAAQ",
+      "lastModifiedByName": "Automated Process",
+      "lastModifiedDate": "2017-06-10T06:00:00.000Z",
+      "type": "Audience"
+    },
+    {
+      "createdById": "005600000019cXWAAY",
+      "createdByName": "Eric Smith",
+      "createdDate": "2017-12-10T21:10:01.000Z",
+      "fileName": "audience/Default2.audience",
+      "fullName": "Default2",
+      "id": "6Au0e000000TN2DCAW",
+      "lastModifiedById": "005600000019cXWAAY",
+      "lastModifiedByName": "Eric Smith",
+      "lastModifiedDate": "2017-12-10T21:10:01.000Z",
+      "type": "Audience"
+    },
+    {
+      "createdById": "005600000019z0VAAQ",
+      "createdByName": "Automated Process",
+      "createdDate": "2017-06-10T06:00:01.000Z",
+      "fileName": "audience/Default1.audience",
+      "fullName": "Default1",
+      "id": "6Au320000000007CAA",
+      "lastModifiedById": "005600000019z0VAAQ",
+      "lastModifiedByName": "Automated Process",
+      "lastModifiedDate": "2017-06-10T06:00:01.000Z",
+      "type": "Audience"
+    },
+    {
+      "createdById": "005600000019cXWAAY",
+      "createdByName": "Eric Smith",
+      "createdDate": "2017-12-15T16:55:10.000Z",
+      "fileName": "audience/System_Administrator.audience",
+      "fullName": "System_Administrator",
+      "id": "6Au0e000000TN2SCAW",
+      "lastModifiedById": "005600000019cXWAAY",
+      "lastModifiedByName": "Eric Smith",
+      "lastModifiedDate": "2017-12-15T16:55:10.000Z",
+      "type": "Audience"
+    },
+    {
+      "createdById": "005600000019cXWAAY",
+      "createdByName": "Eric Smith",
+      "createdDate": "2018-12-06T13:00:14.000Z",
+      "fileName": "audience/Default3.audience",
+      "fullName": "Default3",
+      "id": "6Au0e000000k9cGCAQ",
+      "lastModifiedById": "005600000019cXWAAY",
+      "lastModifiedByName": "Eric Smith",
+      "lastModifiedDate": "2018-12-06T13:00:14.000Z",
+      "type": "Audience"
+    },
+    {
+      "createdById": "005600000019cXWAAY",
+      "createdByName": "Eric Smith",
+      "createdDate": "2017-12-15T16:15:22.000Z",
+      "fileName": "audience/Islesboro_Portal_User.audience",
+      "fullName": "Islesboro_Portal_User",
+      "id": "6Au0e000000TN2NCAW",
+      "lastModifiedById": "005600000019cXWAAY",
+      "lastModifiedByName": "Eric Smith",
+      "lastModifiedDate": "2017-12-15T16:15:22.000Z",
+      "type": "Audience"
+    }
+  ]
+}

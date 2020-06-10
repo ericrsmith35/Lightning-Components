@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+    <testsuite name="force.apex" timestamp="2020-06-03T21:40:34-04:00" hostname="https://gwi--ersmith.my.salesforce.com" tests="6" failures="0"  errors="0"  time="0.49">
+        <properties>
+            <property name="outcome" value="Passed"/>
+            <property name="testsRan" value="6"/>
+            <property name="passing" value="6"/>
+            <property name="failing" value="0"/>
+            <property name="skipped" value="0"/>
+            <property name="passRate" value="100%"/>
+            <property name="failRate" value="0%"/>
+            <property name="testStartTime" value="Jun 3, 2020 9:40 PM"/>
+            <property name="testExecutionTime" value="0.49 s"/>
+            <property name="testTotalTime" value="0.49 s"/>
+            <property name="commandTime" value="19.28 s"/>
+            <property name="hostname" value="https://gwi--ersmith.my.salesforce.com"/>
+            <property name="orgId" value="00D6C0000008oXLUAY"/>
+            <property name="username" value="ericrsmith@staff.gwi.net.ersmith"/>
+            <property name="testRunId" value="7076C00000w83ZW"/>
+            <property name="userId" value="005600000019cXWAAY"/>
+            <property name="testRunCoverage" value="95%"/>
+            <property name="orgWideCoverage" value="39%"/>
+        </properties>
+        <testcase name="coverGeneratedCodeCRUDOperations" classname="MetadataServiceTest" time="0.04">
+        </testcase>
+        <testcase name="coverGeneratedCodeFileBasedOperations1" classname="MetadataServiceTest" time="0.24">
+        </testcase>
+        <testcase name="coverGeneratedCodeFileBasedOperations2" classname="MetadataServiceTest" time="0.01">
+        </testcase>
+        <testcase name="coverGeneratedCodeTypes" classname="MetadataServiceTest" time="0.15">
+        </testcase>
+        <testcase name="elfMissingGetRecordsTest" classname="MetadataServiceTest" time="0.02">
+        </testcase>
+        <testcase name="elfMissingGetResultTest" classname="MetadataServiceTest" time="0.02">
+        </testcase>
+    </testsuite>
+</testsuites>
