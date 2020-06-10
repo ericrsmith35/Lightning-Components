@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>Flow_PB_List_View_and_Batch_Delete</application>
+        <visible>true</visible>
+    </applicationVisibilities>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Batch Delete Flows</label>
+    <tabSettings>
+        <tab>Flow_PB_List_View_and_Batch_Delete</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>
