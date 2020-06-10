@@ -40,6 +40,7 @@
                 <elementReference>Flow_Type</elementReference>
             </value>
         </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <choices>
         <name>Active</name>
@@ -231,6 +232,10 @@ CASE({!Status},
         </fields>
         <fields>
             <name>DisplayDatatableV2</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>Account</typeValue>
+            </dataTypeMappings>
             <extensionName>c:datatableV2</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>

@@ -16,6 +16,7 @@
                 <elementReference>acolFlowInfos</elementReference>
             </value>
         </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <assignments>
         <name>Create_Flow_Info_Record</name>

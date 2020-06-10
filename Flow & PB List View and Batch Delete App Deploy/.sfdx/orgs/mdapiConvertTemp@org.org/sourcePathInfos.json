@@ -1,0 +1,1067 @@
+[
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591802474275,
+            "changeTime": 1591802474275,
+            "contentHash": "b28b7af69320201d1cf206ebf28373980add1451",
+            "isWorkspace": false,
+            "isArtifactRoot": true
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591802482595,
+            "changeTime": 1591802482595,
+            "contentHash": "7505d64a54e061b7acd54ccd58b49dc43500b635",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591813401791,
+            "changeTime": 1591813401791,
+            "contentHash": "6682e49ffdd155030314fa131a8858f126275d8d",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591802609308,
+            "changeTime": 1591802609308,
+            "contentHash": "a8fb2dff0db8147df764938da0fdcdcf8627d2f1",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1579045201077,
+            "changeTime": 1591802609763,
+            "contentHash": "ed0f3c26816437639873102c9dfb90a04790289a",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFA.cmp",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFA.cmp",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 1069,
+            "modifiedTime": 1579045201074,
+            "changeTime": 1579045201074,
+            "contentHash": "4e8fcd720b93abb8268eeb0df5c1da98b2776935",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFA.cmp-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFA.cmp-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 228,
+            "modifiedTime": 1579045201073,
+            "changeTime": 1579045201073,
+            "contentHash": "8bbd56bd8c8d2fb525cdb2eb2e1e6afb922b7f22",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFA.css",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFA.css",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 9,
+            "modifiedTime": 1579045201076,
+            "changeTime": 1579045201076,
+            "contentHash": "690dd1ee4df0575d78499135bec93071e468c5a4",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFA.design",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFA.design",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 650,
+            "modifiedTime": 1579045201077,
+            "changeTime": 1579045201077,
+            "contentHash": "b80be887c05c6ca1662e3a8c67e23882b8da1490",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFA.svg",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFA.svg",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 664,
+            "modifiedTime": 1579045201077,
+            "changeTime": 1579045201077,
+            "contentHash": "6a3a9c1d5556db4bde25af9ef0957c47feb17739",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFAController.js",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFAController.js",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 9179,
+            "modifiedTime": 1579045201074,
+            "changeTime": 1579045201074,
+            "contentHash": "ceb38cb1287ba53c54fee937012d3ad824be7dd5",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFAHelper.js",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFAHelper.js",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 44,
+            "modifiedTime": 1579045201075,
+            "changeTime": 1579045201075,
+            "contentHash": "fa0ec188d1d404a7d907cd49c9dd8e2ade86c99d",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFARenderer.js",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\aura\\navigateEverywhereLFA\\navigateEverywhereLFARenderer.js",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 49,
+            "modifiedTime": 1579045201076,
+            "changeTime": 1579045201076,
+            "contentHash": "5c9d3500f47ee794776fbf674e09fad5e0855732",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591802989972,
+            "changeTime": 1591802989972,
+            "contentHash": "6f8c3c99b88e072ced578b4920ea2e0c30634d5c",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\DeployDeleteInactiveFlows.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\DeployDeleteInactiveFlows.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 6278,
+            "modifiedTime": 1591801165041,
+            "changeTime": 1591801165041,
+            "contentHash": "104d48085937bc2171d36121e2db079443356942",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\DeployDeleteInactiveFlows.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\DeployDeleteInactiveFlows.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801165039,
+            "changeTime": 1591801165039,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\DeployDeleteInactiveFlowsTest.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\DeployDeleteInactiveFlowsTest.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 1891,
+            "modifiedTime": 1591801164686,
+            "changeTime": 1591801164686,
+            "contentHash": "881f277b881e731c67a7e1490f4f133ef7b2f7eb",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\DeployDeleteInactiveFlowsTest.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\DeployDeleteInactiveFlowsTest.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801164684,
+            "changeTime": 1591801164684,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\FlowDatatableDescriptor.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\FlowDatatableDescriptor.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 2939,
+            "modifiedTime": 1591801164952,
+            "changeTime": 1591801164952,
+            "contentHash": "5221395a80d9787ee993d47405c333da3efb5e48",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\FlowDatatableDescriptor.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\FlowDatatableDescriptor.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801164951,
+            "changeTime": 1591801164951,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\GetFlowInfoAdvanced.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\GetFlowInfoAdvanced.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 13033,
+            "modifiedTime": 1591801165147,
+            "changeTime": 1591801165147,
+            "contentHash": "dc7a380b2429552343ec5c79c0ef02faea402fd5",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\GetFlowInfoAdvanced.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\GetFlowInfoAdvanced.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801165145,
+            "changeTime": 1591801165145,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\GetFlowInfoAdvancedTest.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\GetFlowInfoAdvancedTest.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 757,
+            "modifiedTime": 1591801165115,
+            "changeTime": 1591801165115,
+            "contentHash": "d0d4a0cfae81295c426d130d26a1949911336739",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\GetFlowInfoAdvancedTest.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\GetFlowInfoAdvancedTest.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801165113,
+            "changeTime": 1591801165113,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\HexUtil.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\HexUtil.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 7983,
+            "modifiedTime": 1591801165109,
+            "changeTime": 1591801165109,
+            "contentHash": "67d05adcc512ef308ff8d3da83a0aba4b77779cb",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\HexUtil.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\HexUtil.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801165108,
+            "changeTime": 1591801165108,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\MetadataService.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\MetadataService.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 998317,
+            "modifiedTime": 1591801165008,
+            "changeTime": 1591801165008,
+            "contentHash": "2363fbd32146790ffc86d42f09d177899ae0ccf8",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\MetadataService.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\MetadataService.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 179,
+            "modifiedTime": 1578954226717,
+            "changeTime": 1578954226717,
+            "contentHash": "bfbd0da08fd4f5f0bc000f2768485100cec4d1af",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\MetadataServiceTest.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\MetadataServiceTest.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 76463,
+            "modifiedTime": 1591801165000,
+            "changeTime": 1591801165000,
+            "contentHash": "67dea918379c637d688f1443ff3304b8c142fedd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\MetadataServiceTest.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\MetadataServiceTest.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 179,
+            "modifiedTime": 1578954226718,
+            "changeTime": 1578954226718,
+            "contentHash": "bfbd0da08fd4f5f0bc000f2768485100cec4d1af",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\Puff.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\Puff.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 36226,
+            "modifiedTime": 1591801165051,
+            "changeTime": 1591801165051,
+            "contentHash": "475bc90b8bca4573eed55fe4da97fe37ce36f8de",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\Puff.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\Puff.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801165050,
+            "changeTime": 1591801165050,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\SObjectController2.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\SObjectController2.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 13400,
+            "modifiedTime": 1591801164908,
+            "changeTime": 1591801164908,
+            "contentHash": "affc044c495178247732636ff804e9a8db770de4",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\SObjectController2.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\SObjectController2.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801164906,
+            "changeTime": 1591801164906,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\SObjectController2Test.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\SObjectController2Test.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 1188,
+            "modifiedTime": 1591801164901,
+            "changeTime": 1591801164901,
+            "contentHash": "6a573131787bd8e776944b2d62383edf05c0aacd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\SObjectController2Test.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\SObjectController2Test.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801164900,
+            "changeTime": 1591801164900,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\TranslateFlowRecords.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\TranslateFlowRecords.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 2735,
+            "modifiedTime": 1591801165134,
+            "changeTime": 1591801165134,
+            "contentHash": "ec2c1a5740920f8ed22ec720c4841cd085bada0d",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\TranslateFlowRecords.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\TranslateFlowRecords.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801165132,
+            "changeTime": 1591801165132,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\TranslateFlowRecordsTest.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\TranslateFlowRecordsTest.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 2033,
+            "modifiedTime": 1591801164705,
+            "changeTime": 1591801164705,
+            "contentHash": "7080c787590c5ec294d5a7550c927e9983212f98",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\TranslateFlowRecordsTest.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\TranslateFlowRecordsTest.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801164704,
+            "changeTime": 1591801164704,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\Zippex.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\Zippex.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 23197,
+            "modifiedTime": 1591801165046,
+            "changeTime": 1591801165046,
+            "contentHash": "c70f3f59d9994530b977c1c29f7818b5de1fd66f",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\Zippex.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\Zippex.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801165044,
+            "changeTime": 1591801165044,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\ZippexTests.cls",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\ZippexTests.cls",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 7349,
+            "modifiedTime": 1591801165037,
+            "changeTime": 1591801165037,
+            "contentHash": "f47e27aa3d268c9b7746d0f2cc02aa86ac25a6ee",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\ZippexTests.cls-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\classes\\ZippexTests.cls-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 174,
+            "modifiedTime": 1591801165035,
+            "changeTime": 1591801165035,
+            "contentHash": "b14927db8433719a949fb732f84be0e1c5bd19cd",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\contentassets",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\contentassets",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591808125533,
+            "changeTime": 1591808125533,
+            "contentHash": "6c0f73b973e1bddc9f36471722f531703081d86b",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\contentassets\\X430347.asset",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\contentassets\\X430347.asset",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 57942,
+            "modifiedTime": 1591801165190,
+            "changeTime": 1591801165190,
+            "contentHash": "e886c0a338ae0c6015daafd1036cc08a3271b9be",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\contentassets\\X430347.asset-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\contentassets\\X430347.asset-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 526,
+            "modifiedTime": 1591801165188,
+            "changeTime": 1591801165188,
+            "contentHash": "41b37db2975169f7aa50e857b4324d59ac053417",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flexipages",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flexipages",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591814442327,
+            "changeTime": 1591814442327,
+            "contentHash": "20e5945a36e20236ce010d73e926d74cb0dfb705",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flexipages\\Flow_PB_List_View_and_Batch_Delete.flexipage-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flexipages\\Flow_PB_List_View_and_Batch_Delete.flexipage-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 4685,
+            "modifiedTime": 1591801161641,
+            "changeTime": 1591801161641,
+            "contentHash": "2e9407591ebc50a2056476f1a0685269f63f0bf3",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flexipages\\Flow_PB_List_View_and_Batch_Delete_UtilityBar.flexipage-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flexipages\\Flow_PB_List_View_and_Batch_Delete_UtilityBar.flexipage-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 535,
+            "modifiedTime": 1591801161628,
+            "changeTime": 1591801161628,
+            "contentHash": "5d4fc88aab39aea1b345a1d1b4ad38496fce1017",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591813102415,
+            "changeTime": 1591813102415,
+            "contentHash": "549a9515cc7dc5a2f30643c92f51ae2270fa2d77",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_App_Image.flow-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_App_Image.flow-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 2349,
+            "modifiedTime": 1591801163788,
+            "changeTime": 1591801163788,
+            "contentHash": "fb2fac1149e2b0e30c4409156835efb9adb97990",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_Display_Datatable_and_DELETE.flow-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_Display_Datatable_and_DELETE.flow-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 26422,
+            "modifiedTime": 1591801161833,
+            "changeTime": 1591801161833,
+            "contentHash": "1c1738364678e9860d0f9dfaafeb891885ab55ca",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_List_View.flow-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_List_View.flow-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 23025,
+            "modifiedTime": 1591801164257,
+            "changeTime": 1591801164257,
+            "contentHash": "9338376e5e718a2b8f1e145fc3c32f710abce1e6",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_List_View_Run_Flow.flow-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_List_View_Run_Flow.flow-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 5816,
+            "modifiedTime": 1591801164240,
+            "changeTime": 1591801164240,
+            "contentHash": "20846da0500d550972e1909ebd027c3a58ca6a3f",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_List_View_with_DELETE.flow-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_List_View_with_DELETE.flow-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 21378,
+            "modifiedTime": 1591801164249,
+            "changeTime": 1591801164249,
+            "contentHash": "84276e3cb8abffb0a13137f99b8e59ad6a9f9425",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_OneView_Promo.flow-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_OneView_Promo.flow-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 3195,
+            "modifiedTime": 1591801164251,
+            "changeTime": 1591801164251,
+            "contentHash": "dab877a8318f3f7d00102c86c0e91eea56a1604a",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_Select_with_DELETE.flow-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\flows\\Flow_and_Process_Builder_Select_with_DELETE.flow-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 22100,
+            "modifiedTime": 1591801163923,
+            "changeTime": 1591801163923,
+            "contentHash": "1ac221aeb0c1c1764ff59fbd46f4d87b5f8f1eb8",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\lwc",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\lwc",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591813531713,
+            "changeTime": 1591813531713,
+            "contentHash": "7e08a6274186dc8f119f5af56671dfe28821411e",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\lwc\\datatableV2",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\lwc\\datatableV2",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591813163223,
+            "changeTime": 1591813163312,
+            "contentHash": "deea826813396367cb7da1b5e8aeb6b2013bd5b1",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\lwc\\datatableV2\\datatableV2.html",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\lwc\\datatableV2\\datatableV2.html",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 7766,
+            "modifiedTime": 1591801161184,
+            "changeTime": 1591801161184,
+            "contentHash": "d79e4c328504945fdf36099de7f9f813df6c0298",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\lwc\\datatableV2\\datatableV2.js",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\lwc\\datatableV2\\datatableV2.js",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 44610,
+            "modifiedTime": 1591801161187,
+            "changeTime": 1591801161187,
+            "contentHash": "33138dbe93bfd2e64f9b1456dae20766e9c91d84",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\lwc\\datatableV2\\datatableV2.js-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\lwc\\datatableV2\\datatableV2.js-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 9584,
+            "modifiedTime": 1591801161181,
+            "changeTime": 1591801161181,
+            "contentHash": "512f6a6b629f1c93634b1acbab03925f47a35ce5",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\staticresources",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\staticresources",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591813351841,
+            "changeTime": 1591813351841,
+            "contentHash": "52d7b0c712bafba44a3165590c5d903fc7c17a67",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\staticresources\\BulkDeleteImage.jpeg",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\staticresources\\BulkDeleteImage.jpeg",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 57942,
+            "modifiedTime": 1591801160361,
+            "changeTime": 1591801160361,
+            "contentHash": "e886c0a338ae0c6015daafd1036cc08a3271b9be",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\staticresources\\BulkDeleteImage.resource-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\staticresources\\BulkDeleteImage.resource-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 204,
+            "modifiedTime": 1591801160359,
+            "changeTime": 1591801160359,
+            "contentHash": "b473771fda938d35453ce0c0378c39db44431006",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\staticresources\\DeleteTrash.png",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\staticresources\\DeleteTrash.png",
+            "isDirectory": false,
+            "isMetadataFile": false,
+            "size": 39559,
+            "modifiedTime": 1591801151155,
+            "changeTime": 1591801151155,
+            "contentHash": "ba13997a2b974a0d3b3d8d534ce47d92ca8760f4",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\staticresources\\DeleteTrash.resource-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\staticresources\\DeleteTrash.resource-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 203,
+            "modifiedTime": 1591801151153,
+            "changeTime": 1591801151153,
+            "contentHash": "8f4e4ea531152330068e2049b8a042b6aa3381ea",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\tabs",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\tabs",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591814697411,
+            "changeTime": 1591814697411,
+            "contentHash": "597e484bc915fe374de1e3d2c61ed26af45f5ee4",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\tabs\\Flow_PB_List_View_and_Batch_Delete.tab-meta.xml",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy\\force-app\\main\\default\\tabs\\Flow_PB_List_View_and_Batch_Delete.tab-meta.xml",
+            "isDirectory": false,
+            "isMetadataFile": true,
+            "size": 331,
+            "modifiedTime": 1591801161721,
+            "changeTime": 1591801161721,
+            "contentHash": "d00e9ab395f93bb329a5f46599bebe9806ecc241",
+            "isWorkspace": false,
+            "isArtifactRoot": false
+        }
+    ],
+    [
+        "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy",
+        {
+            "state": "n",
+            "sourcePath": "d:\\esmit\\Documents\\Salesforce\\myGitHub\\Lightning-Components\\Flow & PB List View and Batch Delete App Deploy",
+            "isDirectory": true,
+            "isMetadataFile": false,
+            "size": 0,
+            "modifiedTime": 1591813531714,
+            "changeTime": 1591813531714,
+            "contentHash": "0d39bfadd59ad0164704e15ee1051a2ab5ecdf70",
+            "isWorkspace": true,
+            "isArtifactRoot": false
+        }
+    ]
+]

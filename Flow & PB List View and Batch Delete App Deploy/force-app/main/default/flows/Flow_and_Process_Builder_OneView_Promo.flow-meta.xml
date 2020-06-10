@@ -19,6 +19,7 @@
                 <stringValue>https://ericsplayground.wordpress.com/2016/08/15/process-builder-oneview/</stringValue>
             </value>
         </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <interviewLabel>Flow and Process Builder OneView Promo {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Flow and Process Builder OneView Promo</label>

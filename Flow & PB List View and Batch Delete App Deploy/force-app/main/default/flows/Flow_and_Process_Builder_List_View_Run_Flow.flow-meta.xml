@@ -19,6 +19,7 @@
                 <elementReference>runFlowURL</elementReference>
             </value>
         </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <assignments>
         <name>Assign_Choice_Value</name>

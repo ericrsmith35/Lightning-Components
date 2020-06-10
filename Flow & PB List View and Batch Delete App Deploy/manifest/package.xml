@@ -20,7 +20,7 @@
     </types>
     <types>
         <members>navigateEverywhereLFA</members>
-        <name>ApexComponent</name>
+        <name>AuraDefinitionBundle</name>
     </types>
     <types>
         <members>X430347</members>
@@ -28,10 +28,15 @@
     </types>
     <types>
         <members>Flow_PB_List_View_and_Batch_Delete</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>Flow_PB_List_View_and_Batch_Delete</members>
         <name>CustomTab</name>
     </types>
     <types>
         <members>Flow_PB_List_View_and_Batch_Delete</members>
+        <members>Flow_PB_List_View_and_Batch_Delete_UtilityBar</members>
         <name>FlexiPage</name>
     </types>
     <types>

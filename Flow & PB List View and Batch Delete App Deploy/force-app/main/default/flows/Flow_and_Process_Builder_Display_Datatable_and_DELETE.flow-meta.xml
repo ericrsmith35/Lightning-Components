@@ -22,6 +22,7 @@
                 <booleanValue>false</booleanValue>
             </value>
         </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
         <name>Translate_Selected_Records_Back_to_String</name>
@@ -39,6 +40,7 @@
                 <elementReference>acolInactiveFlows</elementReference>
             </value>
         </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
         <name>Translate_Selected_Records_to_a_Collection</name>
@@ -418,6 +420,10 @@ CASE({!vStatus},
         </fields>
         <fields>
             <name>DisplayListView</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>Account</typeValue>
+            </dataTypeMappings>
             <extensionName>c:datatableV2</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
@@ -547,6 +553,10 @@ CASE({!vStatus},
         </fields>
         <fields>
             <name>ConfirmInactive</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>Account</typeValue>
+            </dataTypeMappings>
             <extensionName>c:datatableV2</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
