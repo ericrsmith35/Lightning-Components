@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+    <testsuite name="force.apex" timestamp="2020-05-29T16:40:36-04:00" hostname="https://gwi--ersmith.my.salesforce.com" tests="1" failures="0"  errors="0"  time="6.91">
+        <properties>
+            <property name="outcome" value="Passed"/>
+            <property name="testsRan" value="1"/>
+            <property name="passing" value="1"/>
+            <property name="failing" value="0"/>
+            <property name="skipped" value="0"/>
+            <property name="passRate" value="100%"/>
+            <property name="failRate" value="0%"/>
+            <property name="testStartTime" value="May 29, 2020 4:40 PM"/>
+            <property name="testExecutionTime" value="6.91 s"/>
+            <property name="testTotalTime" value="6.91 s"/>
+            <property name="commandTime" value="18.3 s"/>
+            <property name="hostname" value="https://gwi--ersmith.my.salesforce.com"/>
+            <property name="orgId" value="00D6C0000008oXLUAY"/>
+            <property name="username" value="ericrsmith@staff.gwi.net.ersmith"/>
+            <property name="testRunId" value="7076C00000vow6X"/>
+            <property name="userId" value="005600000019cXWAAY"/>
+            <property name="testRunCoverage" value="13%"/>
+            <property name="orgWideCoverage" value="4%"/>
+        </properties>
+        <testcase name="test" classname="DeployDeleteInactiveFlowsTest" time="6.91">
+        </testcase>
+    </testsuite>
+</testsuites>

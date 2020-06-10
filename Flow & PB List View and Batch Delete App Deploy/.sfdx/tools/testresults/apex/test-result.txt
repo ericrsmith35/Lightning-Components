@@ -1,0 +1,90 @@
+=== Test Reports
+FORMAT  FILE
+──────  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+txt     d:\esmit\Documents\Salesforce\myGitHub\Lightning-Components\Datatable and Flow List View\.sfdx\tools\testresults\apex\test-result.txt
+txt     d:\esmit\Documents\Salesforce\myGitHub\Lightning-Components\Datatable and Flow List View\.sfdx\tools\testresults\apex\test-run-id.txt
+junit   d:\esmit\Documents\Salesforce\myGitHub\Lightning-Components\Datatable and Flow List View\.sfdx\tools\testresults\apex\test-result-7076C00000w83ZW-junit.xml
+json    d:\esmit\Documents\Salesforce\myGitHub\Lightning-Components\Datatable and Flow List View\.sfdx\tools\testresults\apex\test-result-7076C00000w83ZW.json
+json    d:\esmit\Documents\Salesforce\myGitHub\Lightning-Components\Datatable and Flow List View\.sfdx\tools\testresults\apex\test-result-codecoverage.json
+
+=== Apex Code Coverage
+ID                  NAME                                  % COVERED           UNCOVERED LINES
+──────────────────  ────────────────────────────────────  ──────────────────  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+01q0e0000008kSFAAY  OpportunityTrigger                    0%
+01q320000008hwyAAA  CaseTrigger                           0%
+01q0e000000LKwZAAW  RHX_Contract                          0%
+01q320000000O3UAAU  ProjectIntervalCalculate              0%
+01q0e000000LKsmAAG  RHX_AutoScale_Tracking                0%
+01q0e0000008kSDAAY  Network                               0%
+01q0e000000PXvtAAG  ContentDocumentLinkTrigger            0%
+01q0e0000008kSEAAY  OpportunityLineItemTrigger            0%
+01q0e0000008kSCAAY  AssignedServiceNumberTrigger          0%
+01q32000000XmBYAA0  ValidateQueueName                     0%
+01q32000000k9cfAAA  RHX_OpportunityLineItem               0%
+01q0e000000LKSyAAO  UserTrigger                           0%
+01q32000000XmBsAAK  leadOwnerUpdate                       0%
+01p0e000000Mvl6AAC  LightningLookupController             85.29411764705883%  67,71,90,91,106,107,124,125,146,147
+01q0e000000TVFgAAO  RHX_Asset                             0%
+01q0e000000LKlHAAW  RHX_Circuit_ID                        0%
+01q320000008hwxAAA  Account                               73%                 15,23,29
+01q32000000XmBnAAK  leadRoundRobin                        24%                 11,12,13,15,38,44,45,47,48,53,59,60,62,65,66,67,71,73,74,75,76,77,78,79,82,86,87,90,91,92,95,96,97,98,101,102,105,109,110,111,119,120,121,122,123,124,125
+01q0e000000LKWbAAO  OLIBeforeDelete                       0%
+01q0e000000LKfYAAW  FeedCommentTrigger                    0%
+01q0e000000LKqRAAW  Trigger_Service_Address               0%
+01p0e000000MwPtAAK  MetadataService                       99%                 140,141,142,1577,1578,1579,1580,1581,1588,1589,1590,1591,1592,10054,10055,10056,11608,11609,11610,11611,11612,11613,11614,11615,11616,11617,11618,11619,11620,11621,11622,11623,11624,11625,11627,11628
+01p0e000000MywDAAS  SchemaUtils                           75%                 15,16,18
+01p0e000000Myw7AAC  CreateChangeOppFromContract           92%                 91,95,96,97
+01p0e000000EIGdAAO  OpportunityLineItemTriggerHandler     94%                 23
+01p32000000MkRoAAK  Do_Nothing                            100%
+01p0e000000Myw8AAC  CreateOppFromContractHelper           97%                 79,80,169
+01p0e000000EIGeAAO  OpportunityTriggerHandler             77%                 30,31,32
+01p0e000000MywBAAS  CreateTurnDownOppFromContract         88.23529411764706%  55,59,60,61
+01p0e000000MywAAAS  CreateRenewalOppFromContract          89%                 65,69,70,71
+01p0e000000VY95AAG  KnowledgeCategoryWrapper              NaN%
+01p0e000000VY93AAG  KnowledgeCategoriesController         100%
+01p32000000Dv4xAAC  AccountHelper                         3%
+01p320000009LkPAAU  SiteLoginController                   100%
+01p320000009LkRAAU  SiteRegisterController                0%
+01p320000009LkTAAU  ChangePasswordController              100%
+01p320000009LkVAAU  ForgotPasswordController              88.88888888888889%  15
+01p6C000000PF5uQAG  FlowListController                    100%
+01p6C000000PVHcQAO  CustomMetadataController              100%
+01p6C000000PVe7QAG  CreateCustomMetadataQuickAppSwitcher  100%
+01p6C000000PuhdQAC  HexUtil                               100%
+01p6C000000PuhiQAC  Puff                                  92%                 109,226,231,232,281,289,394,420,615,626,636,642,643,644,645,652,660,665,670,755,757
+01p6C000000PuhnQAC  Zippex                                90%                 54,55,56,114,115,119,121,122,124,126,127,128,129,130,132,322,324,325,326,327,328,329,331,332,333,334,335,337,480
+01p6C000000PwZRQA0  TranslateFlowRecords                  100%
+01p6C000000PyCPQA0  SObjectController2                    88.4393063583815%   93,110,122,187,188,205,250,256,259,268,294,301,302,308,309,310,311,312,313,316
+
+=== Test Results
+TEST NAME                                                   OUTCOME  MESSAGE  RUNTIME (MS)
+──────────────────────────────────────────────────────────  ───────  ───────  ────────────
+MetadataServiceTest.coverGeneratedCodeCRUDOperations        Pass              36
+MetadataServiceTest.coverGeneratedCodeFileBasedOperations1  Pass              244
+MetadataServiceTest.coverGeneratedCodeFileBasedOperations2  Pass              13
+MetadataServiceTest.coverGeneratedCodeTypes                 Pass              152
+MetadataServiceTest.elfMissingGetRecordsTest                Pass              20
+MetadataServiceTest.elfMissingGetResultTest                 Pass              22
+
+=== Test Summary
+NAME                 VALUE
+───────────────────  ───────────────────────────────────────
+Outcome              Passed
+Tests Ran            6
+Passing              6
+Failing              0
+Skipped              0
+Pass Rate            100%
+Fail Rate            0%
+Test Start Time      Jun 3, 2020 9:40 PM
+Test Execution Time  487 ms
+Test Total Time      487 ms
+Command Time         19284 ms
+Hostname             https://gwi--ersmith.my.salesforce.com
+Org Id               00D6C0000008oXLUAY
+Username             ericrsmith@staff.gwi.net.ersmith
+Test Run Id          7076C00000w83ZW
+User Id              005600000019cXWAAY
+Test Run Coverage    95%
+Org Wide Coverage    39%
+
