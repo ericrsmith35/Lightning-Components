@@ -54,6 +54,10 @@
         <name>LightningComponentBundle</name>
     </types>
     <types>
+        <members>Batch_Delete_Flows</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
         <members>BulkDeleteImage</members>
         <members>DeleteTrash</members>
         <name>StaticResource</name>
