@@ -54,7 +54,7 @@ export default class DatatableV2 extends LightningElement {
     @api hideCheckboxColumn;
     @api singleRowSelection;
     @api suppressBottomBar = false;
-    @api tableHeight = 'calc(50vh - 100px)';    //Default value from the js-meta.xml file
+    @api tableHeight;
     @api outputSelectedRows = [];
     @api outputEditedRows = [];
     @api tableBorder;
